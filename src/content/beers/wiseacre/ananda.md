@@ -6,6 +6,8 @@ abv: 6.2
 ibu: 75
 availability: year-round
 description: Wiseacre's original IPA, made with wheat for a silky texture and hop flavors of citrus, melon and mango.
+pourScore: 5
+tapWaterTest: passes
 sources:
   - title: Wiseacre — Ananda
     url: https://wiseacrebrew.com/beer/ananda

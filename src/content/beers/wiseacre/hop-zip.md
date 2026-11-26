@@ -4,6 +4,8 @@ brewery: wiseacre
 style: Non-alcoholic hop water
 abv: 0
 description: A non-alcoholic sparkling hop water from Wiseacre, for nights when you're the driver.
+pourScore: 4
+tapWaterTest: passes
 sources:
   - title: Memphis Flyer — Memphis beer guide (May 2026)
     url: https://www.memphisflyer.com/?p=25166703

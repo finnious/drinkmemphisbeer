@@ -6,6 +6,8 @@ abv: 6.8
 ibu: 66
 availability: year-round
 description: "Meddlesome's West Coast IPA, a three-time winner of the Memphis Flyer's Beer Bracket Challenge."
+pourScore: 4
+tapWaterTest: passes
 sources:
   - title: "Memphis Beer Blog — Memphis brewery and craft beer guide"
     url: https://memphisbeerblog.com/memphis-craft-beer-and-brewery-guide/

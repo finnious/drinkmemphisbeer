@@ -5,6 +5,8 @@ style: Coffee Milk Stout
 abv: 5
 availability: year-round
 description: A year-round coffee milk stout, the dark beer in Wiseacre's core lineup.
+pourScore: 4
+tapWaterTest: passes
 sources:
   - title: Brewbound — Wiseacre news
     url: https://www.brewbound.com/breweries/wiseacre-brewing-co/news

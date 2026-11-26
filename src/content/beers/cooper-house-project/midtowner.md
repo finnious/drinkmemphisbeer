@@ -4,6 +4,8 @@ brewery: cooper-house-project
 style: "Pale Lager"
 availability: unknown
 description: "Cooper House Project's flagship pale lager."
+pourScore: 5
+tapWaterTest: passes
 sources:
   - title: "Memphis Beer Blog — Memphis brewery and craft beer guide"
     url: https://memphisbeerblog.com/memphis-craft-beer-and-brewery-guide/

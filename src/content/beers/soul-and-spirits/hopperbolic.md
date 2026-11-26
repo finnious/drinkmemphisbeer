@@ -5,6 +5,8 @@ style: "Hazy IPA"
 abv: 6.7
 availability: year-round
 description: "Soul & Spirits' hazy IPA, reviewed by Craft Beer & Brewing in 2023."
+pourScore: 4
+tapWaterTest: passes
 sources:
   - title: "Memphis Beer Blog — Memphis brewery and craft beer guide"
     url: https://memphisbeerblog.com/memphis-craft-beer-and-brewery-guide/

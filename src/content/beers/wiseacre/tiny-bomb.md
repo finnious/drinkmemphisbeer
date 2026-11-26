@@ -6,6 +6,8 @@ abv: 4.5
 ibu: 39
 availability: year-round
 description: Wiseacre's flagship American pilsner, a 2014 Great American Beer Festival bronze medalist and nearly half of everything the brewery makes.
+pourScore: 5
+tapWaterTest: passes
 sources:
   - title: Untappd — Tiny Bomb
     url: https://untappd.com/b/tiny-bomb-wiseacre-brewing-company-og/441520
