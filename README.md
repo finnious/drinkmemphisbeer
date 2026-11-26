@@ -39,3 +39,15 @@ The fields each file needs are defined (and checked at build time) in `src/conte
 - Every status gets a `verified` month. Every fact gets a source in `sources`.
 - AI images are labeled "Illustration" and never depict a real brewery's products or places.
 - Never use brewery logos or label art without permission.
+
+## Will's Pour Score sheet
+
+Will's scores live in a Google Sheet, "Drink Memphis Beer — Will's Pour Scores"
+(spreadsheet ID `1GW3KnsPewGeM7ipnzbTJN0MShcc40_dvxjjP03uI0yI`, tab `Pour Scores`).
+Columns: Brewery, Beer, Style, ABV, Pour Score (0–5, 0 = Tap Water), Tap Water Test (passes/fails),
+Will's take, Page (URL), Notes for Claude.
+
+- Only Will fills in Pour Score, Tap Water Test and Will's take. Copy them to the matching beer's
+  `pourScore`, `tapWaterTest` and `willsTake` exactly as written. Never invent or "fill in" a score.
+- When you add a beer to the site, append a row to the sheet with the yellow columns left blank.
+- Act on anything Will writes in "Notes for Claude", then clear the note.
