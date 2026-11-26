@@ -1,0 +1,32 @@
+---
+import Base from '../../layouts/Base.astro';
+import BeyondCard from '../../components/BeyondCard.astro';
+import { getCollection } from 'astro:content';
+const all = (await getCollection('beyond')).sort((a, b) => (a.data.status === 'open' ? 0 : 1) - (b.data.status === 'open' ? 0 : 1) || a.data.name.localeCompare(b.data.name));
+const distilleries = all.filter((i) => i.data.kind === 'distillery');
+const wineries = all.filter((i) => i.data.kind === 'winery');
+---
+<Base title="Beyond Beer: Memphis Distilleries & Wineries" description="Memphis-area distilleries and wineries to visit: Old Dominick, Blue Note Bourbon, Old Millington Winery, Delta Blues Winery and more.">
+  <div class="max-w-6xl mx-auto px-4 py-10">
+    <h1 class="text-7xl">Beyond Beer</h1>
+    <p class="mt-3 max-w-2xl">Beer is the main event here, but the Memphis area also makes whiskey, bourbon, vodka and wine. These are the distilleries and wineries worth a visit, all within about 45 minutes of downtown.</p>
+
+    <section class="mt-10">
+      <div class="flex items-end justify-between gap-4">
+        <h2 class="text-4xl">Distilleries</h2>
+        <a href="/beyond-beer/distilleries/" class="font-mono text-sm uppercase tracking-wider">All distilleries →</a>
+      </div>
+      <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{distilleries.map((i) => <BeyondCard item={i} />)}</div>
+    </section>
+
+    <section class="mt-10">
+      <div class="flex items-end justify-between gap-4">
+        <h2 class="text-4xl">Wineries</h2>
+        <a href="/beyond-beer/wineries/" class="font-mono text-sm uppercase tracking-wider">All wineries →</a>
+      </div>
+      <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{wineries.map((i) => <BeyondCard item={i} />)}</div>
+    </section>
+
+    <p class="mt-10 text-sm text-barrel">Know a distillery, winery, meadery or cidery we missed? <a href="/contact/">Tell us.</a></p>
+  </div>
+</Base>

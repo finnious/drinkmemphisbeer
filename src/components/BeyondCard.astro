@@ -1,0 +1,17 @@
+---
+import StatusBadge from './StatusBadge.astro';
+import type { CollectionEntry } from 'astro:content';
+interface Props { item: CollectionEntry<'beyond'> }
+const { item } = Astro.props;
+const d = item.data;
+---
+<a href={`/beyond-beer/${item.id}/`} class="card block no-underline text-stout hover:border-mud transition-colors">
+  <div class="flex flex-wrap items-center gap-2">
+    <span class="font-mono text-xs uppercase tracking-wider px-2 py-1 rounded bg-mud text-gold">{d.kind}</span>
+    <StatusBadge status={d.status} />
+    {d.town && <span class="font-mono text-xs uppercase tracking-wider px-2 py-1 rounded border border-aquifer text-aquifer">Metro · {d.town}</span>}
+  </div>
+  <h3 class="text-3xl mt-2">{d.name}</h3>
+  {d.locations[0] && <div class="label mt-1">{d.locations[0].address}</div>}
+  <p class="mt-2 text-base">{d.summary}</p>
+</a>

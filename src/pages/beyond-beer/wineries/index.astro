@@ -1,0 +1,14 @@
+---
+import Base from '../../../layouts/Base.astro';
+import BeyondCard from '../../../components/BeyondCard.astro';
+import { getCollection } from 'astro:content';
+const items = (await getCollection('beyond')).filter((i) => i.data.kind === 'winery').sort((a, b) => (a.data.status === 'open' ? 0 : 1) - (b.data.status === 'open' ? 0 : 1) || a.data.name.localeCompare(b.data.name));
+---
+<Base title="Wineries Near Memphis" description="Wineries and vineyards near Memphis: Old Millington in Millington, Delta Blues in Lakeland and de terra in Somerville, all under an hour from downtown.">
+  <div class="max-w-6xl mx-auto px-4 py-10">
+    <nav class="label"><a href="/beyond-beer/">Beyond Beer</a> / Wineries</nav>
+    <h1 class="text-7xl mt-2">Wineries near Memphis</h1>
+    <p class="mt-3 max-w-2xl">Yes, West Tennessee grows grapes. Three wineries near Memphis sit in the Mississippi Delta wine region, and all of them make an easy afternoon drive.</p>
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{items.map((i) => <BeyondCard item={i} />)}</div>
+  </div>
+</Base>

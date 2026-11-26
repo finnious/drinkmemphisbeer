@@ -3,6 +3,7 @@ name: Maroon Brew Co.
 status: open
 verified: "2026"
 neighborhood: collierville
+town: Collierville, TN
 locations:
   - label: Brewpub
     address: 642 W. Poplar Ave, Collierville, TN

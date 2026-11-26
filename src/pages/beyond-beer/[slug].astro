@@ -1,0 +1,58 @@
+---
+import Base from '../../layouts/Base.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
+import Sources from '../../components/Sources.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const items = await getCollection('beyond');
+  return items.map((i) => ({ params: { slug: i.id }, props: { item: i } }));
+}
+const { item } = Astro.props;
+const d = item.data;
+const { Content } = await render(item);
+const kindLabel = d.kind === 'distillery' ? 'Distilleries' : 'Wineries';
+const kindPath = d.kind === 'distillery' ? '/beyond-beer/distilleries/' : '/beyond-beer/wineries/';
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': d.kind === 'winery' ? 'Winery' : 'Distillery',
+  name: d.name,
+  description: d.summary,
+  ...(d.locations[0] ? { address: d.locations[0].address } : {}),
+  ...(d.website ? { sameAs: [d.website] } : {}),
+};
+---
+<Base title={`${d.name}${d.town ? ` (${d.town})` : ''}`} description={d.summary} jsonLd={jsonLd}>
+  <article class="max-w-4xl mx-auto px-4 py-10">
+    <nav class="label"><a href="/beyond-beer/">Beyond Beer</a> / <a href={kindPath}>{kindLabel}</a> / {d.name}</nav>
+    <h1 class="text-7xl mt-2">{d.name}</h1>
+    <div class="mt-3 flex flex-wrap items-center gap-2">
+      <StatusBadge status={d.status} verified={d.verified} />
+      {d.town && <span class="font-mono text-xs uppercase tracking-wider px-2 py-1 rounded border border-aquifer text-aquifer">Metro · {d.town}</span>}
+    </div>
+
+    <div class="mt-6 grid gap-4 sm:grid-cols-2">
+      {d.locations.map((l) => (
+        <div class="card">
+          <div class="label">{l.label}</div>
+          <div class="mt-1">{l.address}</div>
+          <a class="font-mono text-xs uppercase tracking-wider" href={`https://www.openstreetmap.org/search?query=${encodeURIComponent(l.address)}`} rel="noopener" target="_blank">Map →</a>
+        </div>
+      ))}
+      {(d.visit || d.website || d.founded) && (
+        <div class="card">
+          <div class="label">Visiting</div>
+          {d.visit && <p class="mt-1 text-base">{d.visit}</p>}
+          <ul class="mt-1 text-base space-y-1">
+            {d.founded && <li>Founded: {d.founded}</li>}
+            {d.website && <li><a href={d.website} rel="noopener" target="_blank">Website</a> (check hours there)</li>}
+          </ul>
+        </div>
+      )}
+    </div>
+
+    <div class="prose-dmb mt-8"><Content /></div>
+    <p class="mt-6 text-sm">Must be 21+ to taste. Please don't drink and drive; book a ride.</p>
+    <Sources sources={d.sources} />
+  </article>
+</Base>

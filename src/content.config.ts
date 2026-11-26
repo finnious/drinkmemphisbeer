@@ -19,6 +19,26 @@ const breweries = defineCollection({
       .default([]),
     website: z.url().optional(),
     founded: z.number().optional(),
+    // Set for anything outside Memphis city limits, e.g. "Collierville, TN". Shown as a Metro tag.
+    town: z.string().optional(),
+    summary: z.string(),
+    sources: z.array(source).default([]),
+  }),
+});
+
+// Distilleries and wineries: the "Beyond Beer" section.
+const beyond = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/beyond' }),
+  schema: z.object({
+    name: z.string(),
+    kind: z.enum(['distillery', 'winery']),
+    status: z.enum(['open', 'closed', 'unverified']),
+    verified: z.string().optional(),
+    town: z.string().optional(),
+    locations: z.array(z.object({ label: z.string(), address: z.string() })).default([]),
+    website: z.url().optional(),
+    founded: z.number().optional(),
+    visit: z.string().optional(), // tours, tastings, what to expect
     summary: z.string(),
     sources: z.array(source).default([]),
   }),
@@ -72,4 +92,4 @@ const news = defineCollection({
   }),
 });
 
-export const collections = { breweries, beers, neighborhoods, festivals, news };
+export const collections = { breweries, beers, neighborhoods, festivals, news, beyond };

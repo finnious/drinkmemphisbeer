@@ -2,6 +2,7 @@
 name: Mississippi Ale House
 status: unverified
 neighborhood: olive-branch
+town: Olive Branch, MS
 summary: Olive Branch, Mississippi brewery, just across the state line, counted by locals as part of the Memphis-area scene.
 sources:
   - title: Memphis Flyer — Memphis beer guide (May 2026)
