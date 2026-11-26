@@ -4,7 +4,11 @@ import { getCollection } from 'astro:content';
 import { formatDate } from '../../lib/data';
 const posts = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
-<Base title="Memphis Beer News" description="Weekly Memphis beer news: brewery openings and closings, new releases, festivals and events.">
+<Base title="Memphis Beer News" description="Weekly Memphis beer news: brewery openings and closings, new releases, festivals and events." ogImage="/images/will/news-header-1200.jpg">
+  <picture>
+    <source srcset="/images/will/news-header-800.webp 800w, /images/will/news-header-1200.webp 1200w" sizes="100vw" type="image/webp" />
+    <img src="/images/will/news-header-1200.jpg" alt="Cartoon: Will Finney, seated with his fingertips together, plotting This Week in Memphis Beer" width="1200" height="480" class="w-full max-w-6xl mx-auto block border-b-4 border-mud" />
+  </picture>
   <div class="max-w-3xl mx-auto px-4 py-10">
     <h1 class="text-7xl">News</h1>
     <p class="mt-3">Openings, closings, releases and festival news, every week. <a href="/news/rss.xml">RSS feed</a>.</p>

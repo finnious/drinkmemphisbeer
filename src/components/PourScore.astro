@@ -24,8 +24,13 @@ const half = score ? score - full >= 0.5 : false;
     )}
   </div>
   {tapWaterTest && (
-    <div class={`ml-auto font-mono text-xs uppercase tracking-wider px-3 py-2 rounded ${tapWaterTest === 'passes' ? 'bg-aquifer text-white' : 'bg-foam text-aquifer border border-aquifer'}`}>
-      {tapWaterTest === 'passes' ? 'Passes the Tap Water Test' : "I'll have the tap water"}
-    </div>
+    <picture class="ml-auto">
+      <source srcset={`/images/will/verdict-${tapWaterTest === 'passes' ? 'pass' : 'fail'}-300.webp`} type="image/webp" />
+      <img
+        src={`/images/will/verdict-${tapWaterTest === 'passes' ? 'pass' : 'fail'}-300.png`}
+        alt={tapWaterTest === 'passes' ? 'Will Finney, arms crossed and smiling: Passes the Tap Water Test' : "Will Finney, arms crossed and unimpressed: I'll have the tap water"}
+        width="150" height="150" class="w-[150px] h-[150px]"
+      />
+    </picture>
   )}
 </div>

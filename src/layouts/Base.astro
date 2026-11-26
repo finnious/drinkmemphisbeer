@@ -10,8 +10,10 @@ interface Props {
   title: string;
   description: string;
   jsonLd?: object;
+  ogImage?: string; // path under /public, 1200x630 ideally
 }
-const { title, description, jsonLd } = Astro.props;
+const { title, description, jsonLd, ogImage = '/images/will/og-default-1200.jpg' } = Astro.props;
+const ogImageUrl = new URL(ogImage, Astro.site).href;
 const fullTitle = title === 'Drink Memphis Beer' ? title : `${title} | Drink Memphis Beer`;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const nav = [
@@ -41,7 +43,10 @@ const path = Astro.url.pathname;
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:alt" content="Drink Memphis Beer: Will Finney, arms crossed, on a gold sunburst" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImageUrl} />
     <meta name="twitter:creator" content="@willfinneymem" />
     <link rel="alternate" type="application/rss+xml" title="Drink Memphis Beer news" href="/news/rss.xml" />
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}

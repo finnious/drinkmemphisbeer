@@ -2,8 +2,12 @@
 import Base from '../layouts/Base.astro';
 ---
 <Base title="Page not found" description="This page doesn't exist.">
-  <div class="max-w-3xl mx-auto px-4 py-20 text-center">
-    <h1 class="text-8xl">Tap's dry</h1>
-    <p class="mt-4 text-xl">This page doesn't exist. Have a glass of water and try the <a href="/breweries/">brewery list</a>.</p>
+  <div class="max-w-4xl mx-auto px-4 py-12 text-center">
+    <picture>
+      <source srcset="/images/will/will-404-600.webp 600w, /images/will/will-404-1000.webp 1000w" sizes="(min-width: 900px) 800px, 100vw" type="image/webp" />
+      <img src="/images/will/will-404-1000.jpg" alt="Cartoon: Will Finney next to a sad, empty pint glass. 'This page? Never brewed it.'" width="1000" height="640" class="w-full max-w-3xl mx-auto rounded-xl border-4 border-mud" />
+    </picture>
+    <h1 class="text-8xl mt-8">Tap's dry</h1>
+    <p class="mt-4 text-xl">This page doesn't exist. Have a glass of water and try the <a href="/breweries/">brewery list</a> or the <a href="/status/">Status Board</a>.</p>
   </div>
 </Base>
