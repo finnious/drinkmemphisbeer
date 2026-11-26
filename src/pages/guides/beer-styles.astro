@@ -1,0 +1,101 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getBeers, getBreweries, beerUrl } from '../../lib/data';
+
+const beers = await getBeers();
+const breweries = await getBreweries();
+const breweryName = Object.fromEntries(breweries.map((b) => [b.id, b.data.name]));
+
+// Families, checked in order. First match wins.
+const FAMILIES: { key: string; name: string; match: RegExp; blurb: string; tapWater: string }[] = [
+  { key: 'light-lager', name: 'Pilsners & light lagers', match: /pils|helles|light|pale lager|rice lager|mexican lager|american lager|premium lager|^lager$|festbier|kölsch/i,
+    blurb: 'Crisp, clean and pale. Lagers ferment cold and slow, so there\'s nowhere for flaws to hide, and the water matters more here than in any other style. Soft Memphis water is a natural fit for pilsners and helles.',
+    tapWater: 'The toughest test on the board. These beers are competing directly with the glass of water next to them.' },
+  { key: 'dark-lager', name: 'Amber & dark lagers', match: /amber lager|dark lager|schwarz|märzen|marzen|bock|rauch|smoked/i,
+    blurb: 'Lagers with more malt: toasty, caramel or roasty, but still clean and smooth because of the cold fermentation. Includes Oktoberfest märzens, smoked rauchbiers and strong doppelbocks.',
+    tapWater: 'These win on flavor. Water can\'t do toast.' },
+  { key: 'hazy', name: 'Hazy & New England IPAs', match: /hazy|new england/i,
+    blurb: 'Soft, juicy and cloudy. Brewers add most of the hops late, so you get tropical fruit and citrus without much bitterness. Oats and wheat give them a pillowy body.',
+    tapWater: 'Usually passes. Memphis drinkers love these.' },
+  { key: 'ipa', name: 'IPAs & pale ales', match: /ipa|pale ale|bitter/i,
+    blurb: 'Hop-forward beers. West Coast and American IPAs are clear, dry and bitter, with pine and grapefruit. Pale ales are the lighter, more balanced cousins. English bitters are lighter still.',
+    tapWater: 'Depends how much you like bitterness.' },
+  { key: 'wheat', name: 'Wheat beers & witbiers', match: /wheat|wit|hefe|weizen/i,
+    blurb: 'Made with a big share of wheat for a soft, hazy body. German hefeweizens taste of banana and clove from the yeast. Belgian witbiers add orange peel and coriander. American wheats are cleaner and often fruited.',
+    tapWater: 'The summer pick. Strong contenders on a July afternoon.' },
+  { key: 'blonde', name: 'Blonde, golden & cream ales', match: /blonde|golden|cream ale/i,
+    blurb: 'Easygoing ales: light malt, low bitterness, nothing to argue about. Often the brewery\'s gateway beer.',
+    tapWater: 'Close calls. These are the closest thing to water that still counts as beer.' },
+  { key: 'amber', name: 'Ambers, reds, browns & Scottish ales', match: /amber|red|brown|scottish|scotch/i,
+    blurb: 'Malt-forward ales with caramel, toffee, nutty or toasty flavors. Scottish and Scotch ales lean even sweeter and maltier, and a Scotch ale can get strong.',
+    tapWater: 'Good food beers. Barbecue helps them pass.' },
+  { key: 'dark', name: 'Stouts & porters', match: /stout|porter/i,
+    blurb: 'Dark beers made with roasted malts: coffee, chocolate and caramel. Oatmeal stouts are silky, milk stouts are sweet, and porters are usually a bit lighter than stouts.',
+    tapWater: 'Different job entirely. Nobody\'s comparing a coffee stout to water.' },
+  { key: 'sour', name: 'Sours & fruit beers', match: /sour|fruit|shandy|rosé|rose/i,
+    blurb: 'Tart, fruity and often brightly colored. Most are fruited, and Memphis breweries tend to rotate them often.',
+    tapWater: 'Wildly variable. Some are better than water, some make you want water.' },
+  { key: 'strong', name: 'Big beers: double IPAs, barleywines & malt liquor', match: /double|imperial|barleywine|malt liquor/i,
+    blurb: 'Anything that gets strong. Double IPAs, barrel-aged barleywines and the occasional craft malt liquor. Share them.',
+    tapWater: 'Drink a glass of water between these regardless.' },
+];
+
+function familyOf(style: string) {
+  // Strong beers first if explicitly double/imperial/barleywine, so a "Hazy Double IPA" lands there.
+  if (/double|imperial|barleywine|malt liquor/i.test(style)) return 'strong';
+  if (/blonde|golden|cream ale/i.test(style)) return 'blonde';
+  for (const f of FAMILIES) if (f.match.test(style)) return f.key;
+  return 'other';
+}
+
+const groups = new Map<string, typeof beers>();
+for (const b of beers) {
+  const k = familyOf(b.data.style);
+  if (!groups.has(k)) groups.set(k, []);
+  groups.get(k)!.push(b);
+}
+for (const list of groups.values()) list.sort((a, b) => a.data.name.localeCompare(b.data.name));
+const families = FAMILIES.filter((f) => groups.has(f.key));
+const other = groups.get('other') ?? [];
+---
+<Base title="Beer Styles Explained, With Memphis Beers for Each" description={`A plain-English guide to beer styles, from pilsners to stouts, with ${beers.length} Memphis-area beers sorted by style.`}>
+  <article class="max-w-4xl mx-auto px-4 py-10">
+    <nav class="label"><a href="/guides/">Guides</a> / Beer styles</nav>
+    <h1 class="text-6xl mt-2">Beer styles, explained with Memphis beers</h1>
+    <div class="prose-dmb mt-4">
+      <p>You don't need to know a single style name to enjoy a Memphis beer. But knowing roughly what a schwarzbier or a hazy IPA is makes a tap list a lot less intimidating. Here's every style on this site in plain English, with the Memphis beers that fit each one.</p>
+      <p>We've also added a guess at how each style does on the Tap Water Test. That's the question every review here comes down to: is this better than a glass of Memphis tap water?</p>
+    </div>
+
+    <nav class="mt-6 flex flex-wrap gap-2">
+      {families.map((f) => <a href={`#${f.key}`} class="label border border-mud rounded px-2 py-1 no-underline">{f.name}</a>)}
+    </nav>
+
+    {families.map((f) => (
+      <section id={f.key} class="mt-12 scroll-mt-24">
+        <h2 class="text-4xl">{f.name}</h2>
+        <p class="mt-2">{f.blurb}</p>
+        <p class="mt-2 text-sm"><strong>Tap Water Test outlook:</strong> {f.tapWater}</p>
+        <ul class="mt-4 grid gap-2 sm:grid-cols-2">
+          {groups.get(f.key)!.map((b) => (
+            <li class="card py-2">
+              <a href={beerUrl(b)} class="font-semibold">{b.data.name}</a>
+              <div class="text-sm">{breweryName[b.data.brewery.id] ?? ''} · {b.data.style}{b.data.abv != null && ` · ${b.data.abv}%`}</div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+
+    {other.length > 0 && (
+      <section class="mt-12">
+        <h2 class="text-4xl">Everything else</h2>
+        <ul class="mt-4 grid gap-2 sm:grid-cols-2">
+          {other.map((b) => (
+            <li class="card py-2"><a href={beerUrl(b)} class="font-semibold">{b.data.name}</a><div class="text-sm">{breweryName[b.data.brewery.id] ?? ''} · {b.data.style}</div></li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </article>
+</Base>

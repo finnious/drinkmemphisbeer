@@ -1,0 +1,84 @@
+---
+import Base from '../layouts/Base.astro';
+import Sources from '../components/Sources.astro';
+
+const sources = [
+  { title: 'National Park Service — Tennessee Brewery, National Register nomination', url: 'https://npgallery.nps.gov/GetAsset/85434586-aa3e-4610-aa27-32232a7c2857' },
+  { title: 'Wikipedia — Tennessee Brewery', url: 'https://en.wikipedia.org/wiki/Tennessee_Brewery' },
+  { title: 'University of Memphis Libraries — Tennessee Brewing Company placard', url: 'https://digitalcommons.memphis.edu/speccoll-mss-shelbycountytn2/42' },
+  { title: 'Storyboard Memphis — The Tennessee Brewery, saved by suds', url: 'https://storyboardmemphis.org/historic-preservation/off-the-endangered-list-the-tennessee-brewery-saved-by-suds/' },
+  { title: 'Memphis Flyer — Goldcrest 51, Memphis\' own American lager (2026)', url: 'https://www.memphisflyer.com/?p=25166854' },
+  { title: 'University of Memphis Libraries — Schlitz plant on Raines Road', url: 'https://digitalcommons.memphis.edu/speccoll-mss-commercialappeal4/334' },
+  { title: 'Brookston Beer Bulletin — City Brewery buys former Coors plant in Memphis (2011)', url: 'https://brookstonbeerbulletin.com/city-brewery-buys-former-coors-plant-in-memphis' },
+  { title: 'Associated Press — Blues City Brewery plans $49M upgrade (2020)', url: 'https://twt-assets.washtimes.com/news/2020/jan/13/brewery-plans-49m-tennessee-upgrade-with-155-new-j' },
+  { title: 'Brookston Beer Bulletin — Ghost River Brewing launches (2008)', url: 'https://brookstonbeerbulletin.com/ghost-river/' },
+  { title: 'WKNO — Cheers: Ghost River and the Memphis Sand Aquifer', url: 'https://www.wknofm.org/news-and-features/2016-09-27/cheers' },
+  { title: 'Memphis magazine — Local beers you can believe in (2013)', url: 'https://memphismagazine.com/food/local-beers-you-can-believe-in/' },
+  { title: 'Memphis Flyer — Memphis beer, ten years after the 2013 boom', url: 'https://www.memphisflyer.com/?p=25110702' },
+  { title: 'Memphis Flyer — Spring beer guide: craft beer "isn\'t popular anymore" (2026)', url: 'https://www.memphisflyer.com/?p=25166703' },
+  { title: 'Daily Memphian — Grind City leaves the wholesale market (2025)', url: 'https://dailymemphian.com/article/53742/grind-city-brewing-co-memphis-uptown-hopper-seely-podcast' },
+];
+
+const timeline = [
+  ['1877', 'G.H. Herbers organizes the Memphis Brewing Company at Butler and Tennessee streets, on the bluff downtown.'],
+  ['1885', 'J.W. Schorr, Casper Koehler and partners buy it. It becomes the Tennessee Brewing Company.'],
+  ['1890', 'The Romanesque brewhouse that still stands on the bluff is finished.'],
+  ['1903', 'Production reaches about 250,000 barrels a year, which makes it the largest brewery in the South.'],
+  ['1909', 'Tennessee passes statewide prohibition. National Prohibition follows in 1920. The brewery survives on non-alcoholic "cereal beverages" and malt syrup.'],
+  ['1933', 'Repeal. John Schorr reopens the plant and Goldcrest becomes the beer Memphis drinks.'],
+  ['1938', 'Goldcrest is renamed Goldcrest 51 to mark the company\'s 51st year.'],
+  ['1954', 'Squeezed by the national brands, the Tennessee Brewery closes.'],
+  ['1971', 'Schlitz opens a huge brewery on Raines Road in southeast Memphis.'],
+  ['1980s–2000s', 'The Raines Road plant passes from Schlitz to Stroh to Coors, which brews Blue Moon, Keystone and Zima there.'],
+  ['1992', 'Boscos opens in Germantown as Tennessee\'s first brewpub.'],
+  ['2008', 'Ghost River starts selling beer brewed with Memphis Sand Aquifer water.'],
+  ['2011', 'City Brewing buys the Raines Road plant and reopens it as Blues City Brewery, brewing other companies\' recipes.'],
+  ['2013', 'Wiseacre, Memphis Made and High Cotton all open within about six months. The boom starts.'],
+  ['2017–2021', 'The second wave: Crosstown, Meddlesome, Grind City, Soul & Spirits, Hampline, Cooper House Project, Beale St. Brewing and more.'],
+  ['2024', 'Goldcrest 51 comes back, brewed with Soul & Spirits.'],
+  ['2025–26', 'The shakeout. Memphis Made, High Cotton, Hook Point and Urban Consequence are gone or folded into others, and Grind City pulls out of stores.'],
+];
+---
+<Base title="A Short History of Memphis Beer: Goldcrest 51 to the 2013 Boom" description="From the 1877 Tennessee Brewery and Goldcrest 51 to Schlitz on Raines Road, Boscos, Ghost River and the 2013 craft beer boom: Memphis beer history in one page.">
+  <article class="max-w-3xl mx-auto px-4 py-10">
+    <div class="label">History</div>
+    <h1 class="text-7xl mt-1">A short history of Memphis beer</h1>
+    <p class="text-xl mt-4">Memphis has been brewing for nearly 150 years. For most of that time, the water was the selling point. It still is.</p>
+
+    <div class="prose-dmb mt-8">
+      <h2>The castle on the bluff</h2>
+      <p>The building most Memphians picture when they think of old Memphis beer is the Tennessee Brewery, the brick Romanesque castle at Butler and Tennessee streets, on the bluff above the river. The business started in 1877 as the Memphis Brewing Company. A group led by J.W. Schorr and Casper Koehler bought it in 1885, renamed it, and finished the building that's still standing in 1890.</p>
+      <p>It grew fast. By 1903 it was making around 250,000 barrels a year, the most of any brewery in the South, under names like Pilsener, Columbian Extra Pale, Erlanger and the one everyone remembers, Goldcrest.</p>
+
+      <h2>Prohibition, then Goldcrest 51</h2>
+      <p>Tennessee went dry in 1909, more than a decade before the rest of the country. The brewery hung on by making non-alcoholic cereal beverages and malt syrup. When Prohibition ended in 1933, J.W.'s son John Schorr reopened the plant, and Goldcrest was back on top. In 1938 it was renamed Goldcrest 51, for the company's 51 years in business. It switched from returnable bottles to cans in 1947.</p>
+      <p>The national brands won in the end. The Tennessee Brewery closed in 1954. The building sat empty for decades, made the National Register of Historic Places in 1980, hosted a pop-up beer garden called Tennessee Brewery: The Revival, and has since been turned into apartments.</p>
+      <p>Goldcrest 51 itself came back in 2024, when Jake Schorr, J.W. Schorr's great-grandson and the owner of Westy's, teamed up with Soul &amp; Spirits brewmaster Ryan Allen to brew it again. <a href="/breweries/soul-and-spirits/goldcrest-51/">More on today's Goldcrest 51.</a></p>
+
+      <h2>The big plant on Raines Road</h2>
+      <p>In 1971 Schlitz opened a giant brewery on Raines Road in southeast Memphis. It changed hands as the national industry consolidated: Schlitz to Stroh to Coors, which brewed Blue Moon, Keystone and Zima there before Molson Coors shut it down in the mid-2000s.</p>
+      <p>In 2011, City Brewing of La Crosse, Wisconsin, bought the plant and reopened it as Blues City Brewery. It's a contract brewery: other companies bring the recipes, and the Memphis plant makes and packages them. The AP reported in 2020 that it employed more than 500 people and could turn out over 60 million cases a year. It's almost certainly the most beer brewed in Memphis, and it doesn't have a taproom. <a href="/breweries/city-brewing/">See its listing.</a></p>
+
+      <h2>Boscos and Ghost River</h2>
+      <p>Craft beer in Memphis starts with Boscos, which opened in Germantown in 1992 as the first brewpub in Tennessee and moved to Overton Square in 2002. Ghost River followed in 2008 as a production brewery, built around the idea that "great water makes great beer." It's named for the Ghost River section of the Wolf River, which its brewers have described as a recharge point for the aquifer.</p>
+      <p>For about five years, that was most of it. If you wanted something local and you weren't at Boscos, you drank Ghost River Gold.</p>
+
+      <h2>The 2013 boom</h2>
+      <p>Then three breweries opened within about six months: Wiseacre, Memphis Made and High Cotton. The Memphis Flyer calls it the moment that launched a new era of craft beer in the city. Suddenly even old-guard spots like the Rendezvous were pouring local beer.</p>
+      <p>A second wave followed from 2017 through 2021: Crosstown, Meddlesome, Grind City, Soul &amp; Spirits, Hampline, Cooper House Project, Beale St. Brewing and others. By 2023 the Flyer counted 15 local beer sources, triple the number from a decade earlier.</p>
+
+      <h2>Where it stands now</h2>
+      <p>The boom has cooled, in Memphis and everywhere else. Nationally, 2024 was the first year more breweries closed than opened. Locally, Memphis Made, High Cotton, Hook Point and Urban Consequence have closed or been folded into other breweries, and Grind City stopped selling cans in stores to focus on its taproom and music venue.</p>
+      <p>What's left is a smaller, tougher scene that leans on taprooms, food, music and neighborhood, with a Goldcrest 51 revival thrown in. The <a href="/status/">Status Board</a> keeps track of who's open this week.</p>
+    </div>
+
+    <h2 class="text-5xl mt-12">Timeline</h2>
+    <ol class="mt-4 border-l-4 border-gold pl-6 space-y-4">
+      {timeline.map(([year, text]) => (
+        <li><div class="font-display text-3xl text-mud">{year}</div><p>{text}</p></li>
+      ))}
+    </ol>
+
+    <Sources sources={sources} />
+  </article>
+</Base>

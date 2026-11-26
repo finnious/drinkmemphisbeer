@@ -1,0 +1,79 @@
+---
+import Base from '../../layouts/Base.astro';
+import Sources from '../../components/Sources.astro';
+
+type Spot = { name: string; kind: 'Beer bar' | 'Bottle shop'; area: string; address: string; why: string; checked: string };
+const spots: Spot[] = [
+  {
+    name: 'Hammer & Ale', kind: 'Beer bar', area: 'Cooper-Young', address: '921 S. Cooper St.',
+    why: 'The closest thing Memphis has to a local-beer embassy. About two dozen rotating taps, heavy on Memphis and regional breweries, plus flights, growlers and cans to go. It opened in 2013, the same year as the boom, and it\'s across the street from Cooper House Project.',
+    checked: 'Visited and written up by the Memphis Flyer in May 2026',
+  },
+  {
+    name: 'Flying Saucer Draught Emporium', kind: 'Beer bar', area: 'Downtown', address: '130 Peabody Place',
+    why: 'A regional chain, but a fixture of Memphis beer culture with a list of around 200 beers, local ones included. Steps from Beale Street and FedExForum.',
+    checked: 'On Memphis Travel\'s current list of favorite Downtown bars',
+  },
+  {
+    name: 'Buster\'s Liquors & Wines (University)', kind: 'Bottle shop', area: 'Midtown / University', address: '191 S. Highland St.',
+    why: 'Family-owned since 1954 and run by the third generation. Big craft beer section, a growler station, and regular tastings from Memphis breweries.',
+    checked: 'Hosted a Wiseacre tasting in 2025',
+  },
+  {
+    name: 'Buster\'s Liquors East', kind: 'Bottle shop', area: 'East Memphis', address: '5851 Poplar Ave.',
+    why: 'Buster\'s second store, an 18,000-square-foot shop in Ridgeway Trace that opened in February 2024.',
+    checked: 'Opened February 2024',
+  },
+  {
+    name: 'Joe\'s Wines & Liquor', kind: 'Bottle shop', area: 'Midtown', address: '1681 Poplar Ave.',
+    why: 'A Midtown shop since 1959. Reviewers single out its craft beer selection, local and hard-to-find, and it has a growler bar.',
+    checked: 'Reviews through 2024',
+  },
+];
+
+const sources = [
+  { title: 'Memphis Flyer — Memphis Is My Boyfriend: Summer Fun, Part 1 (May 2026)', url: 'https://www.memphisflyer.com/?p=25166652' },
+  { title: 'Craft Beer & Brewing — Great beer bars: Hammer & Ale', url: 'https://beerandbrewing.com/great-beer-bars-in-new-york-memphis-and-london' },
+  { title: 'Memphis Travel — Hammer & Ale', url: 'https://www.memphistravel.com/hammer-and-ale' },
+  { title: 'Memphis Travel — Our favorite Memphis bars', url: 'https://www.memphistravel.com/our-favorite-memphis-bars' },
+  { title: 'Memphis magazine — Bring on the night (Flying Saucer)', url: 'https://memphismagazine.com/features/bring-on-the-night/' },
+  { title: 'Beverage Dynamics — How Buster\'s became a Memphis mainstay (2025)', url: 'https://bevinfogroup.com/2025/02/17/how-busters-became-a-memphis-mainstay/' },
+  { title: 'Choose901 — Wiseacre tasting at Buster\'s University (2025)', url: 'https://choose901.com/event/wiseacre-tasting/' },
+  { title: 'Commercial Appeal via AOL — Buster\'s Liquors opens East Memphis location (2024)', url: 'https://www.aol.com/70-years-business-busters-liquors-110717233.html' },
+  { title: 'High Ground News — Buster\'s growler station', url: 'https://www.highgroundnews.com/devnews/BustersRenovation.aspx' },
+  { title: 'City Lifestyle — Destination: Joe\'s', url: 'https://citylifestyle.com/articles/destination-joes' },
+  { title: 'MapQuest / Yelp — Joe\'s Wines & Liquor', url: 'https://startpage.mapquest.com/us/tennessee/joes-wines-liquor-270852058' },
+];
+---
+<Base title="Where to Buy and Drink Memphis Beer (Besides the Breweries)" description="The best Memphis beer bars and bottle shops for local beer: Hammer & Ale, Flying Saucer, Buster's, Joe's Wines and more.">
+  <article class="max-w-4xl mx-auto px-4 py-10">
+    <nav class="label"><a href="/guides/">Guides</a> / Where to buy</nav>
+    <h1 class="text-6xl mt-2">Where to buy and drink Memphis beer</h1>
+    <div class="prose-dmb mt-4">
+      <p>The best place to drink Memphis beer is at the brewery that made it. The <a href="/map/">map</a> has every taproom. But when you want five breweries in one stop, or a mixed six-pack for the cooler, these are the places to know.</p>
+      <p>Two reminders. In Tennessee, grocery and convenience stores can sell beer, so you'll find Memphis cans at plenty of Krogers too. And Grind City no longer sells cans in stores, so you'll have to visit the taproom for that one.</p>
+    </div>
+
+    {(['Beer bar', 'Bottle shop'] as const).map((k) => (
+      <section class="mt-10">
+        <h2 class="text-4xl">{k === 'Beer bar' ? 'Beer bars' : 'Bottle shops'}</h2>
+        <ul class="mt-4 space-y-4">
+          {spots.filter((s) => s.kind === k).map((s) => (
+            <li class="card">
+              <div class="font-display text-3xl">{s.name}</div>
+              <div class="text-sm">{s.area} · {s.address}</div>
+              <p class="mt-2">{s.why}</p>
+              <div class="label mt-2">Last confirmed: {s.checked}</div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+
+    <div class="card mt-10">
+      <p><strong>Run a bar or shop with a great Memphis beer selection?</strong> <a href="/contact/">Tell us</a> and we'll take a look. Listings here are free and editorial. If you want to advertise, that's a <a href="/advertise/">different page</a>, and it's always labeled.</p>
+    </div>
+
+    <Sources sources={sources} />
+  </article>
+</Base>
