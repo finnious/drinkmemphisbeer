@@ -6,7 +6,7 @@ const all = (await getCollection('beyond')).sort((a, b) => (a.data.status === 'o
 const distilleries = all.filter((i) => i.data.kind === 'distillery');
 const wineries = all.filter((i) => i.data.kind === 'winery');
 ---
-<Base title="Beyond Beer: Memphis Distilleries & Wineries" description="Memphis-area distilleries and wineries to visit: Old Dominick, Blue Note Bourbon, Old Millington Winery, Delta Blues Winery and more.">
+<Base pageType="CollectionPage" title="Beyond Beer: Memphis Distilleries & Wineries" description="Memphis-area distilleries and wineries to visit: Old Dominick, Blue Note Bourbon, Old Millington Winery, Delta Blues Winery and more.">
   <div class="max-w-6xl mx-auto px-4 py-10">
     <h1 class="text-7xl">Beyond Beer</h1>
     <p class="mt-3 max-w-2xl">Beer is the main event here, but the Memphis area also makes whiskey, bourbon, vodka and wine. These are the distilleries and wineries worth a visit, all within about 45 minutes of downtown.</p>

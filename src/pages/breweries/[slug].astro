@@ -4,6 +4,7 @@ import StatusBadge from '../../components/StatusBadge.astro';
 import Sources from '../../components/Sources.astro';
 import { getCollection, getEntry, render } from 'astro:content';
 import { getBreweries, getBeers, beerUrl } from '../../lib/data';
+import { postalAddress } from '../../lib/schema';
 
 export async function getStaticPaths() {
   const breweries = await getBreweries();
@@ -17,17 +18,26 @@ const beers = (await getBeers()).filter((b) => b.data.brewery.id === brewery.id)
 const hood = d.neighborhood ? await getEntry(d.neighborhood) : undefined;
 const successor = d.successor ? (await getCollection('breweries')).find((b) => b.id === d.successor) : undefined;
 
+const breweryUrl = new URL(`/breweries/${brewery.id}/`, Astro.site).href;
+const placeFor = (loc: (typeof d.locations)[number]) => ({
+  address: postalAddress(loc.address),
+  ...(loc.lat != null && loc.lng != null ? { geo: { '@type': 'GeoCoordinates', latitude: loc.lat, longitude: loc.lng } } : {}),
+});
 const jsonLd = {
-  '@context': 'https://schema.org',
   '@type': 'Brewery',
+  '@id': `${breweryUrl}#brewery`,
   name: d.name,
-  url: new URL(`/breweries/${brewery.id}/`, Astro.site).href,
+  url: breweryUrl,
   description: d.summary,
-  ...(d.locations[0] ? { address: d.locations[0].address } : {}),
+  ...(d.founded ? { foundingDate: String(d.founded) } : {}),
+  ...(d.locations[0] ? placeFor(d.locations[0]) : {}),
+  ...(d.locations.length > 1
+    ? { department: d.locations.slice(1).map((l, i) => ({ '@type': 'Brewery', '@id': `${breweryUrl}#location-${i + 2}`, name: `${d.name} (${l.label})`, ...placeFor(l) })) }
+    : {}),
   ...(d.website ? { sameAs: [d.website] } : {}),
 };
 ---
-<Base title={`${d.name}: Memphis brewery guide`} description={d.summary} jsonLd={jsonLd}>
+<Base title={`${d.name}: Memphis brewery guide`} description={d.summary} jsonLd={jsonLd} crumbs={[{ name: 'Breweries', url: '/breweries/' }, { name: d.name, url: `/breweries/${brewery.id}/` }]}>
   <article class="max-w-4xl mx-auto px-4 py-10">
     <nav class="label"><a href="/breweries/">Breweries</a> / {d.name}</nav>
     <h1 class="text-7xl mt-2">{d.name}</h1>

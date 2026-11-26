@@ -58,7 +58,7 @@ for (const list of groups.values()) list.sort((a, b) => a.data.name.localeCompar
 const families = FAMILIES.filter((f) => groups.has(f.key));
 const other = groups.get('other') ?? [];
 ---
-<Base title="Beer Styles Explained, With Memphis Beers for Each" description={`A plain-English guide to beer styles, from pilsners to stouts, with ${beers.length} Memphis-area beers sorted by style.`}>
+<Base pageType="Article" title="Beer Styles Explained, With Memphis Beers for Each" description={`A plain-English guide to beer styles, from pilsners to stouts, with ${beers.length} Memphis-area beers sorted by style.`}>
   <article class="max-w-4xl mx-auto px-4 py-10">
     <nav class="label"><a href="/guides/">Guides</a> / Beer styles</nav>
     <h1 class="text-6xl mt-2">Beer styles, explained with Memphis beers</h1>

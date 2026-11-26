@@ -9,16 +9,8 @@ import { getBreweries, formatDate } from '../lib/data';
 const breweries = await getBreweries();
 const open = breweries.filter((b) => b.data.status === 'open');
 const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 3);
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: 'Drink Memphis Beer',
-  url: 'https://www.drinkmemphisbeer.com/',
-  sameAs: ['https://x.com/drinkmemphis'],
-  author: { '@type': 'Person', name: 'Will Finney', sameAs: ['https://x.com/willfinneymem', 'https://www.linkedin.com/in/will-finney'] },
-};
 ---
-<Base title="Drink Memphis Beer" description="The guide to every Memphis brewery and Memphis beer: what's open, what's closed, what's worth drinking, and where to find it." jsonLd={jsonLd}>
+<Base title="Drink Memphis Beer" description="The guide to every Memphis brewery and Memphis beer: what's open, what's closed, what's worth drinking, and where to find it.">
   <section class="bg-gold border-b-4 border-mud">
     <div class="max-w-6xl mx-auto px-4 py-14 grid gap-8 md:grid-cols-[1.4fr_1fr] items-center">
       <div>

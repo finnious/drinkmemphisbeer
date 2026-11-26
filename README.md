@@ -51,3 +51,14 @@ Will's take, Page (URL), Notes for Claude.
   `pourScore`, `tapWaterTest` and `willsTake` exactly as written. Never invent or "fill in" a score.
 - When you add a beer to the site, append a row to the sheet with the yellow columns left blank.
 - Act on anything Will writes in "Notes for Claude", then clear the note.
+
+## Dates and schema
+
+- `npm run build` first runs `scripts/page-dates.mjs`, which reads git history and writes
+  `src/data/page-dates.json` (published = first commit, last updated = latest commit, per URL;
+  list pages use their collection's latest change). Commit that file with your changes.
+- Every page shows "Published · Last updated" and emits one JSON-LD `@graph` (built in
+  `src/lib/schema.ts`): WebSite, Organization, Will (Person), the page (WebPage/CollectionPage/
+  Article/...) with datePublished/dateModified, and a BreadcrumbList, plus page entities.
+- Beers only get `Product` markup once Will has scored them (Google requires a review).
+- Festivals only get `Festival` (Event) markup once `startDate` is set in their front matter.

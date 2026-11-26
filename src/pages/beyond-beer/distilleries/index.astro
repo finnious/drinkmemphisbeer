@@ -4,7 +4,7 @@ import BeyondCard from '../../../components/BeyondCard.astro';
 import { getCollection } from 'astro:content';
 const items = (await getCollection('beyond')).filter((i) => i.data.kind === 'distillery').sort((a, b) => (a.data.status === 'open' ? 0 : 1) - (b.data.status === 'open' ? 0 : 1) || a.data.name.localeCompare(b.data.name));
 ---
-<Base title="Memphis Distilleries" description="Memphis-area distilleries with tours and tastings: Old Dominick Distillery downtown, Blue Note Bourbon and more.">
+<Base pageType="CollectionPage" title="Memphis Distilleries" description="Memphis-area distilleries with tours and tastings: Old Dominick Distillery downtown, Blue Note Bourbon and more.">
   <div class="max-w-6xl mx-auto px-4 py-10">
     <nav class="label"><a href="/beyond-beer/">Beyond Beer</a> / Distilleries</nav>
     <h1 class="text-7xl mt-2">Memphis distilleries</h1>

@@ -4,7 +4,7 @@ import BeyondCard from '../../../components/BeyondCard.astro';
 import { getCollection } from 'astro:content';
 const items = (await getCollection('beyond')).filter((i) => i.data.kind === 'winery').sort((a, b) => (a.data.status === 'open' ? 0 : 1) - (b.data.status === 'open' ? 0 : 1) || a.data.name.localeCompare(b.data.name));
 ---
-<Base title="Wineries Near Memphis" description="Wineries and vineyards near Memphis: Old Millington in Millington, Delta Blues in Lakeland and de terra in Somerville, all under an hour from downtown.">
+<Base pageType="CollectionPage" title="Wineries Near Memphis" description="Wineries and vineyards near Memphis: Old Millington in Millington, Delta Blues in Lakeland and de terra in Somerville, all under an hour from downtown.">
   <div class="max-w-6xl mx-auto px-4 py-10">
     <nav class="label"><a href="/beyond-beer/">Beyond Beer</a> / Wineries</nav>
     <h1 class="text-7xl mt-2">Wineries near Memphis</h1>

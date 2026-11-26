@@ -9,7 +9,7 @@ const groups = [
   ['Closed or changed hands', breweries.filter((b) => ['closed', 'changed-hands'].includes(b.data.status))],
 ] as const;
 ---
-<Base title="Memphis Breweries" description="Every brewery in the Memphis area: open taprooms, addresses, beers, and the ones we've lost.">
+<Base pageType="CollectionPage" title="Memphis Breweries" description="Every brewery in the Memphis area: open taprooms, addresses, beers, and the ones we've lost.">
   <div class="max-w-6xl mx-auto px-4 py-10">
     <h1 class="text-7xl">Memphis breweries</h1>
     <p class="mt-3 max-w-2xl">Every brewery in the Memphis area, sorted by what you can actually visit. Each one starts with the same advantage: <a href="/water/">some of the best water in the country</a>.</p>

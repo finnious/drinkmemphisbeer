@@ -3,7 +3,7 @@ import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 const fests = (await getCollection('festivals')).sort((a, b) => a.data.name.localeCompare(b.data.name));
 ---
-<Base title="Memphis Beer Festivals" description="Memphis beer festivals: Cooper-Young Beerfest, Memphis Brewfest, Art on Tap and more, with dates and which local breweries are pouring.">
+<Base pageType="CollectionPage" title="Memphis Beer Festivals" description="Memphis beer festivals: Cooper-Young Beerfest, Memphis Brewfest, Art on Tap and more, with dates and which local breweries are pouring.">
   <div class="max-w-5xl mx-auto px-4 py-10">
     <h1 class="text-7xl">Festivals</h1>
     <p class="mt-3 max-w-2xl">The yearly beer festivals in and around Memphis. We add dates, tickets and the list of Memphis breweries pouring as soon as each year's details are out.</p>

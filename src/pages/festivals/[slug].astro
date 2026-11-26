@@ -10,9 +10,26 @@ export async function getStaticPaths() {
 const { fest } = Astro.props;
 const { Content } = await render(fest);
 const d = fest.data;
-const jsonLd = { '@context': 'https://schema.org', '@type': 'Event', name: d.name, description: d.summary, location: { '@type': 'Place', name: d.where } };
+const festUrl = new URL(`/festivals/${fest.id}/`, Astro.site).href;
+// Event rich results require a startDate. Until a festival has a confirmed date,
+// describe it as a recurring festival without one (no Event markup).
+const jsonLd = d.startDate
+  ? {
+      '@type': 'Festival',
+      '@id': `${festUrl}#event`,
+      name: d.name,
+      description: d.summary,
+      startDate: d.startDate,
+      ...(d.endDate ? { endDate: d.endDate } : {}),
+      eventStatus: 'https://schema.org/EventScheduled',
+      eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+      location: { '@type': 'Place', name: d.where, address: { '@type': 'PostalAddress', addressLocality: 'Memphis', addressRegion: 'TN', addressCountry: 'US' } },
+      ...(d.website ? { url: d.website } : {}),
+      organizer: d.organizer ? { '@type': 'Organization', name: d.organizer } : undefined,
+    }
+  : { '@type': 'Thing', '@id': `${festUrl}#festival`, name: d.name, description: d.summary, additionalType: 'https://schema.org/Festival' };
 ---
-<Base title={`${d.name} (Memphis)`} description={d.summary} jsonLd={jsonLd}>
+<Base title={`${d.name} (Memphis)`} description={d.summary} jsonLd={jsonLd} crumbs={[{ name: 'Festivals', url: '/festivals/' }, { name: d.name, url: `/festivals/${fest.id}/` }]}>
   <article class="max-w-3xl mx-auto px-4 py-10">
     <nav class="label"><a href="/festivals/">Festivals</a> / {d.name}</nav>
     <h1 class="text-7xl mt-2">{d.name}</h1>

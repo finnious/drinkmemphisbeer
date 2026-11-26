@@ -76,6 +76,10 @@ const festivals = defineCollection({
     name: z.string(),
     when: z.string(),
     where: z.string(),
+    /** ISO date of the next confirmed edition, e.g. "2027-10-02". Enables Event schema. */
+    startDate: z.string().optional(),
+    endDate: z.string().optional(),
+    organizer: z.string().optional(),
     summary: z.string(),
     website: z.url().optional(),
     sources: z.array(source).default([]),

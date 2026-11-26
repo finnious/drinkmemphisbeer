@@ -3,6 +3,8 @@ import Base from '../../layouts/Base.astro';
 import Sources from '../../components/Sources.astro';
 import { getCollection, render } from 'astro:content';
 import { formatDate } from '../../lib/data';
+import { IDS } from '../../lib/schema';
+import pageDates from '../../data/page-dates.json';
 
 export async function getStaticPaths() {
   const posts = await getCollection('news');
@@ -11,15 +13,22 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 const d = post.data;
+const postUrl = new URL(`/news/${post.id}/`, Astro.site).href;
 const jsonLd = {
-  '@context': 'https://schema.org',
   '@type': 'NewsArticle',
+  '@id': `${postUrl}#article`,
   headline: d.title,
+  description: d.description,
   datePublished: d.date.toISOString(),
-  author: { '@type': 'Person', name: 'Will Finney', url: 'https://x.com/willfinneymem' },
+  dateModified: (pageDates as Record<string, { modified: string }>)[`/news/${post.id}/`]?.modified ?? d.date.toISOString(),
+  author: { '@id': IDS.will },
+  publisher: { '@id': IDS.org },
+  image: new URL('/images/will/news-header-1200.jpg', Astro.site).href,
+  mainEntityOfPage: { '@id': `${postUrl}#webpage` },
+  isPartOf: { '@id': IDS.website },
 };
 ---
-<Base title={d.title} description={d.description} jsonLd={jsonLd}>
+<Base title={d.title} description={d.description} jsonLd={jsonLd} published={d.date} crumbs={[{ name: 'News', url: '/news/' }, { name: d.title, url: `/news/${post.id}/` }]}>
   <article class="max-w-3xl mx-auto px-4 py-10">
     <nav class="label"><a href="/news/">News</a></nav>
     <h1 class="text-6xl mt-2">{d.title}</h1>

@@ -10,7 +10,7 @@ const jsonLd = {
   itemListElement: items.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: new URL(p.url, 'https://www.drinkmemphisbeer.com').href, name: p.name })),
 };
 ---
-<Base title="Breweries Near FedExForum: Where to Drink Before a Grizzlies Game" description={`${items.length} Memphis brewery taprooms within walking distance of FedExForum, sorted by distance, with walking times.`} jsonLd={jsonLd}>
+<Base pageType="Article" title="Breweries Near FedExForum: Where to Drink Before a Grizzlies Game" description={`${items.length} Memphis brewery taprooms within walking distance of FedExForum, sorted by distance, with walking times.`} jsonLd={jsonLd}>
   <div class="max-w-4xl mx-auto px-4 py-10">
     <nav class="label"><a href="/guides/">Guides</a> / Near FedExForum</nav>
     <h1 class="text-6xl mt-2">Breweries near FedExForum</h1>

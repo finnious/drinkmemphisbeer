@@ -4,8 +4,9 @@
   "description": "",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview"
+    "build": "node scripts/page-dates.mjs && astro build",
+    "preview": "astro preview",
+    "dates": "node scripts/page-dates.mjs"
   },
   "keywords": [],
   "author": "",

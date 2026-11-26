@@ -4,6 +4,7 @@ import PourScore from '../../../components/PourScore.astro';
 import Sources from '../../../components/Sources.astro';
 import { getEntry, render } from 'astro:content';
 import { getBeers, beerSlug, beerUrl } from '../../../lib/data';
+import { IDS } from '../../../lib/schema';
 
 export async function getStaticPaths() {
   const beers = await getBeers();
@@ -16,14 +17,36 @@ const brewery = await getEntry(d.brewery);
 const { Content } = await render(beer);
 const others = (await getBeers()).filter((b) => b.id !== beer.id && b.data.brewery.id !== d.brewery.id).slice(0, 3);
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Product',
-  name: `${brewery?.data.name} ${d.name}`,
-  category: d.style,
-  brand: { '@type': 'Brand', name: brewery?.data.name },
-  description: d.description,
-};
+const beerPageUrl = new URL(beerUrl(beer), Astro.site).href;
+const breweryRef = { '@id': new URL(`/breweries/${d.brewery.id}/#brewery`, Astro.site).href };
+// Google's Product rich results need a review, rating or offer. Only Will's real
+// scores count, so unrated beers get a plain Thing instead of a Product.
+const jsonLd = d.pourScore !== undefined
+  ? {
+      '@type': 'Product',
+      '@id': `${beerPageUrl}#beer`,
+      name: `${brewery?.data.name} ${d.name}`,
+      description: d.description,
+      category: `Beer > ${d.style}`,
+      brand: { '@type': 'Brand', name: brewery?.data.name },
+      manufacturer: breweryRef,
+      ...(d.abv !== undefined ? { additionalProperty: [{ '@type': 'PropertyValue', name: 'ABV', value: d.abv, unitText: '%' }] } : {}),
+      review: {
+        '@type': 'Review',
+        author: { '@id': IDS.will },
+        publisher: { '@id': IDS.org },
+        reviewRating: { '@type': 'Rating', ratingValue: d.pourScore, bestRating: 5, worstRating: 0 },
+        ...(d.willsTake ? { reviewBody: d.willsTake } : {}),
+        name: `Pour Score: ${d.pourScore === 0 ? 'Tap Water' : `${d.pourScore} of 5 pints`}${d.tapWaterTest ? `, ${d.tapWaterTest === 'passes' ? 'passes' : 'fails'} the Tap Water Test` : ''}`,
+      },
+    }
+  : {
+      '@type': 'Thing',
+      '@id': `${beerPageUrl}#beer`,
+      name: `${brewery?.data.name} ${d.name}`,
+      description: d.description,
+      additionalType: 'https://schema.org/Product',
+    };
 const stats = [
   ['Style', d.style],
   ['ABV', d.abv !== undefined ? `${d.abv}%` : '—'],
@@ -31,7 +54,7 @@ const stats = [
   ['Availability', d.availability === 'unknown' ? '—' : d.availability],
 ];
 ---
-<Base title={`${d.name} by ${brewery?.data.name}`} description={d.description} jsonLd={jsonLd}>
+<Base title={`${d.name} by ${brewery?.data.name}`} description={d.description} jsonLd={jsonLd} crumbs={[{ name: 'Breweries', url: '/breweries/' }, { name: brewery?.data.name ?? d.brewery.id, url: `/breweries/${d.brewery.id}/` }, { name: d.name, url: beerUrl(beer) }]}>
   <article class="max-w-4xl mx-auto px-4 py-10">
     <nav class="label"><a href="/breweries/">Breweries</a> / <a href={`/breweries/${d.brewery.id}/`}>{brewery?.data.name}</a> / {d.name}</nav>
     <h1 class="text-7xl mt-2">{d.name}</h1>

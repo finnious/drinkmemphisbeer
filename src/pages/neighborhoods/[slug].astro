@@ -13,8 +13,13 @@ const { Content } = await render(hood);
 const breweries = (await getBreweries()).filter(
   (b) => b.data.neighborhood?.id === hood.id || b.data.alsoIn.some((n) => n.id === hood.id),
 );
+const hoodUrl = new URL(`/neighborhoods/${hood.id}/`, Astro.site).href;
+const jsonLd = [
+  { '@type': 'Place', '@id': `${hoodUrl}#place`, name: hood.data.name, description: hood.data.summary },
+  { '@type': 'ItemList', name: `Breweries in ${hood.data.name}`, itemListElement: breweries.map((b, i) => ({ '@type': 'ListItem', position: i + 1, url: new URL(`/breweries/${b.id}/`, Astro.site).href, name: b.data.name })) },
+];
 ---
-<Base title={`Breweries in ${hood.data.name}, Memphis`} description={hood.data.summary}>
+<Base title={`Breweries in ${hood.data.name}, Memphis`} description={hood.data.summary} pageType="CollectionPage" jsonLd={jsonLd} crumbs={[{ name: 'Neighborhoods', url: '/neighborhoods/' }, { name: hood.data.name, url: `/neighborhoods/${hood.id}/` }]}>
   <div class="max-w-6xl mx-auto px-4 py-10">
     <nav class="label"><a href="/neighborhoods/">Neighborhoods</a> / {hood.data.name}</nav>
     <h1 class="text-7xl mt-2">{hood.data.name}</h1>

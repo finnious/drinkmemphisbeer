@@ -4,7 +4,7 @@ import StatusBadge from '../components/StatusBadge.astro';
 import { getBreweries } from '../lib/data';
 const breweries = await getBreweries();
 ---
-<Base title="Memphis Brewery Status Board" description="Which Memphis breweries are open, closed, new or under new ownership, with the date each was last checked.">
+<Base pageType="CollectionPage" title="Memphis Brewery Status Board" description="Which Memphis breweries are open, closed, new or under new ownership, with the date each was last checked.">
   <div class="max-w-5xl mx-auto px-4 py-10">
     <h1 class="text-7xl">Status Board</h1>
     <p class="mt-3 max-w-2xl">Breweries open, close and change hands. This is every Memphis-area brewery we track, with the last time we checked. Hours change often, so check the brewery's own site before you go.</p>

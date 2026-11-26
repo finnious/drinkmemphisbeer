@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import StatusBadge from '../../components/StatusBadge.astro';
 import Sources from '../../components/Sources.astro';
 import { getCollection, render } from 'astro:content';
+import { postalAddress } from '../../lib/schema';
 
 export async function getStaticPaths() {
   const items = await getCollection('beyond');
@@ -13,16 +14,19 @@ const d = item.data;
 const { Content } = await render(item);
 const kindLabel = d.kind === 'distillery' ? 'Distilleries' : 'Wineries';
 const kindPath = d.kind === 'distillery' ? '/beyond-beer/distilleries/' : '/beyond-beer/wineries/';
+const itemUrl = new URL(`/beyond-beer/${item.id}/`, Astro.site).href;
 const jsonLd = {
-  '@context': 'https://schema.org',
   '@type': d.kind === 'winery' ? 'Winery' : 'Distillery',
+  '@id': `${itemUrl}#place`,
   name: d.name,
+  url: itemUrl,
   description: d.summary,
-  ...(d.locations[0] ? { address: d.locations[0].address } : {}),
+  ...(d.founded ? { foundingDate: String(d.founded) } : {}),
+  ...(d.locations[0] ? { address: postalAddress(d.locations[0].address) } : {}),
   ...(d.website ? { sameAs: [d.website] } : {}),
 };
 ---
-<Base title={`${d.name}${d.town ? ` (${d.town})` : ''}`} description={d.summary} jsonLd={jsonLd}>
+<Base title={`${d.name}${d.town ? ` (${d.town})` : ''}`} description={d.summary} jsonLd={jsonLd} crumbs={[{ name: 'Beyond Beer', url: '/beyond-beer/' }, { name: kindLabel, url: kindPath }, { name: d.name, url: `/beyond-beer/${item.id}/` }]}>
   <article class="max-w-4xl mx-auto px-4 py-10">
     <nav class="label"><a href="/beyond-beer/">Beyond Beer</a> / <a href={kindPath}>{kindLabel}</a> / {d.name}</nav>
     <h1 class="text-7xl mt-2">{d.name}</h1>

@@ -5,17 +5,38 @@ import '@fontsource/ibm-plex-mono/400.css';
 import '@fontsource/ibm-plex-mono/600.css';
 import '../styles/global.css';
 import Logo from '../components/Logo.astro';
+import pageDates from '../data/page-dates.json';
+import { buildGraph, type Crumb } from '../lib/schema';
 
 interface Props {
   title: string;
   description: string;
-  jsonLd?: object;
+  jsonLd?: object | object[];
   ogImage?: string; // path under /public, 1200x630 ideally
+  /** schema.org type for the page itself: WebPage, CollectionPage, AboutPage, ContactPage, Article... */
+  pageType?: string;
+  /** Breadcrumb trail, excluding Home. Defaults to one built from the URL. */
+  crumbs?: Crumb[];
+  /** Override the git-derived dates (e.g. a news post's own date). ISO strings or Dates. */
+  published?: string | Date;
+  modified?: string | Date;
+  /** Hide the visible "Published / Updated" line (the dates stay in the schema). */
+  hideDates?: boolean;
 }
-const { title, description, jsonLd, ogImage = '/images/will/og-default-1200.jpg' } = Astro.props;
+const { title, description, jsonLd, ogImage = '/images/will/og-default-1200.jpg', pageType = 'WebPage', crumbs, hideDates = false } = Astro.props;
 const ogImageUrl = new URL(ogImage, Astro.site).href;
 const fullTitle = title === 'Drink Memphis Beer' ? title : `${title} | Drink Memphis Beer`;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const known = (pageDates as Record<string, { published: string; modified: string }>)[Astro.url.pathname];
+const iso = (d?: string | Date) => (d ? new Date(d).toISOString() : undefined);
+const published = iso(Astro.props.published) ?? known?.published ?? new Date().toISOString();
+let modified = iso(Astro.props.modified) ?? known?.modified ?? published;
+if (modified < published) modified = published;
+const fmt = (d: string) => new Date(d).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'America/Chicago' });
+const graph = buildGraph({
+  site: Astro.site!, path: Astro.url.pathname, title, description, pageType, image: ogImageUrl,
+  published, modified, crumbs, extra: jsonLd,
+});
 const nav = [
   ['Breweries', '/breweries/'],
   ['Status Board', '/status/'],
@@ -53,7 +74,9 @@ const path = Astro.url.pathname;
     <meta name="twitter:site" content="@drinkmemphis" />
     <meta name="twitter:creator" content="@willfinneymem" />
     <link rel="alternate" type="application/rss+xml" title="Drink Memphis Beer news" href="/news/rss.xml" />
-    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+    <meta property="article:published_time" content={published} />
+    <meta property="article:modified_time" content={modified} />
+    <script type="application/ld+json" set:html={JSON.stringify(graph)} />
   </head>
   <body class="min-h-screen flex flex-col">
     <a href="#main" class="sr-only focus:not-sr-only">Skip to content</a>
@@ -72,6 +95,12 @@ const path = Astro.url.pathname;
 
     <main id="main" class="flex-1">
       <slot />
+      {!hideDates && (
+        <p class="page-dates max-w-6xl mx-auto px-4 mt-10 font-mono text-xs uppercase tracking-wider text-barrel">
+          Published <time datetime={published}>{fmt(published)}</time>
+          {" · "}Last updated <time datetime={modified}>{fmt(modified)}</time>
+        </p>
+      )}
     </main>
 
     <footer class="bg-mud text-foam mt-16">

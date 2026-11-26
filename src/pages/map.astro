@@ -12,7 +12,7 @@ const byTown = pins.reduce<Record<string, typeof pins>>((acc, p) => {
 }, {});
 const towns = Object.keys(byTown).sort((a, b) => (a === 'Memphis' ? -1 : b === 'Memphis' ? 1 : a.localeCompare(b)));
 ---
-<Base title="Memphis Brewery Map" description={`Map of every Memphis-area brewery taproom: ${pins.length} locations in Memphis, Cordova, Germantown, Collierville and Olive Branch.`}>
+<Base pageType="CollectionPage" title="Memphis Brewery Map" description={`Map of every Memphis-area brewery taproom: ${pins.length} locations in Memphis, Cordova, Germantown, Collierville and Olive Branch.`}>
   <div class="max-w-6xl mx-auto px-4 py-10">
     <h1 class="text-7xl">Brewery Map</h1>
     <p class="mt-3 text-xl max-w-2xl">Every Memphis-area brewery you can walk into, on one map. Green is open. Tap a pin for the address and the full listing.</p>
