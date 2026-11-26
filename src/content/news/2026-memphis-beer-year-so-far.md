@@ -25,6 +25,6 @@ It's been a rough year for craft beer nationally, and Memphis has felt it. Here'
 
 **Wiseacre got bigger.** It bought Nashville's Bearded Iris in mid-2025, and Bearded Iris's Homestyle IPA is now brewed in Memphis.
 
-**The good news:** Crosstown, Ghost River, Hampline, Meddlesome, Soul & Spirits, Wiseacre and Flyway are all pouring. The [Status Board](/status/) shows every brewery, open or closed, with the date we last checked.
+**The good news:** Cooper House Project, Crosstown, Flyway, Ghost River, Hampline, Maroon Brew, Meddlesome, Memphis Filling Station, Soul & Spirits and Wiseacre are all pouring. The [Status Board](/status/) shows every brewery, open or closed, with the date we last checked.
 
 Know something we missed? [Send a tip.](/contact/)
