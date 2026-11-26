@@ -1,11 +1,11 @@
 {
  "/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T16:54:18.321Z"
+  "modified": "2026-11-26T10:54:24-06:00"
  },
  "/about/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T16:54:18.321Z"
+  "modified": "2026-11-26T18:53:27.407Z"
  },
  "/advertise/": {
   "published": "2026-11-25T21:09:31-06:00",
@@ -13,7 +13,7 @@
  },
  "/beyond-beer/": {
   "published": "2026-11-25T23:13:20-06:00",
-  "modified": "2026-11-26T16:54:18.321Z"
+  "modified": "2026-11-26T10:54:24-06:00"
  },
  "/beyond-beer/797-distillery/": {
   "published": "2026-11-25T23:13:20-06:00",
@@ -33,7 +33,7 @@
  },
  "/beyond-beer/distilleries/": {
   "published": "2026-11-25T23:13:20-06:00",
-  "modified": "2026-11-26T16:54:18.321Z"
+  "modified": "2026-11-26T10:54:24-06:00"
  },
  "/beyond-beer/old-dominick/": {
   "published": "2026-11-25T23:13:20-06:00",
@@ -45,11 +45,11 @@
  },
  "/beyond-beer/wineries/": {
   "published": "2026-11-25T23:13:20-06:00",
-  "modified": "2026-11-26T16:54:18.321Z"
+  "modified": "2026-11-26T10:54:24-06:00"
  },
  "/breweries/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T16:54:18.321Z"
+  "modified": "2026-11-26T18:53:27.407Z"
  },
  "/breweries/beale-street-brewing/": {
   "published": "2026-11-25T21:09:31-06:00",
@@ -549,15 +549,15 @@
  },
  "/contact/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T16:54:18.321Z"
+  "modified": "2026-11-26T18:53:27.407Z"
  },
  "/disclosure/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-25T23:47:31-06:00"
+  "modified": "2026-11-26T18:53:27.407Z"
  },
  "/festivals/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T16:54:18.321Z"
+  "modified": "2026-11-26T10:54:24-06:00"
  },
  "/festivals/art-on-tap/": {
   "published": "2026-11-25T21:09:31-06:00",
@@ -573,43 +573,43 @@
  },
  "/guides/": {
   "published": "2026-11-26T00:02:55-06:00",
-  "modified": "2026-11-26T16:54:18.321Z"
+  "modified": "2026-11-26T18:53:27.407Z"
  },
  "/guides/beer-styles/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T16:54:18.321Z"
+  "modified": "2026-11-26T18:53:27.407Z"
  },
  "/guides/breweries-near-beale-street/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T16:54:18.321Z"
+  "modified": "2026-11-26T10:54:24-06:00"
  },
  "/guides/breweries-near-fedexforum/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T16:54:18.321Z"
+  "modified": "2026-11-26T18:53:27.407Z"
  },
  "/guides/downtown-brewery-crawl/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T16:54:18.321Z"
+  "modified": "2026-11-26T10:54:24-06:00"
  },
  "/guides/where-to-buy-memphis-beer/": {
   "published": "2026-11-26T10:37:09-06:00",
-  "modified": "2026-11-26T16:54:18.321Z"
+  "modified": "2026-11-26T10:54:24-06:00"
  },
  "/history/": {
   "published": "2026-11-26T10:37:09-06:00",
-  "modified": "2026-11-26T16:54:18.321Z"
+  "modified": "2026-11-26T18:53:27.407Z"
  },
  "/map/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T16:54:18.321Z"
+  "modified": "2026-11-26T10:54:24-06:00"
  },
  "/merch/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-25T21:09:31-06:00"
+  "modified": "2026-11-26T18:53:27.407Z"
  },
  "/neighborhoods/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T16:54:18.321Z"
+  "modified": "2026-11-26T10:54:24-06:00"
  },
  "/neighborhoods/broad-avenue/": {
   "published": "2026-11-25T21:09:31-06:00",
@@ -665,7 +665,7 @@
  },
  "/news/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T16:54:18.321Z"
+  "modified": "2026-11-26T18:53:27.407Z"
  },
  "/news/2026-memphis-beer-year-so-far/": {
   "published": "2026-11-25T21:09:31-06:00",
@@ -673,14 +673,14 @@
  },
  "/spotted/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T00:02:55-06:00"
+  "modified": "2026-11-26T18:53:27.407Z"
  },
  "/status/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T16:54:18.321Z"
+  "modified": "2026-11-26T18:53:27.407Z"
  },
  "/water/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T16:54:18.321Z"
+  "modified": "2026-11-26T18:53:27.407Z"
  }
 }

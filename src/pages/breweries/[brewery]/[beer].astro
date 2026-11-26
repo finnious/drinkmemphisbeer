@@ -2,9 +2,12 @@
 import Base from '../../../layouts/Base.astro';
 import PourScore from '../../../components/PourScore.astro';
 import Sources from '../../../components/Sources.astro';
-import { getEntry, render } from 'astro:content';
+import { getEntry, getCollection, render } from 'astro:content';
 import { getBeers, beerSlug, beerUrl } from '../../../lib/data';
 import { IDS } from '../../../lib/schema';
+import { familyFor, shortBrewery } from '../../../lib/styles';
+import { LANDMARKS, miles } from '../../../lib/geo';
+import noindexList from '../../../data/noindex.json';
 
 export async function getStaticPaths() {
   const beers = await getBeers();
@@ -15,7 +18,31 @@ const { beer } = Astro.props;
 const d = beer.data;
 const brewery = await getEntry(d.brewery);
 const { Content } = await render(beer);
-const others = (await getBeers()).filter((b) => b.id !== beer.id && b.data.brewery.id !== d.brewery.id).slice(0, 3);
+const allBeers = await getBeers();
+const family = familyFor(d.style);
+const breweryName = brewery?.data.name ?? d.brewery.id;
+const short = shortBrewery(breweryName);
+const sameBrewery = allBeers.filter((b) => b.id !== beer.id && b.data.brewery.id === d.brewery.id);
+// Similar: same style family at other breweries, scored ones first, then closest ABV.
+const similar = allBeers
+  .filter((b) => b.data.brewery.id !== d.brewery.id && familyFor(b.data.style)?.key === family?.key)
+  .sort((a, b) =>
+    (b.data.pourScore !== undefined ? 1 : 0) - (a.data.pourScore !== undefined ? 1 : 0) ||
+    Math.abs((a.data.abv ?? 5) - (d.abv ?? 5)) - Math.abs((b.data.abv ?? 5) - (d.abv ?? 5)))
+  .slice(0, 4);
+const breweryNames = Object.fromEntries((await getCollection('breweries')).map((b) => [b.id, b.data.name]));
+const abvs = sameBrewery.map((b) => b.data.abv).filter((x): x is number => x !== undefined);
+const avgAbv = abvs.length ? abvs.reduce((a, b) => a + b, 0) / abvs.length : undefined;
+const locs = (brewery?.data.locations ?? []).filter((l) => brewery?.data.status === 'open');
+const nearDowntown = locs.some((l) => l.lat != null && l.lng != null && miles(LANDMARKS.fedexforum, { lat: l.lat, lng: l.lng }) < 1.25);
+const noindex = (noindexList as string[]).includes(beerUrl(beer));
+const town = brewery?.data.town ?? 'Memphis';
+const availabilityText: Record<string, string> = { 'year-round': 'year-round', seasonal: 'seasonal', limited: 'limited release', unknown: '' };
+// Meta description: lead with the facts people search for, then the blurb, inside ~155 chars.
+const facts = [d.abv !== undefined ? `${d.abv}%` : '', d.style.toLowerCase()].filter(Boolean).join(' ');
+let metaDesc = `${d.name} is a ${facts} from ${breweryName} in ${town}. ${d.description}`;
+if (metaDesc.length < 120) metaDesc += ` Style, ABV, where to drink it${d.pourScore !== undefined ? " and Will's Pour Score" : ''}.`;
+if (metaDesc.length > 158) metaDesc = metaDesc.slice(0, 155).replace(/\s+\S*$/, '') + '…';
 
 const beerPageUrl = new URL(beerUrl(beer), Astro.site).href;
 const breweryRef = { '@id': new URL(`/breweries/${d.brewery.id}/#brewery`, Astro.site).href };
@@ -54,7 +81,7 @@ const stats = [
   ['Availability', d.availability === 'unknown' ? '—' : d.availability],
 ];
 ---
-<Base title={`${d.name} by ${brewery?.data.name}`} description={d.description} jsonLd={jsonLd} crumbs={[{ name: 'Breweries', url: '/breweries/' }, { name: brewery?.data.name ?? d.brewery.id, url: `/breweries/${d.brewery.id}/` }, { name: d.name, url: beerUrl(beer) }]}>
+<Base title={`${d.name} by ${short}`} description={metaDesc} noindex={noindex} jsonLd={jsonLd} crumbs={[{ name: 'Breweries', url: '/breweries/' }, { name: brewery?.data.name ?? d.brewery.id, url: `/breweries/${d.brewery.id}/` }, { name: d.name, url: beerUrl(beer) }]}>
   <article class="max-w-4xl mx-auto px-4 py-10">
     <nav class="label"><a href="/breweries/">Breweries</a> / <a href={`/breweries/${d.brewery.id}/`}>{brewery?.data.name}</a> / {d.name}</nav>
     <h1 class="text-7xl mt-2">{d.name}</h1>
@@ -77,11 +104,62 @@ const stats = [
 
     <div class="prose-dmb mt-8"><Content /></div>
 
-    {others.length > 0 && (
+    <section class="mt-10">
+      <h2 class="text-3xl">The Tap Water Test</h2>
+      {d.tapWaterTest ? (
+        <p class="mt-2">{d.tapWaterTest === 'passes'
+          ? `Passes. Will would rather have a ${d.name} than a glass of Memphis tap water, and that's not a low bar. Memphis water comes out of the Memphis Sand Aquifer, some of the best drinking water in the country.`
+          : `Fails. Given the choice, Will would take a glass of Memphis tap water over a ${d.name}. Nothing personal. The water's just that good.`}
+          {' '}<a href="/water/">Why the water matters.</a></p>
+      ) : (
+        <p class="mt-2">Will hasn't put {d.name} up against a glass of Memphis tap water yet. Every beer on this site eventually gets one question: is it better than the water? {family && <>For {family.name.toLowerCase()} as a group, our outlook: {family.tapWater.charAt(0).toLowerCase() + family.tapWater.slice(1)}</>} <a href="/water/">Why the water matters.</a></p>
+      )}
+    </section>
+
+    {family && (
+      <section class="mt-8">
+        <h2 class="text-3xl">About the style</h2>
+        <p class="mt-2"><strong>{d.style}</strong> falls under {family.name.toLowerCase()}. {family.blurb} <a href={`/guides/beer-styles/#${family.key}`}>More on the style, with every Memphis example.</a></p>
+        {d.abv !== undefined && avgAbv !== undefined && (
+          <p class="mt-2">At {d.abv}%, it's {Math.abs(d.abv - avgAbv) < 0.3 ? 'right around' : d.abv > avgAbv ? 'stronger than' : 'lighter than'} the {avgAbv.toFixed(1)}% average of the other {abvs.length} {short} beers on this site.</p>
+        )}
+      </section>
+    )}
+
+    <section class="mt-8">
+      <h2 class="text-3xl">Where to drink it</h2>
+      {locs.length > 0 ? (
+        <>
+          <p class="mt-2">The surest place to find {d.name}{availabilityText[d.availability] ? ` (${availabilityText[d.availability]})` : ''} is at {breweryName}:</p>
+          <ul class="mt-2 list-disc pl-6">
+            {locs.map((l) => <li>{l.label}: {l.address}</li>)}
+          </ul>
+          <p class="mt-2">Tap lists change, so check <a href={`/breweries/${d.brewery.id}/`}>{short}'s page</a> or the brewery's own site before you go.{nearDowntown && <> It's walkable from FedExForum and Beale Street; see the <a href="/guides/downtown-brewery-crawl/">Downtown brewery crawl</a>.</>} For bottle shops and beer bars, see <a href="/guides/where-to-buy-memphis-beer/">where to buy Memphis beer</a>.</p>
+        </>
+      ) : (
+        <p class="mt-2">{breweryName} doesn't have a taproom you can visit right now. Look for {d.name} at <a href="/guides/where-to-buy-memphis-beer/">Memphis beer bars and bottle shops</a>, and check the <a href={`/breweries/${d.brewery.id}/`}>{short} page</a> for the latest.</p>
+      )}
+    </section>
+
+    {similar.length > 0 && (
       <section class="mt-10">
-        <h2 class="text-3xl">More Memphis beers to try</h2>
-        <ul class="mt-3 flex flex-wrap gap-3">
-          {others.map((b) => <li><a class="card inline-block py-2 no-underline" href={beerUrl(b)}>{b.data.name}</a></li>)}
+        <h2 class="text-3xl">If you like {d.name}, try</h2>
+        <ul class="mt-3 grid gap-3 sm:grid-cols-2">
+          {similar.map((b) => (
+            <li class="card py-2">
+              <a href={beerUrl(b)} class="font-semibold">{b.data.name}</a>
+              <div class="text-sm">{shortBrewery(breweryNames[b.data.brewery.id] ?? '')} · {b.data.style}{b.data.abv !== undefined && ` · ${b.data.abv}%`}{b.data.pourScore !== undefined && ` · Pour Score ${b.data.pourScore === 0 ? 'Tap Water' : b.data.pourScore}`}</div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {sameBrewery.length > 0 && (
+      <section class="mt-8">
+        <h2 class="text-3xl">More from {short}</h2>
+        <ul class="mt-3 flex flex-wrap gap-2">
+          {sameBrewery.slice(0, 8).map((b) => <li><a class="card inline-block py-1 no-underline text-sm" href={beerUrl(b)}>{b.data.name}</a></li>)}
         </ul>
       </section>
     )}

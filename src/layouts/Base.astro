@@ -20,12 +20,15 @@ interface Props {
   /** Override the git-derived dates (e.g. a news post's own date). ISO strings or Dates. */
   published?: string | Date;
   modified?: string | Date;
+  /** Keep this page out of search results (thin pages). */
+  noindex?: boolean;
   /** Hide the visible "Published / Updated" line (the dates stay in the schema). */
   hideDates?: boolean;
 }
-const { title, description, jsonLd, ogImage = '/images/will/og-default-1200.jpg', pageType = 'WebPage', crumbs, hideDates = false } = Astro.props;
+const { title, description, jsonLd, ogImage = '/images/will/og-default-1200.jpg', pageType = 'WebPage', crumbs, hideDates = false, noindex = false } = Astro.props;
 const ogImageUrl = new URL(ogImage, Astro.site).href;
-const fullTitle = title === 'Drink Memphis Beer' ? title : `${title} | Drink Memphis Beer`;
+// Keep titles inside Google's ~60-character display: add the site name only when it fits.
+const fullTitle = title === 'Drink Memphis Beer' || `${title} | Drink Memphis Beer`.length > 60 ? title : `${title} | Drink Memphis Beer`;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const known = (pageDates as Record<string, { published: string; modified: string }>)[Astro.url.pathname];
 const iso = (d?: string | Date) => (d ? new Date(d).toISOString() : undefined);
@@ -61,6 +64,7 @@ const path = Astro.url.pathname;
     <meta name="description" content={description} />
     <meta name="google-site-verification" content="Yz01C9ddPUta7vEix_TuNraBwCvGZgz1-Jd4Y_mGmmY" />
     <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Drink Memphis Beer" />

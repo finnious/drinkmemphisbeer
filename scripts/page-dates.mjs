@@ -113,4 +113,21 @@ for (const [url, files] of Object.entries(map).sort()) {
 }
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, JSON.stringify(result, null, 1) + '\n');
+// Thin-page rule: an unscored beer whose own write-up is under 30 words stays out of
+// search (noindex + not in the sitemap) until Will scores it or the page gets more text.
+const noindex = [];
+for (const f of beers) {
+  const raw = fs.readFileSync(path.join(ROOT, f), 'utf8');
+  const parts = raw.split(/^---$/m);
+  const fm = parts[1] ?? '';
+  const body = parts.slice(2).join('---');
+  const words = body.split(/\s+/).filter(Boolean).length;
+  const scored = /^pourScore:\s*\d/m.test(fm);
+  if (!scored && words < 30) {
+    const [br, slug] = f.replace('src/content/beers/', '').replace('.md', '').split('/');
+    noindex.push(`/breweries/${br}/${slug}/`);
+  }
+}
+fs.writeFileSync(path.join(ROOT, 'src/data/noindex.json'), JSON.stringify(noindex.sort(), null, 1) + '\n');
+console.log(`noindex: ${noindex.length} thin beer pages`);
 console.log(`page-dates: ${Object.keys(result).length} URLs (${git ? 'from git' : 'kept committed dates'})`);

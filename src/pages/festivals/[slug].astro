@@ -29,7 +29,7 @@ const jsonLd = d.startDate
     }
   : { '@type': 'Thing', '@id': `${festUrl}#festival`, name: d.name, description: d.summary, additionalType: 'https://schema.org/Festival' };
 ---
-<Base title={`${d.name} (Memphis)`} description={d.summary} jsonLd={jsonLd} crumbs={[{ name: 'Festivals', url: '/festivals/' }, { name: d.name, url: `/festivals/${fest.id}/` }]}>
+<Base title={`${d.name}, Memphis`} description={(() => { let m = `${d.name}: ${d.when.toLowerCase()} at ${d.where}. ${d.summary}`; if (m.length < 120) m += ' Which Memphis breweries pour, tickets and tips.'; return m.length > 158 ? m.slice(0, 155).replace(/\s+\S*$/, '') + '…' : m; })()} jsonLd={jsonLd} crumbs={[{ name: 'Festivals', url: '/festivals/' }, { name: d.name, url: `/festivals/${fest.id}/` }]}>
   <article class="max-w-3xl mx-auto px-4 py-10">
     <nav class="label"><a href="/festivals/">Festivals</a> / {d.name}</nav>
     <h1 class="text-7xl mt-2">{d.name}</h1>

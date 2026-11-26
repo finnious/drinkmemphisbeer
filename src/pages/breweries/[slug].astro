@@ -5,6 +5,8 @@ import Sources from '../../components/Sources.astro';
 import { getCollection, getEntry, render } from 'astro:content';
 import { getBreweries, getBeers, beerUrl } from '../../lib/data';
 import { postalAddress } from '../../lib/schema';
+import { shortBrewery, familyFor } from '../../lib/styles';
+import { getPins, miles, walkMinutes } from '../../lib/geo';
 
 export async function getStaticPaths() {
   const breweries = await getBreweries();
@@ -18,6 +20,25 @@ const beers = (await getBeers()).filter((b) => b.data.brewery.id === brewery.id)
 const hood = d.neighborhood ? await getEntry(d.neighborhood) : undefined;
 const successor = d.successor ? (await getCollection('breweries')).find((b) => b.id === d.successor) : undefined;
 
+const short = shortBrewery(d.name);
+const town = d.town ?? 'Memphis';
+const scored = beers.filter((b) => b.data.pourScore !== undefined);
+const abvList = beers.map((b) => b.data.abv).filter((x): x is number => x !== undefined);
+const families = [...new Set(beers.map((b) => familyFor(b.data.style)?.name).filter(Boolean))] as string[];
+const pins = await getPins();
+const mine = pins.filter((p) => p.slug === brewery.id);
+const nearby = mine.length
+  ? pins
+      .filter((p) => p.slug !== brewery.id && p.status === 'open')
+      .map((p) => ({ ...p, mi: Math.min(...mine.map((m) => miles(m, p))) }))
+      .sort((a, b) => a.mi - b.mi)
+      .filter((p, i, arr) => arr.findIndex((x) => x.slug === p.slug) === i)
+      .slice(0, 3)
+  : [];
+const statusWord: Record<string, string> = { open: 'open', closed: 'closed', 'changed-hands': 'under new ownership', 'no-taproom': 'brewing without a taproom', unverified: 'unconfirmed' };
+let metaDesc = `${d.name} in ${town} (${statusWord[d.status]}): ${d.summary}`;
+if (metaDesc.length < 120) metaDesc += ` Address, ${beers.length || 'its'} beers, and what's worth ordering.`;
+if (metaDesc.length > 158) metaDesc = metaDesc.slice(0, 155).replace(/\s+\S*$/, '') + '…';
 const breweryUrl = new URL(`/breweries/${brewery.id}/`, Astro.site).href;
 const placeFor = (loc: (typeof d.locations)[number]) => ({
   address: postalAddress(loc.address),
@@ -37,7 +58,7 @@ const jsonLd = {
   ...(d.website ? { sameAs: [d.website] } : {}),
 };
 ---
-<Base title={`${d.name}: Memphis brewery guide`} description={d.summary} jsonLd={jsonLd} crumbs={[{ name: 'Breweries', url: '/breweries/' }, { name: d.name, url: `/breweries/${brewery.id}/` }]}>
+<Base title={`${short}: ${town === 'Memphis' ? 'Memphis' : town.replace(/, (TN|MS)$/, '')} Brewery Guide`} description={metaDesc} jsonLd={jsonLd} crumbs={[{ name: 'Breweries', url: '/breweries/' }, { name: d.name, url: `/breweries/${brewery.id}/` }]}>
   <article class="max-w-4xl mx-auto px-4 py-10">
     <nav class="label"><a href="/breweries/">Breweries</a> / {d.name}</nav>
     <h1 class="text-7xl mt-2">{d.name}</h1>
@@ -66,6 +87,20 @@ const jsonLd = {
     <div class="prose-dmb mt-8"><Content /></div>
 
     {beers.length > 0 && (
+      <section class="mt-10 card">
+        <h2 class="text-3xl">{short} at a glance</h2>
+        <ul class="mt-2 space-y-1">
+          <li><strong>{beers.length}</strong> {beers.length === 1 ? 'beer' : 'beers'} on this site{families.length > 0 && <>, across {families.length} style {families.length === 1 ? 'family' : 'families'}: {families.map((f) => f.toLowerCase()).join('; ')}</>}.</li>
+          {abvList.length > 1 && <li>ABV runs from <strong>{Math.min(...abvList)}%</strong> to <strong>{Math.max(...abvList)}%</strong>.</li>}
+          <li>{scored.length > 0
+            ? <>Will has scored <strong>{scored.length}</strong> of them; <strong>{scored.filter((b) => b.data.tapWaterTest === 'passes').length}</strong> pass the <a href="/water/">Tap Water Test</a>.</>
+            : <>Will hasn't scored any {short} beers yet. They're on the list.</>}</li>
+          <li>Status: {statusWord[d.status]}{d.verified && <>, last checked {d.verified}</>}. See the <a href="/status/">Status Board</a> for every brewery.</li>
+        </ul>
+      </section>
+    )}
+
+    {beers.length > 0 && (
       <section class="mt-10">
         <h2 class="text-4xl">Beers</h2>
         <ul class="mt-4 grid gap-3 sm:grid-cols-2">
@@ -76,6 +111,22 @@ const jsonLd = {
             </li>
           ))}
         </ul>
+      </section>
+    )}
+
+    {nearby.length > 0 && (
+      <section class="mt-10">
+        <h2 class="text-3xl">Nearby breweries</h2>
+        <p class="mt-1 text-sm text-barrel">Straight-line distance from {short}{mine.length > 1 ? "'s closest location" : ''}.</p>
+        <ul class="mt-3 grid gap-3 sm:grid-cols-3">
+          {nearby.map((p) => (
+            <li class="card py-2">
+              <a href={p.url} class="font-semibold">{p.name}</a>
+              <div class="text-sm">{p.mi.toFixed(1)} mi{p.mi < 1.5 ? ` · about ${walkMinutes(p.mi)} min walk` : ''}</div>
+            </li>
+          ))}
+        </ul>
+        <p class="mt-3 text-sm">See them all on the <a href="/map/">brewery map</a>.</p>
       </section>
     )}
 
