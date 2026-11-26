@@ -55,6 +55,7 @@ const jsonLd = d.pourScore !== undefined
       name: `${brewery?.data.name} ${d.name}`,
       description: d.description,
       category: `Beer > ${d.style}`,
+      image: new URL(`/og${beerUrl(beer).replace(/\/$/, '')}.jpg`, Astro.site).href,
       brand: { '@type': 'Brand', name: brewery?.data.name },
       manufacturer: breweryRef,
       ...(d.abv !== undefined ? { additionalProperty: [{ '@type': 'PropertyValue', name: 'ABV', value: d.abv, unitText: '%' }] } : {}),

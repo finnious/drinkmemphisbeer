@@ -62,3 +62,15 @@ Will's take, Page (URL), Notes for Claude.
   Article/...) with datePublished/dateModified, and a BreadcrumbList, plus page entities.
 - Beers only get `Product` markup once Will has scored them (Google requires a review).
 - Festivals only get `Festival` (Event) markup once `startDate` is set in their front matter.
+
+## Share cards
+
+`python3 scripts/og-cards.py` (needs `pip install pillow pyyaml` and `npm install` for the fonts)
+writes a 1200x630 card for every brewery, beer, neighborhood, festival, Beyond Beer listing,
+news post and main page into `public/og/`. It only redraws cards whose data changed. Run it after
+adding or editing content and commit `public/og/`. Pages without a card fall back to the default image.
+
+## Thin pages
+
+Unscored beers with under 30 words of write-up are `noindex` and left out of the sitemap
+(see `scripts/page-dates.mjs`). Scoring a beer or writing more about it lifts that automatically.

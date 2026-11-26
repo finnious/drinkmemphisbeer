@@ -6,6 +6,8 @@ import '@fontsource/ibm-plex-mono/600.css';
 import '../styles/global.css';
 import Logo from '../components/Logo.astro';
 import pageDates from '../data/page-dates.json';
+import fs from 'node:fs';
+import nodePath from 'node:path';
 import { buildGraph, type Crumb } from '../lib/schema';
 
 interface Props {
@@ -25,7 +27,11 @@ interface Props {
   /** Hide the visible "Published / Updated" line (the dates stay in the schema). */
   hideDates?: boolean;
 }
-const { title, description, jsonLd, ogImage = '/images/will/og-default-1200.jpg', pageType = 'WebPage', crumbs, hideDates = false, noindex = false } = Astro.props;
+const { title, description, jsonLd, ogImage: ogImageProp, pageType = 'WebPage', crumbs, hideDates = false, noindex = false } = Astro.props;
+// Per-page share card from scripts/og-cards.py when it exists; otherwise the page's own or the default image.
+const cardPath = `/og${Astro.url.pathname === '/' ? '/home' : Astro.url.pathname.replace(/\/$/, '')}.jpg`;
+const hasCard = fs.existsSync(nodePath.join(process.cwd(), 'public', cardPath));
+const ogImage = hasCard ? cardPath : ogImageProp ?? '/images/will/og-default-1200.jpg';
 const ogImageUrl = new URL(ogImage, Astro.site).href;
 // Keep titles inside Google's ~60-character display: add the site name only when it fits.
 const fullTitle = title === 'Drink Memphis Beer' || `${title} | Drink Memphis Beer`.length > 60 ? title : `${title} | Drink Memphis Beer`;
@@ -72,7 +78,9 @@ const path = Astro.url.pathname;
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImageUrl} />
-    <meta property="og:image:alt" content="Drink Memphis Beer: Will Finney, arms crossed, on a gold sunburst" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={hasCard ? `${title}: Drink Memphis Beer card with Will Finney` : 'Drink Memphis Beer: Will Finney, arms crossed, on a gold sunburst'} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={ogImageUrl} />
     <meta name="twitter:site" content="@drinkmemphis" />

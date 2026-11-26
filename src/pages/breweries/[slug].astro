@@ -49,6 +49,7 @@ const jsonLd = {
   '@id': `${breweryUrl}#brewery`,
   name: d.name,
   url: breweryUrl,
+  image: new URL(`/og/breweries/${brewery.id}.jpg`, Astro.site).href,
   description: d.summary,
   ...(d.founded ? { foundingDate: String(d.founded) } : {}),
   ...(d.locations[0] ? placeFor(d.locations[0]) : {}),
