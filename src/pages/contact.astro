@@ -1,0 +1,12 @@
+---
+import Base from '../layouts/Base.astro';
+import { CONTACT_EMAIL } from '../lib/data';
+---
+<Base title="Contact" description="Send Drink Memphis Beer a tip, a correction, a sighting or a sponsorship question.">
+  <div class="max-w-3xl mx-auto px-4 py-10">
+    <h1 class="text-7xl">Contact</h1>
+    <p class="mt-3">Tips, corrections, new openings, closings, Memphis beer spotted out of town: send them all.</p>
+    <p class="mt-4 text-2xl"><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></p>
+    <p class="mt-4">On X: <a href="https://x.com/willfinneymem">@willfinneymem</a></p>
+  </div>
+</Base>

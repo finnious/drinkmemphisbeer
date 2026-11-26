@@ -1,0 +1,63 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-mud: #3b2416;
+  --color-gold: #f2b632;
+  --color-aquifer: #1f4e79;
+  --color-brick: #b23a2e;
+  --color-foam: #fbf6ec;
+  --color-stout: #1c1714;
+  --color-barrel: #8a7f74;
+  --color-open: #2f6b3a;
+
+  --font-display: 'Bebas Neue', 'Impact', sans-serif;
+  --font-serif: 'Source Serif 4 Variable', 'Source Serif 4', Georgia, serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    background: var(--color-foam);
+    color: var(--color-stout);
+    font-family: var(--font-serif);
+    font-size: 18px;
+    line-height: 1.6;
+  }
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    color: var(--color-mud);
+    letter-spacing: 0.02em;
+    line-height: 1.05;
+  }
+  a {
+    color: var(--color-aquifer);
+    text-underline-offset: 3px;
+  }
+  a:hover {
+    color: var(--color-brick);
+  }
+}
+
+@layer components {
+  .prose-dmb p { margin: 0 0 1rem; }
+  .prose-dmb h2 { font-size: 2rem; margin: 2rem 0 0.75rem; }
+  .prose-dmb h3 { font-size: 1.5rem; margin: 1.5rem 0 0.5rem; }
+  .prose-dmb ul { list-style: disc; padding-left: 1.25rem; margin: 0 0 1rem; }
+  .prose-dmb ol { list-style: decimal; padding-left: 1.25rem; margin: 0 0 1rem; }
+  .prose-dmb li { margin: 0.25rem 0; }
+  .prose-dmb a { text-decoration: underline; }
+  .prose-dmb strong { color: var(--color-mud); }
+  .card {
+    background: #fff;
+    border: 1px solid #e8dfcf;
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+  }
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-barrel);
+  }
+}

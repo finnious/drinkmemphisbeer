@@ -1,0 +1,16 @@
+---
+interface Props { status: string; verified?: string }
+const { status, verified } = Astro.props;
+const map: Record<string, [string, string]> = {
+  open: ['Open', 'bg-open text-white'],
+  closed: ['Closed', 'bg-brick text-white'],
+  'changed-hands': ['Changed hands', 'bg-gold text-mud'],
+  'no-taproom': ['No taproom', 'bg-aquifer text-white'],
+  unverified: ['Status unconfirmed', 'bg-barrel text-white'],
+};
+const [label, cls] = map[status] ?? [status, 'bg-barrel text-white'];
+---
+<span class="inline-flex items-center gap-2">
+  <span class={`font-mono text-xs uppercase tracking-wider px-2 py-1 rounded ${cls}`}>{label}</span>
+  {verified && <span class="label">Checked {verified}</span>}
+</span>

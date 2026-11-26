@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import { CONTACT_EMAIL } from '../lib/data';
+---
+<Base title="Advertise" description="Reach Memphis beer drinkers and visitors: section sponsorships, featured listings and newsletter sponsorships.">
+  <div class="max-w-3xl mx-auto px-4 py-10">
+    <h1 class="text-7xl">Advertise</h1>
+    <p class="mt-3">Drink Memphis Beer reaches locals deciding where to drink this weekend and visitors planning a Memphis trip.</p>
+    <ul class="mt-6 space-y-3">
+      <li class="card"><strong>Section sponsorship:</strong> "Crawl guides presented by…" for a bar, hotel, ride service or bottle shop.</li>
+      <li class="card"><strong>Featured listing:</strong> your bar or store highlighted on its neighborhood page, clearly labeled.</li>
+      <li class="card"><strong>Newsletter sponsorship:</strong> the top slot in the weekly Memphis beer roundup.</li>
+    </ul>
+    <p class="mt-6">Sponsored content is always labeled, and sponsors never affect a Pour Score. Get in touch: <a href={`mailto:${CONTACT_EMAIL}?subject=Advertising`}>{CONTACT_EMAIL}</a>.</p>
+  </div>
+</Base>

@@ -1,0 +1,10 @@
+---
+// Pint glass whose foam line is a wave: the river and the water.
+interface Props { size?: number; class?: string }
+const { size = 40, class: cls = '' } = Astro.props;
+---
+<svg class={cls} width={size} height={size} viewBox="0 0 48 48" aria-hidden="true">
+  <path d="M10 8h28l-3.2 32.5A3 3 0 0 1 31.8 43H16.2a3 3 0 0 1-3-2.5L10 8Z" fill="#F2B632" stroke="#3B2416" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M10.6 14c3.2-3 6.4 3 9.6 0s6.4 3 9.6 0 5.6 2.4 7.6.6L38 8H10l.6 6Z" fill="#FBF6EC" stroke="#3B2416" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M17 22v14" stroke="#FBF6EC" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>
+</svg>

@@ -1,0 +1,25 @@
+---
+import Base from '../../layouts/Base.astro';
+import BreweryCard from '../../components/BreweryCard.astro';
+import { getBreweries } from '../../lib/data';
+const breweries = await getBreweries();
+const groups = [
+  ['Open', breweries.filter((b) => b.data.status === 'open')],
+  ['Confirming status', breweries.filter((b) => ['unverified', 'no-taproom'].includes(b.data.status))],
+  ['Closed or changed hands', breweries.filter((b) => ['closed', 'changed-hands'].includes(b.data.status))],
+] as const;
+---
+<Base title="Memphis Breweries" description="Every brewery in the Memphis area: open taprooms, addresses, beers, and the ones we've lost.">
+  <div class="max-w-6xl mx-auto px-4 py-10">
+    <h1 class="text-7xl">Memphis breweries</h1>
+    <p class="mt-3 max-w-2xl">Every brewery in the Memphis area, sorted by what you can actually visit. Each one starts with the same advantage: <a href="/water/">some of the best water in the country</a>.</p>
+    {groups.map(([label, list]) => list.length > 0 && (
+      <section class="mt-10">
+        <h2 class="text-4xl">{label}</h2>
+        <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {list.map((b) => <BreweryCard brewery={b} />)}
+        </div>
+      </section>
+    ))}
+  </div>
+</Base>

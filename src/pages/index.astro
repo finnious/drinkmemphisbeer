@@ -1,0 +1,85 @@
+---
+import Base from '../layouts/Base.astro';
+import Logo from '../components/Logo.astro';
+import BreweryCard from '../components/BreweryCard.astro';
+import StatusBadge from '../components/StatusBadge.astro';
+import { getCollection } from 'astro:content';
+import { getBreweries, formatDate } from '../lib/data';
+
+const breweries = await getBreweries();
+const open = breweries.filter((b) => b.data.status === 'open');
+const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 3);
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Drink Memphis Beer',
+  url: 'https://drinkmemphisbeer.com/',
+  author: { '@type': 'Person', name: 'Will Finney', sameAs: ['https://x.com/willfinneymem', 'https://www.linkedin.com/in/will-finney'] },
+};
+---
+<Base title="Drink Memphis Beer" description="The guide to every Memphis brewery and Memphis beer: what's open, what's closed, what's worth drinking, and where to find it." jsonLd={jsonLd}>
+  <section class="bg-gold border-b-4 border-mud">
+    <div class="max-w-6xl mx-auto px-4 py-14 grid gap-8 md:grid-cols-[1.4fr_1fr] items-center">
+      <div>
+        <Logo size="lg" />
+        <p class="mt-6 text-xl max-w-xl text-mud">Every Memphis brewery. Every Memphis beer. One honest opinion from a guy who thinks the city's tap water is already better than most beer.</p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href="/breweries/" class="bg-mud text-foam font-mono uppercase tracking-wider text-sm px-5 py-3 rounded no-underline hover:text-gold">Find a brewery</a>
+          <a href="/status/" class="border-2 border-mud text-mud font-mono uppercase tracking-wider text-sm px-5 py-3 rounded no-underline">What's open now</a>
+        </div>
+      </div>
+      <div class="card border-mud">
+        <div class="label">The Tap Water Test</div>
+        <p class="mt-2">Memphis brewers start with water from the Memphis Sand Aquifer, filtered through sand for about 2,000 years. So every beer here gets one question: <strong>is it better than a glass of Memphis tap water?</strong></p>
+        <a href="/water/" class="font-mono text-sm uppercase tracking-wider">Why the water matters →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-4 mt-12">
+    <div class="flex items-end justify-between gap-4">
+      <h2 class="text-5xl">Open Memphis breweries</h2>
+      <a href="/breweries/" class="font-mono text-sm uppercase tracking-wider">All breweries →</a>
+    </div>
+    <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {open.map((b) => <BreweryCard brewery={b} />)}
+    </div>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-4 mt-14 grid gap-8 lg:grid-cols-2">
+    <div>
+      <h2 class="text-5xl">Latest news</h2>
+      <ul class="mt-4 space-y-4">
+        {news.map((n) => (
+          <li class="card">
+            <div class="label">{formatDate(n.data.date)}</div>
+            <a href={`/news/${n.id}/`} class="font-display text-3xl no-underline text-mud hover:text-brick">{n.data.title}</a>
+            <p class="mt-1 text-base">{n.data.description}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <div>
+      <h2 class="text-5xl">Status Board</h2>
+      <p class="mt-2 text-base">Memphis breweries open, close and change hands. Here's the latest we know.</p>
+      <ul class="mt-4 card divide-y divide-[#efe6d6]">
+        {breweries.map((b) => (
+          <li class="py-2 flex items-center justify-between gap-3">
+            <a href={`/breweries/${b.id}/`}>{b.data.name}</a>
+            <StatusBadge status={b.data.status} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-4 mt-14">
+    <div class="bg-aquifer text-foam rounded-xl p-8 grid gap-6 md:grid-cols-[2fr_1fr] items-center">
+      <div>
+        <h2 class="text-5xl text-gold">Spotted a Memphis beer out of town?</h2>
+        <p class="mt-2">Found a Memphis beer in another city or state? Send us a photo and where you found it, and we'll put it on the map.</p>
+      </div>
+      <a href="/spotted/" class="bg-gold text-mud font-mono uppercase tracking-wider text-sm px-5 py-3 rounded no-underline text-center">Send a sighting</a>
+    </div>
+  </section>
+</Base>

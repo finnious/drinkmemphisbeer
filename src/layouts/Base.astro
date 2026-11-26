@@ -1,0 +1,111 @@
+---
+import '@fontsource/bebas-neue';
+import '@fontsource-variable/source-serif-4';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/600.css';
+import '../styles/global.css';
+import Logo from '../components/Logo.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  jsonLd?: object;
+}
+const { title, description, jsonLd } = Astro.props;
+const fullTitle = title === 'Drink Memphis Beer' ? title : `${title} | Drink Memphis Beer`;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const nav = [
+  ['Breweries', '/breweries/'],
+  ['Status Board', '/status/'],
+  ['Neighborhoods', '/neighborhoods/'],
+  ['Festivals', '/festivals/'],
+  ['News', '/news/'],
+  ['The Water', '/water/'],
+  ['Merch', '/merch/'],
+];
+const path = Astro.url.pathname;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Drink Memphis Beer" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:creator" content="@willfinneymem" />
+    <link rel="alternate" type="application/rss+xml" title="Drink Memphis Beer news" href="/news/rss.xml" />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <a href="#main" class="sr-only focus:not-sr-only">Skip to content</a>
+    <header class="bg-foam border-b-4 border-mud">
+      <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+        <a href="/" class="no-underline" aria-label="Drink Memphis Beer home"><Logo /></a>
+        <nav aria-label="Main">
+          <ul class="flex flex-wrap gap-x-4 gap-y-1 font-mono text-xs uppercase tracking-wider">
+            {nav.map(([label, href]) => (
+              <li><a href={href} class={`no-underline ${path.startsWith(href) ? 'text-brick' : 'text-mud'}`}>{label}</a></li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+
+    <footer class="bg-mud text-foam mt-16">
+      <div class="max-w-6xl mx-auto px-4 py-10 grid gap-8 sm:grid-cols-3 text-sm">
+        <div>
+          <div class="font-display text-3xl text-gold leading-none">DRINK<br />MEMPHIS<br />BEER</div>
+          <p class="mt-3 text-foam/80">Brewed with the best water in America. Judged by one guy from Memphis.</p>
+        </div>
+        <ul class="space-y-1">
+          <li><a class="text-foam" href="/about/">About Will</a></li>
+          <li><a class="text-foam" href="/spotted/">Spotted: Memphis beer in the wild</a></li>
+          <li><a class="text-foam" href="/advertise/">Advertise</a></li>
+          <li><a class="text-foam" href="/contact/">Contact</a></li>
+          <li><a class="text-foam" href="/disclosure/">Disclosure</a></li>
+        </ul>
+        <div class="text-foam/80 space-y-2">
+          <p>Independent. Not affiliated with any brewery. Please drink responsibly, 21+ only, and take a ride home.</p>
+          <p>Built with <a class="text-gold" href="https://astro.build/">Astro</a> · Styling with <a class="text-gold" href="https://tailwindcss.com/">Tailwind CSS</a> · Hosted on <a class="text-gold" href="https://cloudflare.com/">Cloudflare</a></p>
+          <p>© {new Date().getFullYear()} Drink Memphis Beer</p>
+        </div>
+      </div>
+    </footer>
+
+    <div id="agegate" class="hidden fixed inset-0 z-50 bg-mud/95 text-foam items-center justify-center p-6" role="dialog" aria-modal="true" aria-labelledby="agegate-title">
+      <div class="max-w-sm text-center">
+        <div id="agegate-title" class="font-display text-5xl text-gold">Are you 21 or older?</div>
+        <p class="mt-3">This site is about beer, so it's for adults only.</p>
+        <div class="mt-6 flex gap-3 justify-center">
+          <button id="age-yes" class="bg-gold text-mud font-mono uppercase tracking-wider px-5 py-3 rounded">Yes, I'm 21+</button>
+          <a href="https://www.mlgw.com/" class="border border-foam text-foam font-mono uppercase tracking-wider px-5 py-3 rounded no-underline">No (have some water)</a>
+        </div>
+      </div>
+    </div>
+    <script is:inline>
+      (function () {
+        var ok = false;
+        try { ok = localStorage.getItem('dmb-21') === '1'; } catch (e) {}
+        if (ok) return;
+        var g = document.getElementById('agegate');
+        g.classList.remove('hidden'); g.classList.add('flex');
+        document.getElementById('age-yes').addEventListener('click', function () {
+          try { localStorage.setItem('dmb-21', '1'); } catch (e) {}
+          g.classList.add('hidden'); g.classList.remove('flex');
+        });
+      })();
+    </script>
+  </body>
+</html>

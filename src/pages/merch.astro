@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import PintIcon from '../components/PintIcon.astro';
+import { CONTACT_EMAIL } from '../lib/data';
+const products = [
+  ['Stacked logo tee', 'DRINK / MEMPHIS / BEER, big and bold.'],
+  ['"Sweetest Water in the World" tee', 'Civic pride for beer people and water people alike.'],
+  ['"I\'ll Have the Tap Water" tee', 'The running joke, wearable.'],
+  ['"Passes the Tap Water Test" koozie', 'The highest compliment, in foam.'],
+  ['Sticker pack', 'Logo, pint icon and neighborhood names.'],
+  ['Trucker hat', 'Square stacked logo for festival season.'],
+];
+---
+<Base title="Merch" description="Drink Memphis Beer shirts, koozies, stickers and hats. Brewed with the sweetest water in the world.">
+  <div class="max-w-6xl mx-auto px-4 py-10">
+    <h1 class="text-7xl">Merch</h1>
+    <p class="mt-3 max-w-2xl">The store opens soon. Here's the first lineup. Want to be first in line? <a href={`mailto:${CONTACT_EMAIL}?subject=Merch%20list`}>Get on the list</a>.</p>
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {products.map(([name, blurb]) => (
+        <div class="card">
+          <div class="aspect-square rounded-lg bg-gold/30 grid place-items-center"><PintIcon size={96} /></div>
+          <h2 class="text-3xl mt-3">{name}</h2>
+          <p class="text-base">{blurb}</p>
+          <div class="label mt-2">Coming soon</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</Base>

@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+import Sources from '../components/Sources.astro';
+const sources = [
+  { title: 'MLGW — Water Quality Report: "Great tasting. Purified by nature."', url: 'https://mlgw.com/news/news_wqr2015' },
+  { title: 'MLGW — Water quality report page', url: 'https://mlgw.com/about/waterqualityreport' },
+  { title: 'WaterWorld — Memphis water and the Coors brewery', url: 'https://www.waterworld.com/drinking-water-treatment/article/16206448/memphis-water-called-sweetest-in-the-world-and-cheapest-to-deliver' },
+  { title: 'Culture Trip — Why Memphis has the sweetest water in the world', url: 'https://theculturetrip.com/north-america/usa/tennessee/articles/why-memphis-has-the-sweetest-water-in-the-world' },
+  { title: 'We Are Memphis — The Memphis Sand Aquifer', url: 'https://wearememphis.com/?p=20767' },
+];
+---
+<Base title="The Water: why Memphis beer starts with a head start" description="Memphis tap water comes from the Memphis Sand Aquifer, filtered through sand for about 2,000 years. Here's why that matters for Memphis beer.">
+  <article class="max-w-3xl mx-auto px-4 py-10">
+    <div class="label">The head start</div>
+    <h1 class="text-7xl mt-1">The Water</h1>
+    <p class="text-xl mt-4">Beer is mostly water. Memphis brewers get theirs from one of the best natural sources in the country. That's why every review on this site ends with one question: <strong>is this beer better than a glass of Memphis tap water?</strong></p>
+
+    <div class="prose-dmb mt-8">
+      <h2>Where it comes from</h2>
+      <p>Memphis doesn't drink from the Mississippi. Its tap water is pumped from artesian wells that reach into the Memphis Sand Aquifer, hundreds of feet underground. The water fell as rain roughly 2,000 years ago and has been filtering through layers of sand, clay and gravel ever since. A layer of clay on top protects it from contamination.</p>
+      <p>The result is soft water with very few minerals, which MLGW says needs little treatment.</p>
+
+      <h2>Brewers noticed a long time ago</h2>
+      <p>The Tennessee Brewing Company was brewing with Memphis's soft water by 1885. When Coors chose Memphis for its second brewery, the company said the purity of the aquifer water was one of the main reasons.</p>
+      <p>Ghost River Brewing is even named after the section of the Wolf River where water enters the aquifer.</p>
+
+      <h2>The Tap Water Test</h2>
+      <p>So here's the rule. Every beer Will reviews gets a <strong>Pour Score</strong> from 1 to 5 pints, plus a verdict:</p>
+      <ul>
+        <li><strong>Passes the Tap Water Test:</strong> better than a glass of Memphis water. A compliment.</li>
+        <li><strong>"I'll have the tap water":</strong> Will would rather drink the water. He'll always say why.</li>
+      </ul>
+      <p>Memphis brewers start with a head start. The test is what they do with it.</p>
+    </div>
+
+    <Sources sources={sources} />
+  </article>
+</Base>

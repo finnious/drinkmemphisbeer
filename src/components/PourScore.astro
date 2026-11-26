@@ -1,0 +1,31 @@
+---
+// Will's rating: 1-5 pint glasses. 0 = "Tap Water" (he'd rather have Memphis tap water).
+// Only Will sets this. Leave it empty until he gives a score.
+import PintIcon from './PintIcon.astro';
+interface Props { score?: number; tapWaterTest?: 'passes' | 'fails' }
+const { score, tapWaterTest } = Astro.props;
+const full = score ? Math.floor(score) : 0;
+const half = score ? score - full >= 0.5 : false;
+---
+<div class="card flex flex-wrap items-center gap-4">
+  <div>
+    <div class="label">Will's Pour Score</div>
+    {score === undefined ? (
+      <div class="font-display text-2xl text-barrel">Not yet rated</div>
+    ) : score === 0 ? (
+      <div class="font-display text-2xl text-aquifer">Tap Water <span class="font-serif text-base text-stout">(he'd rather have a glass of Memphis water)</span></div>
+    ) : (
+      <div class="flex items-center gap-1" aria-label={`${score} out of 5 pints`}>
+        {Array.from({ length: 5 }, (_, i) => (
+          <PintIcon size={28} class={i < full ? '' : i === full && half ? 'opacity-60' : 'opacity-20'} />
+        ))}
+        <span class="font-display text-3xl text-mud ml-2">{score}/5</span>
+      </div>
+    )}
+  </div>
+  {tapWaterTest && (
+    <div class={`ml-auto font-mono text-xs uppercase tracking-wider px-3 py-2 rounded ${tapWaterTest === 'passes' ? 'bg-aquifer text-white' : 'bg-foam text-aquifer border border-aquifer'}`}>
+      {tapWaterTest === 'passes' ? 'Passes the Tap Water Test' : "I'll have the tap water"}
+    </div>
+  )}
+</div>

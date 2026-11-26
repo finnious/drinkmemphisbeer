@@ -1,0 +1,28 @@
+---
+import Base from '../../layouts/Base.astro';
+import BreweryCard from '../../components/BreweryCard.astro';
+import { getCollection, render } from 'astro:content';
+import { getBreweries } from '../../lib/data';
+
+export async function getStaticPaths() {
+  const hoods = await getCollection('neighborhoods');
+  return hoods.map((h) => ({ params: { slug: h.id }, props: { hood: h } }));
+}
+const { hood } = Astro.props;
+const { Content } = await render(hood);
+const breweries = (await getBreweries()).filter(
+  (b) => b.data.neighborhood?.id === hood.id || b.data.alsoIn.some((n) => n.id === hood.id),
+);
+---
+<Base title={`Breweries in ${hood.data.name}, Memphis`} description={hood.data.summary}>
+  <div class="max-w-6xl mx-auto px-4 py-10">
+    <nav class="label"><a href="/neighborhoods/">Neighborhoods</a> / {hood.data.name}</nav>
+    <h1 class="text-7xl mt-2">{hood.data.name}</h1>
+    <div class="prose-dmb mt-4 max-w-2xl"><Content /></div>
+    <h2 class="text-4xl mt-8">Breweries here</h2>
+    <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {breweries.map((b) => <BreweryCard brewery={b} />)}
+    </div>
+    <p class="mt-8 text-sm text-barrel">Bars and bottle shops for this neighborhood are coming soon.</p>
+  </div>
+</Base>

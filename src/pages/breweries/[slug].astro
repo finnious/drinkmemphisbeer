@@ -1,0 +1,75 @@
+---
+import Base from '../../layouts/Base.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
+import Sources from '../../components/Sources.astro';
+import { getCollection, getEntry, render } from 'astro:content';
+import { getBreweries, getBeers, beerUrl } from '../../lib/data';
+
+export async function getStaticPaths() {
+  const breweries = await getBreweries();
+  return breweries.map((b) => ({ params: { slug: b.id }, props: { brewery: b } }));
+}
+
+const { brewery } = Astro.props;
+const d = brewery.data;
+const { Content } = await render(brewery);
+const beers = (await getBeers()).filter((b) => b.data.brewery.id === brewery.id);
+const hood = d.neighborhood ? await getEntry(d.neighborhood) : undefined;
+const successor = d.successor ? (await getCollection('breweries')).find((b) => b.id === d.successor) : undefined;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Brewery',
+  name: d.name,
+  url: new URL(`/breweries/${brewery.id}/`, Astro.site).href,
+  description: d.summary,
+  ...(d.locations[0] ? { address: d.locations[0].address } : {}),
+  ...(d.website ? { sameAs: [d.website] } : {}),
+};
+---
+<Base title={`${d.name}: Memphis brewery guide`} description={d.summary} jsonLd={jsonLd}>
+  <article class="max-w-4xl mx-auto px-4 py-10">
+    <nav class="label"><a href="/breweries/">Breweries</a> / {d.name}</nav>
+    <h1 class="text-7xl mt-2">{d.name}</h1>
+    <div class="mt-3"><StatusBadge status={d.status} verified={d.verified} /></div>
+    {d.statusNote && <p class="mt-2 text-barrel">{d.statusNote}</p>}
+    {successor && <p class="mt-2">Now: <a href={`/breweries/${successor.id}/`}>{successor.data.name}</a></p>}
+
+    <div class="mt-6 grid gap-4 sm:grid-cols-2">
+      {d.locations.map((l) => (
+        <div class="card">
+          <div class="label">{l.label}</div>
+          <div class="mt-1">{l.address}</div>
+          <a class="font-mono text-xs uppercase tracking-wider" href={`https://www.openstreetmap.org/search?query=${encodeURIComponent(l.address)}`} rel="noopener" target="_blank">Map →</a>
+        </div>
+      ))}
+      <div class="card">
+        <div class="label">Details</div>
+        <ul class="mt-1 text-base space-y-1">
+          {hood && <li>Neighborhood: <a href={`/neighborhoods/${hood.id}/`}>{hood.data.name}</a></li>}
+          {d.founded && <li>Founded: {d.founded}</li>}
+          {d.website && <li><a href={d.website} rel="noopener" target="_blank">Brewery website</a> (check hours there)</li>}
+        </ul>
+      </div>
+    </div>
+
+    <div class="prose-dmb mt-8"><Content /></div>
+
+    {beers.length > 0 && (
+      <section class="mt-10">
+        <h2 class="text-4xl">Beers</h2>
+        <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+          {beers.map((b) => (
+            <li class="card">
+              <a href={beerUrl(b)} class="font-display text-2xl no-underline text-mud hover:text-brick">{b.data.name}</a>
+              <div class="label">{b.data.style}{b.data.abv !== undefined && ` · ${b.data.abv}% ABV`}</div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <Sources sources={d.sources} />
+    <p class="mt-6 text-sm text-barrel">Something out of date? <a href="/contact/">Tell us</a> and we'll fix it.</p>
+  </article>
+</Base>

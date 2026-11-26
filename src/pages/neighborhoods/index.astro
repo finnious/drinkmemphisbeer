@@ -1,0 +1,24 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { getBreweries } from '../../lib/data';
+const hoods = (await getCollection('neighborhoods')).sort((a, b) => a.data.name.localeCompare(b.data.name));
+const breweries = await getBreweries();
+const count = (id: string) =>
+  breweries.filter((b) => b.data.status === 'open' && (b.data.neighborhood?.id === id || b.data.alsoIn.some((n) => n.id === id))).length;
+---
+<Base title="Memphis Beer by Neighborhood" description="Where to drink Memphis beer, neighborhood by neighborhood: Downtown, South Main, Uptown, Broad Avenue, Crosstown, Midtown and more.">
+  <div class="max-w-6xl mx-auto px-4 py-10">
+    <h1 class="text-7xl">Neighborhoods</h1>
+    <p class="mt-3 max-w-2xl">Pick a part of town and see every brewery in it. Good for planning a crawl, and remember to take a ride home.</p>
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {hoods.map((h) => (
+        <a href={`/neighborhoods/${h.id}/`} class="card block no-underline text-stout hover:border-mud">
+          <div class="label">{count(h.id)} open {count(h.id) === 1 ? 'brewery' : 'breweries'}</div>
+          <h2 class="text-3xl mt-1">{h.data.name}</h2>
+          <p class="mt-1 text-base">{h.data.summary}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</Base>

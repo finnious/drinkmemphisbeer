@@ -1,0 +1,21 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { formatDate } from '../../lib/data';
+const posts = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<Base title="Memphis Beer News" description="Weekly Memphis beer news: brewery openings and closings, new releases, festivals and events.">
+  <div class="max-w-3xl mx-auto px-4 py-10">
+    <h1 class="text-7xl">News</h1>
+    <p class="mt-3">Openings, closings, releases and festival news, every week. <a href="/news/rss.xml">RSS feed</a>.</p>
+    <ul class="mt-8 space-y-4">
+      {posts.map((p) => (
+        <li class="card">
+          <div class="label">{formatDate(p.data.date)}</div>
+          <a href={`/news/${p.id}/`} class="font-display text-3xl no-underline text-mud hover:text-brick">{p.data.title}</a>
+          <p class="mt-1 text-base">{p.data.description}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Base>

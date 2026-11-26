@@ -1,0 +1,24 @@
+---
+import Base from '../../layouts/Base.astro';
+import Sources from '../../components/Sources.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const fests = await getCollection('festivals');
+  return fests.map((f) => ({ params: { slug: f.id }, props: { fest: f } }));
+}
+const { fest } = Astro.props;
+const { Content } = await render(fest);
+const d = fest.data;
+const jsonLd = { '@context': 'https://schema.org', '@type': 'Event', name: d.name, description: d.summary, location: { '@type': 'Place', name: d.where } };
+---
+<Base title={`${d.name} (Memphis)`} description={d.summary} jsonLd={jsonLd}>
+  <article class="max-w-3xl mx-auto px-4 py-10">
+    <nav class="label"><a href="/festivals/">Festivals</a> / {d.name}</nav>
+    <h1 class="text-7xl mt-2">{d.name}</h1>
+    <div class="label mt-2">{d.when} · {d.where}</div>
+    <div class="prose-dmb mt-6"><Content /></div>
+    {d.website && <p><a href={d.website} rel="noopener" target="_blank">Official site</a></p>}
+    <Sources sources={d.sources} />
+  </article>
+</Base>

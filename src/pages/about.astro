@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Will Finney',
+  sameAs: ['https://x.com/willfinneymem', 'https://www.linkedin.com/in/will-finney'],
+};
+---
+<Base title="About Will Finney" description="Will Finney writes Drink Memphis Beer, an independent guide to every Memphis brewery and beer." jsonLd={jsonLd}>
+  <article class="max-w-3xl mx-auto px-4 py-10">
+    <h1 class="text-7xl">About Will</h1>
+    <div class="mt-6 grid gap-6 sm:grid-cols-[200px_1fr] items-start">
+      <!-- Replace with Will's photo: public/images/will-finney.jpg -->
+      <div class="aspect-square rounded-xl bg-mud text-gold grid place-items-center font-display text-6xl" aria-label="Photo of Will Finney coming soon">WF</div>
+      <div class="prose-dmb">
+        <p>I'm Will Finney, and this is my hobby: drinking my way through every brewery in Memphis and writing down what I find.</p>
+        <p>Every brewery here gets a fair shake. Like everybody, I have a go-to (Wiseacre), and I'd rather tell you that up front than pretend otherwise. Beyond that, every beer has to pass the same test: is it better than a glass of Memphis tap water?</p>
+        <p>This site is independent. No brewery pays for a review, and anything sponsored is labeled. See the <a href="/disclosure/">disclosure page</a> for details.</p>
+        <p>Find me on <a href="https://x.com/willfinneymem">X (@willfinneymem)</a> and <a href="https://www.linkedin.com/in/will-finney">LinkedIn</a>, or <a href="/contact/">send a tip</a>.</p>
+      </div>
+    </div>
+  </article>
+</Base>

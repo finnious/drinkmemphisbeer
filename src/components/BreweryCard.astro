@@ -1,0 +1,13 @@
+---
+import StatusBadge from './StatusBadge.astro';
+import type { Brewery } from '../lib/data';
+interface Props { brewery: Brewery }
+const { brewery } = Astro.props;
+const d = brewery.data;
+---
+<a href={`/breweries/${brewery.id}/`} class="card block no-underline text-stout hover:border-mud transition-colors">
+  <StatusBadge status={d.status} />
+  <h3 class="text-3xl mt-2">{d.name}</h3>
+  {d.locations[0] && <div class="label mt-1">{d.locations[0].address}</div>}
+  <p class="mt-2 text-base">{d.summary}</p>
+</a>

@@ -1,0 +1,30 @@
+---
+import Base from '../../layouts/Base.astro';
+import Sources from '../../components/Sources.astro';
+import { getCollection, render } from 'astro:content';
+import { formatDate } from '../../lib/data';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('news');
+  return posts.map((p) => ({ params: { slug: p.id }, props: { post: p } }));
+}
+const { post } = Astro.props;
+const { Content } = await render(post);
+const d = post.data;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'NewsArticle',
+  headline: d.title,
+  datePublished: d.date.toISOString(),
+  author: { '@type': 'Person', name: 'Will Finney', url: 'https://x.com/willfinneymem' },
+};
+---
+<Base title={d.title} description={d.description} jsonLd={jsonLd}>
+  <article class="max-w-3xl mx-auto px-4 py-10">
+    <nav class="label"><a href="/news/">News</a></nav>
+    <h1 class="text-6xl mt-2">{d.title}</h1>
+    <div class="label mt-2">{formatDate(d.date)} · By <a href="/about/">Will Finney</a></div>
+    <div class="prose-dmb mt-6"><Content /></div>
+    <Sources sources={d.sources} />
+  </article>
+</Base>
