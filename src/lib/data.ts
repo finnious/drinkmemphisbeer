@@ -42,3 +42,5 @@ export function formatDate(d: Date) {
 }
 
 export const CONTACT_EMAIL = 'will@drinkmemphisbeer.com';
+export const SITE_X = 'drinkmemphis';
+export const SITE_X_URL = 'https://x.com/drinkmemphis';

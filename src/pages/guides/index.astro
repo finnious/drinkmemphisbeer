@@ -1,0 +1,20 @@
+---
+import Base from '../../layouts/Base.astro';
+const guides = [
+  ['/guides/downtown-brewery-crawl/', 'Downtown brewery crawl', 'Six taprooms, one walk, South Main to the Edge District.'],
+  ['/guides/breweries-near-fedexforum/', 'Breweries near FedExForum', 'Where to drink before a Grizzlies game or a show at the Forum.'],
+  ['/guides/breweries-near-beale-street/', 'Breweries near Beale Street', 'Local beer within walking distance of the most famous street in Memphis.'],
+  ['/map/', 'Brewery map', 'Every Memphis-area taproom on one map.'],
+];
+---
+<Base title="Memphis Beer Guides" description="Brewery crawls and where-to-drink guides for Memphis: Downtown, Beale Street, FedExForum and more.">
+  <div class="max-w-4xl mx-auto px-4 py-10">
+    <h1 class="text-7xl">Guides</h1>
+    <p class="mt-3 text-xl">Routes and short lists for when you know where you'll be and want a good beer nearby.</p>
+    <ul class="mt-8 grid gap-4 sm:grid-cols-2">
+      {guides.map(([href, t, d]) => (
+        <li class="card"><a href={href} class="font-display text-3xl no-underline">{t}</a><p class="mt-1">{d}</p></li>
+      ))}
+    </ul>
+  </div>
+</Base>

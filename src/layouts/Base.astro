@@ -19,6 +19,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const nav = [
   ['Breweries', '/breweries/'],
   ['Status Board', '/status/'],
+  ['Map', '/map/'],
+  ['Guides', '/guides/'],
   ['Neighborhoods', '/neighborhoods/'],
   ['Festivals', '/festivals/'],
   ['News', '/news/'],
@@ -47,6 +49,7 @@ const path = Astro.url.pathname;
     <meta property="og:image:alt" content="Drink Memphis Beer: Will Finney, arms crossed, on a gold sunburst" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:site" content="@drinkmemphis" />
     <meta name="twitter:creator" content="@willfinneymem" />
     <link rel="alternate" type="application/rss+xml" title="Drink Memphis Beer news" href="/news/rss.xml" />
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
@@ -81,6 +84,7 @@ const path = Astro.url.pathname;
           <li><a class="text-foam" href="/spotted/">Spotted: Memphis beer in the wild</a></li>
           <li><a class="text-foam" href="/advertise/">Advertise</a></li>
           <li><a class="text-foam" href="/contact/">Contact</a></li>
+          <li><a class="text-foam" href="https://x.com/drinkmemphis" rel="me">Follow @drinkmemphis on X</a></li>
           <li><a class="text-foam" href="/disclosure/">Disclosure</a></li>
         </ul>
         <div class="text-foam/80 space-y-2">

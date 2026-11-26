@@ -7,10 +7,16 @@ alsoIn: [cordova, edge-district]
 locations:
   - label: Germantown
     address: 7850 Poplar Ave, Suite 6, Germantown, TN
+    lat: 35.08944
+    lng: -89.80112
   - label: Cordova
     address: 1769 N. Germantown Pkwy, Cordova, TN
+    lat: 35.17375
+    lng: -89.7928
   - label: Edge District
     address: 704 Madison Ave, Memphis, TN
+    lat: 35.14144
+    lng: -90.03742
 summary: Pizza brewpub that started as a Memphis food truck. Three area locations pour house-brewed beer with pizza, calzones and, at some, duckpin bowling.
 sources:
   - title: Memphis Flyer — Rock'n Dough in Germantown is now a brewpub

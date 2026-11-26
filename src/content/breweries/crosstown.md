@@ -6,6 +6,8 @@ neighborhood: crosstown
 locations:
   - label: Brewery & taproom
     address: 1264 Concourse Ave, Memphis, TN
+    lat: 35.15154
+    lng: -90.0131
 founded: 2018
 summary: Neighborhood brewery steps from Crosstown Concourse, with indoor and outdoor seating and a lager made with Huey's.
 sources:

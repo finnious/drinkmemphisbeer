@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+import BreweryMap from '../components/BreweryMap.astro';
+import StatusBadge from '../components/StatusBadge.astro';
+import { getPins } from '../lib/geo';
+
+const pins = await getPins();
+const byTown = pins.reduce<Record<string, typeof pins>>((acc, p) => {
+  const town = p.address.split(',').slice(-2, -1)[0]?.trim() || 'Memphis';
+  (acc[town] ||= []).push(p);
+  return acc;
+}, {});
+const towns = Object.keys(byTown).sort((a, b) => (a === 'Memphis' ? -1 : b === 'Memphis' ? 1 : a.localeCompare(b)));
+---
+<Base title="Memphis Brewery Map" description={`Map of every Memphis-area brewery taproom: ${pins.length} locations in Memphis, Cordova, Germantown, Collierville and Olive Branch.`}>
+  <div class="max-w-6xl mx-auto px-4 py-10">
+    <h1 class="text-7xl">Brewery Map</h1>
+    <p class="mt-3 text-xl max-w-2xl">Every Memphis-area brewery you can walk into, on one map. Green is open. Tap a pin for the address and the full listing.</p>
+    <div class="mt-6"><BreweryMap pins={pins} height="560px" /></div>
+    <p class="mt-3 text-sm text-barrel">Want a route? Try the <a href="/guides/downtown-brewery-crawl/">Downtown brewery crawl</a>, or see what's <a href="/guides/breweries-near-fedexforum/">near FedExForum</a> and <a href="/guides/breweries-near-beale-street/">near Beale Street</a>.</p>
+
+    {towns.map((t) => (
+      <section class="mt-10">
+        <h2 class="text-4xl">{t}</h2>
+        <ul class="mt-3 grid gap-3 sm:grid-cols-2">
+          {byTown[t].map((p) => (
+            <li class="card">
+              <a href={p.url} class="font-display text-2xl no-underline">{p.name}</a>
+              <div class="text-sm">{p.label} · {p.address}</div>
+              <div class="mt-1"><StatusBadge status={p.status as any} /></div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</Base>

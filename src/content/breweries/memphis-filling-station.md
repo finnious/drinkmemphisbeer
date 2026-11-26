@@ -6,6 +6,8 @@ neighborhood: downtown
 locations:
   - label: Downtown taproom
     address: 206 E. G.E. Patterson Ave, Memphis, TN
+    lat: 35.13288
+    lng: -90.05529
 summary: Downtown brewery, also known as MFS Brewing, that opened its taproom in 2024. The Memphis Flyer counts it among the city's most creative brewers.
 sources:
   - title: I Love Memphis — 8 Downtown Memphis craft breweries

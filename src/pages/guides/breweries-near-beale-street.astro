@@ -1,0 +1,26 @@
+---
+import Base from '../../layouts/Base.astro';
+import BreweryMap from '../../components/BreweryMap.astro';
+import NearbyList from '../../components/NearbyList.astro';
+import { nearby, LANDMARKS } from '../../lib/geo';
+const spot = LANDMARKS.beale;
+const items = await nearby(spot, 1.25);
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'ItemList', name: 'Breweries near Beale Street',
+  itemListElement: items.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: new URL(p.url, 'https://www.drinkmemphisbeer.com').href, name: p.name })),
+};
+---
+<Base title="Breweries Near Beale Street, Memphis" description={`Local craft beer within walking distance of Beale Street: ${items.length} Memphis brewery taprooms, sorted by distance, with walking times.`} jsonLd={jsonLd}>
+  <div class="max-w-4xl mx-auto px-4 py-10">
+    <nav class="label"><a href="/guides/">Guides</a> / Near Beale Street</nav>
+    <h1 class="text-6xl mt-2">Breweries near Beale Street</h1>
+    <div class="prose-dmb mt-4">
+      <p>Beale Street is the most famous block in Memphis, and most of what's poured there is domestic light beer in a plastic cup. You can do better without walking far. There's a brewery taproom right on Beale and {items.length - 1} more within about a mile and a quarter of Handy Park.</p>
+      <p>Ghost River's Beale Street taproom is the easy first stop. Wiseacre Downtown is a couple of blocks south on B.B. King, near FedExForum. From there, MFS Brewing and Ghost River's original South Main brewery are a straight shot south, and Flyway and Rock'n Dough are a short walk north and east into the Edge District.</p>
+      <p>Visiting from out of town? Order a glass of tap water somewhere too. It comes out of the Memphis Sand Aquifer, and we'll argue with anyone that it's <a href="/water/">the best in the country</a>.</p>
+    </div>
+    <div class="mt-6"><BreweryMap pins={items} landmarks={[spot]} height="420px" /></div>
+    <NearbyList items={items} from="Handy Park on Beale" />
+    <p class="mt-8">Want them in order? The <a href="/guides/downtown-brewery-crawl/">Downtown brewery crawl</a> strings these together into one walk.</p>
+  </div>
+</Base>

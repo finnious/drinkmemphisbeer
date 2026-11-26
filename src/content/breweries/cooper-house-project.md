@@ -6,6 +6,8 @@ neighborhood: cooper-young
 locations:
   - label: Taproom gallery
     address: 906 S. Cooper St, Memphis, TN
+    lat: 35.121
+    lng: -89.99088
 website: https://www.cooperhouseproject.com/
 summary: Small-batch brewery in a house on Cooper Street. No flagship beers, just a constant rotation, plus coffee, pizza and a gallery of local art.
 sources:

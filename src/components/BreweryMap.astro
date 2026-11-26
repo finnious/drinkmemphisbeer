@@ -1,0 +1,45 @@
+---
+import type { Pin } from '../lib/geo';
+interface Props { pins: Pin[]; height?: string; landmarks?: { name: string; lat: number; lng: number }[]; route?: boolean }
+const { pins, height = '480px', landmarks = [], route = false } = Astro.props;
+const data = JSON.stringify({ pins, landmarks, route });
+---
+<div class="brewery-map rounded border-2 border-mud overflow-hidden" style={`height:${height}`} data-map={data}></div>
+<noscript><p class="text-sm mt-2">The map needs JavaScript. Every address is listed below.</p></noscript>
+
+<script>
+  import L from 'leaflet';
+  import 'leaflet/dist/leaflet.css';
+
+  const colors: Record<string, string> = { open: '#2f6b3a', 'no-taproom': '#1f4e79', 'changed-hands': '#f2b632', unverified: '#8a7f74', closed: '#b23a2e' };
+
+  document.querySelectorAll<HTMLElement>('.brewery-map').forEach((el) => {
+    const { pins, landmarks, route } = JSON.parse(el.dataset.map || '{}');
+    const map = L.map(el, { scrollWheelZoom: false });
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
+    const pts: [number, number][] = [];
+    pins.forEach((p: any, i: number) => {
+      pts.push([p.lat, p.lng]);
+      const m = L.circleMarker([p.lat, p.lng], { radius: 9, color: '#3b2416', weight: 2, fillColor: colors[p.status] || '#2f6b3a', fillOpacity: 0.95 }).addTo(map);
+      const n = route ? `${i + 1}. ` : '';
+      m.bindPopup(`<strong>${n}<a href="${p.url}">${p.name}</a></strong><br>${p.label}<br>${p.address}`);
+      if (route) m.bindTooltip(String(i + 1), { permanent: true, direction: 'center', className: 'map-num' });
+    });
+    landmarks.forEach((l: any) => {
+      L.circleMarker([l.lat, l.lng], { radius: 7, color: '#1f4e79', weight: 2, fillColor: '#fbf6ec', fillOpacity: 1 }).addTo(map).bindPopup(`<strong>${l.name}</strong>`);
+      pts.push([l.lat, l.lng]);
+    });
+    if (route && pts.length > 1) L.polyline(pins.map((p: any) => [p.lat, p.lng]), { color: '#3b2416', weight: 3, dashArray: '6 6' }).addTo(map);
+    if (pts.length === 1) map.setView(pts[0], 15);
+    else map.fitBounds(L.latLngBounds(pts), { padding: [30, 30] });
+  });
+</script>
+
+<style is:global>
+  .map-num { background: transparent; border: 0; box-shadow: none; color: #fbf6ec; font-weight: 700; font-size: 11px; }
+  .map-num::before { display: none; }
+  .leaflet-popup-content a { color: #3b2416; }
+</style>

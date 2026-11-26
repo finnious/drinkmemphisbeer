@@ -1,0 +1,18 @@
+---
+import { walkMinutes } from '../lib/geo';
+interface Props { items: { name: string; label: string; address: string; url: string; mi: number }[]; from: string }
+const { items, from } = Astro.props;
+---
+<ol class="mt-4 space-y-3">
+  {items.map((p, i) => (
+    <li class="card flex gap-4 items-start">
+      <span class="font-display text-4xl text-gold leading-none">{i + 1}</span>
+      <div>
+        <a href={p.url} class="font-display text-2xl no-underline">{p.name}</a>
+        <div class="text-sm">{p.label} · {p.address}</div>
+        <div class="label mt-1">{p.mi.toFixed(1)} mi from {from} · about {walkMinutes(p.mi)} min on foot</div>
+      </div>
+    </li>
+  ))}
+</ol>
+<p class="mt-3 text-xs text-barrel">Distances are straight-line from {from}. Walking times assume the street grid adds about 30% and you walk a 20-minute mile. Check hours on each brewery's page before you go.</p>

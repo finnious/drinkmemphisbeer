@@ -7,8 +7,12 @@ alsoIn: [downtown]
 locations:
   - label: South Main taproom
     address: 827 S. Main St, Memphis, TN
+    lat: 35.12498
+    lng: -90.0595
   - label: Beale Street taproom
     address: 341 Beale St, Memphis, TN
+    lat: 35.13921
+    lng: -90.04991
 summary: South Main brewery named after a stretch of the Wolf River, where water enters the Memphis Aquifer. It was the first Memphis brewery since Prohibition.
 sources:
   - title: Memphis Travel — Breweries in Memphis

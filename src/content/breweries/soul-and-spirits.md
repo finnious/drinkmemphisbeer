@@ -6,6 +6,8 @@ neighborhood: uptown
 locations:
   - label: Taproom
     address: 845 N. Main St, Memphis, TN
+    lat: 35.16534
+    lng: -90.04516
 summary: Spacious, dog-friendly Uptown taproom known for creative, experimental beers.
 sources:
   - title: Memphis Flyer — Memphis beer guide (May 2026)

@@ -1,0 +1,59 @@
+---
+import Base from '../../layouts/Base.astro';
+import BreweryMap from '../../components/BreweryMap.astro';
+import { getPins, miles, walkMinutes } from '../../lib/geo';
+
+// The route, south to north. [brewery slug, location label, what to order / why stop]
+const ROUTE: [string, string, string][] = [
+  ['ghost-river', 'South Main taproom', "Start where Memphis' modern brewing scene got its footing. Order Ghost River Gold, then a glass of water. You're pacing yourself."],
+  ['memphis-filling-station', 'Downtown taproom', 'MFS Brewing, in an old filling station a few blocks east. The honey-orange Left Handed Screwdriver is the house signature.'],
+  ['wiseacre', 'Downtown taproom', "Wiseacre's downtown room near FedExForum. A Tiny Bomb pilsner here is about as Memphis as it gets. Fine, we said it."],
+  ['ghost-river', 'Beale Street taproom', 'Ghost River again, this time on Beale. Step in for one, listen to whoever is playing on the street, and keep moving.'],
+  ['flyway', 'Taproom', 'Into the Edge District. Flyway took over the old High Cotton space and still pours High Cotton recipes next to Bluewing.'],
+  ['rock-n-dough', 'Edge District', 'Finish with pizza. Rock\'n Dough brews its own beer and you will want something to eat by now.'],
+];
+
+const pins = await getPins();
+const stops = ROUTE.map(([slug, label, note]) => {
+  const p = pins.find((x) => x.slug === slug && x.label === label);
+  if (!p) throw new Error(`Crawl stop missing coordinates: ${slug} / ${label}`);
+  return { ...p, note };
+});
+const legs = stops.map((s, i) => (i === 0 ? 0 : miles(stops[i - 1], s)));
+const total = legs.reduce((a, b) => a + b, 0);
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'ItemList', name: 'Downtown Memphis brewery crawl',
+  itemListOrder: 'https://schema.org/ItemListOrderAscending',
+  itemListElement: stops.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: new URL(p.url, 'https://www.drinkmemphisbeer.com').href, name: p.name })),
+};
+---
+<Base title="Downtown Memphis Brewery Crawl: Six Taprooms, One Walk" description={`A walkable Downtown Memphis brewery crawl: ${stops.length} taprooms from South Main to the Edge District, about ${(total * 1.3).toFixed(1)} miles on foot.`} jsonLd={jsonLd}>
+  <div class="max-w-4xl mx-auto px-4 py-10">
+    <nav class="label"><a href="/guides/">Guides</a> / Downtown brewery crawl</nav>
+    <h1 class="text-6xl mt-2">The Downtown brewery crawl</h1>
+    <div class="prose-dmb mt-4">
+      <p>Six taprooms, south to north, from South Main past FedExForum and Beale Street up into the Edge District. It's about {(total * 1.3).toFixed(1)} miles of walking in all, mostly flat, with a beer every half mile or so.</p>
+      <p>House rules: share flights, eat something by stop three, and drink a glass of water at every stop. It's Memphis water, so that's not a punishment.</p>
+      <p>Check each brewery's hours before you go. Some downtown taprooms don't open until afternoon on weekdays.</p>
+    </div>
+    <div class="mt-6"><BreweryMap pins={stops} route height="460px" /></div>
+    <ol class="mt-6 space-y-4">
+      {stops.map((s, i) => (
+        <li class="card">
+          {i > 0 && <div class="label mb-2">↓ {(legs[i] * 1.3).toFixed(1)} mi · about {walkMinutes(legs[i])} min walk</div>}
+          <div class="flex gap-4 items-start">
+            <span class="font-display text-5xl text-gold leading-none">{i + 1}</span>
+            <div>
+              <a href={s.url} class="font-display text-3xl no-underline">{s.name}</a>
+              <div class="text-sm">{s.label} · {s.address}</div>
+              <p class="mt-2">{s.note}</p>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ol>
+    <h2 class="text-4xl mt-10">Keep going north</h2>
+    <p class="mt-2">Two more breweries sit north of Downtown, too far to walk comfortably after six stops: <a href="/breweries/soul-and-spirits/">Soul &amp; Spirits</a> on North Main and <a href="/breweries/grind-city/">Grind City</a> in Uptown. They make a good second-day crawl, or a short rideshare.</p>
+    <p class="mt-6 text-sm text-barrel">Walking distances use straight lines between stops plus about 30% for the street grid. Please don't drive between stops.</p>
+  </div>
+</Base>

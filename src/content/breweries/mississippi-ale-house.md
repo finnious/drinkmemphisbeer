@@ -8,6 +8,8 @@ town: Olive Branch, MS
 locations:
   - label: Taproom & brewery
     address: 9211 Hwy 178 (Old Hwy 78), Olive Branch, MS 38654
+    lat: 34.96327
+    lng: -89.82672
 website: https://mississippialehouse.com/
 founded: 2017
 summary: Olive Branch taproom that opened in 2017 pouring only Mississippi beer, then bought the cidery next door in 2022 and started brewing its own. Hosts a spring Brewfest.

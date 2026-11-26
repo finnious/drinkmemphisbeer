@@ -6,6 +6,8 @@ neighborhood: broad-avenue
 locations:
   - label: Taproom
     address: 584 Tillman St, Suite 1, Memphis, TN
+    lat: 35.14617
+    lng: -89.96129
 summary: Small taproom with a patio, tucked behind the Rec Room off Broad Avenue, near the Hampline bike path it's named for.
 sources:
   - title: I Love Memphis — Memphis brewery guide

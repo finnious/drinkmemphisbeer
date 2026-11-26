@@ -15,7 +15,7 @@ const breweries = defineCollection({
     neighborhood: reference('neighborhoods').optional(),
     alsoIn: z.array(reference('neighborhoods')).default([]),
     locations: z
-      .array(z.object({ label: z.string(), address: z.string() }))
+      .array(z.object({ label: z.string(), address: z.string(), lat: z.number().optional(), lng: z.number().optional() }))
       .default([]),
     website: z.url().optional(),
     founded: z.number().optional(),
