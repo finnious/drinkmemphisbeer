@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Sources from '../components/Sources.astro';
 import StatusBadge from '../components/StatusBadge.astro';
 import { getBreweries } from '../lib/data';
 const breweries = await getBreweries();
@@ -25,5 +26,6 @@ const breweries = await getBreweries();
       </table>
     </div>
     <p class="mt-6 text-sm">Spot something wrong or a new opening? <a href="/contact/">Send a tip.</a></p>
+    <Sources basedOn={breweries.map((b) => ({ title: b.data.name, url: `/breweries/${b.id}/` }))} note="Each status is checked against the brewery's own website and social accounts, local news and in-person mission reports, and dated with the month it was last confirmed." />
   </div>
 </Base>

@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Sources from '../../components/Sources.astro';
 import BreweryMap from '../../components/BreweryMap.astro';
 import NearbyList from '../../components/NearbyList.astro';
 import { nearby, LANDMARKS } from '../../lib/geo';
@@ -22,5 +23,6 @@ const jsonLd = {
     <div class="mt-6"><BreweryMap pins={items} landmarks={[spot]} height="420px" /></div>
     <NearbyList items={items} from="FedExForum" />
     <p class="mt-8">Making a night of it? Take the <a href="/guides/downtown-brewery-crawl/">Downtown brewery crawl</a>, or see <a href="/guides/breweries-near-beale-street/">breweries near Beale Street</a>.</p>
+    <Sources basedOn={items.map((it) => ({ title: it.name, url: `/breweries/${it.slug}/` }))} note="Map locations and walking distances are calculated from coordinates checked against OpenStreetMap and each brewery's listed address. Walking times assume about 20 minutes per mile." />
   </div>
 </Base>

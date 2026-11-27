@@ -1,12 +1,27 @@
 ---
-interface Props { sources: { title: string; url: string }[] }
-const { sources } = Astro.props;
+// Citations block at the bottom of a page.
+// `sources`: outside sources this page cites directly.
+// `basedOn`: our own listings this page draws from (each has its own sources).
+// `note`: an extra line, e.g. where map coordinates come from.
+interface Link { title: string; url: string }
+interface Props { sources?: Link[]; basedOn?: Link[]; note?: string }
+const { sources = [], basedOn = [], note } = Astro.props;
+const seen = new Set<string>();
+const based = basedOn.filter((l) => (seen.has(l.url) ? false : (seen.add(l.url), true)));
 ---
-{sources.length > 0 && (
-  <aside class="mt-10 border-t border-[#e8dfcf] pt-4">
+{(sources.length > 0 || based.length > 0 || note) && (
+  <aside class="mt-10 border-t border-[#e8dfcf] pt-4" id="sources">
     <div class="label mb-2">Sources</div>
-    <ul class="text-sm space-y-1">
-      {sources.map((s) => <li><a href={s.url} rel="noopener" target="_blank">{s.title}</a></li>)}
-    </ul>
+    {sources.length > 0 && (
+      <ul class="text-sm space-y-1">
+        {sources.map((s) => <li><a href={s.url} rel="noopener" target="_blank">{s.title}</a></li>)}
+      </ul>
+    )}
+    {based.length > 0 && (
+      <p class="text-sm mt-2">
+        Details on this page come from our listings for {based.map((l, i) => <>{i > 0 && (i === based.length - 1 ? ' and ' : ', ')}<a href={l.url}>{l.title}</a></>)}. Each listing cites its own sources at the bottom.
+      </p>
+    )}
+    {note && <p class="text-sm mt-2">{note}</p>}
   </aside>
 )}

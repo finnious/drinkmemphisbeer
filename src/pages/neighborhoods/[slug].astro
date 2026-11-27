@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Sources from '../../components/Sources.astro';
 import BreweryCard from '../../components/BreweryCard.astro';
 import { getCollection, render } from 'astro:content';
 import { getBreweries, getBeers, beerUrl } from '../../lib/data';
@@ -78,5 +79,6 @@ const jsonLd = [
       </section>
     )}
     <p class="mt-8 text-sm">Planning a route? See the <a href="/map/">brewery map</a>, the <a href="/guides/">guides</a>, and <a href="/guides/where-to-buy-memphis-beer/">where to buy Memphis beer</a>.</p>
+    <Sources sources={(hood.data as any).sources ?? []} basedOn={breweries.map((b) => ({ title: b.data.name, url: `/breweries/${b.id}/` }))} />
   </div>
 </Base>

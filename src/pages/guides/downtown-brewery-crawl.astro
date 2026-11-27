@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Sources from '../../components/Sources.astro';
 import BreweryMap from '../../components/BreweryMap.astro';
 import { getPins, miles, walkMinutes } from '../../lib/geo';
 
@@ -55,5 +56,6 @@ const jsonLd = {
     <h2 class="text-4xl mt-10">Keep going north</h2>
     <p class="mt-2">Two more breweries sit north of Downtown, too far to walk comfortably after six stops: <a href="/breweries/soul-and-spirits/">Soul &amp; Spirits</a> on North Main and <a href="/breweries/grind-city/">Grind City</a> in Uptown. They make a good second-day crawl, or a short rideshare.</p>
     <p class="mt-6 text-sm text-barrel">Walking distances use straight lines between stops plus about 30% for the street grid. Please don't drive between stops.</p>
+    <Sources basedOn={stops.map((s) => ({ title: s.name, url: `/breweries/${s.slug}/` }))} note="Map locations and walking distances are calculated from coordinates checked against OpenStreetMap and each brewery's listed address. Walking times assume about 20 minutes per mile." />
   </div>
 </Base>
