@@ -7,8 +7,8 @@ neighborhood: uptown
 locations:
   - label: Taproom & yard
     address: 76 Waterworks Ave, Memphis, TN
-    lat: 35.16961
-    lng: -90.04396
+    lat: 35.17041
+    lng: -90.04503
 summary: Big outdoor yard by the Wolf River in Uptown, now focused on its taproom and concert venue rather than canned beer in stores.
 sources:
   - title: Memphis Travel — Craft beer in Memphis

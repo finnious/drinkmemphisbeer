@@ -7,8 +7,8 @@ town: Collierville, TN
 locations:
   - label: Brewpub
     address: 642 W. Poplar Ave, Collierville, TN
-    lat: 35.04606
-    lng: -89.68402
+    lat: 35.04707
+    lng: -89.68353
 summary: Family-friendly Collierville brewpub run by brewer Maggie Emerson, with beers named for local landmarks, hot dogs and smashburgers.
 sources:
   - title: Memphis Travel — Beer lover's weekend in Memphis

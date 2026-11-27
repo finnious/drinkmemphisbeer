@@ -7,8 +7,8 @@ neighborhood: edge-district
 locations:
   - label: Taproom
     address: 598 Monroe Ave, Memphis, TN
-    lat: 35.14123
-    lng: -90.04095
+    lat: 35.14114
+    lng: -90.04105
 summary: Little Rock's Flyway Brewing took over the former High Cotton space in the Edge District and pours both breweries' recipes.
 sources:
   - title: I Love Memphis — 8 Downtown Memphis craft breweries

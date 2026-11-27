@@ -1,7 +1,7 @@
 {
  "/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-27T11:23:29-06:00"
+  "modified": "2026-11-27T19:58:32.752Z"
  },
  "/about/": {
   "published": "2026-11-25T21:09:31-06:00",
@@ -53,7 +53,7 @@
  },
  "/breweries/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T20:31:37-06:00"
+  "modified": "2026-11-27T19:58:32.752Z"
  },
  "/breweries/beale-street-brewing/": {
   "published": "2026-11-25T21:09:31-06:00",
@@ -69,7 +69,7 @@
  },
  "/breweries/boscos/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T00:31:12-06:00"
+  "modified": "2026-11-27T19:58:32.752Z"
  },
  "/breweries/boscos/bombay-ipa/": {
   "published": "2026-11-25T23:59:21-06:00",
@@ -93,7 +93,7 @@
  },
  "/breweries/cooper-house-project/": {
   "published": "2026-11-25T22:48:17-06:00",
-  "modified": "2026-11-26T10:37:09-06:00"
+  "modified": "2026-11-27T19:58:32.752Z"
  },
  "/breweries/cooper-house-project/bba-barleywine/": {
   "published": "2026-11-26T10:37:09-06:00",
@@ -161,7 +161,7 @@
  },
  "/breweries/flyway/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T00:02:55-06:00"
+  "modified": "2026-11-27T19:58:32.752Z"
  },
  "/breweries/flyway/bluewing/": {
   "published": "2026-11-25T21:09:31-06:00",
@@ -265,7 +265,7 @@
  },
  "/breweries/grind-city/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T00:31:12-06:00"
+  "modified": "2026-11-27T19:58:32.752Z"
  },
  "/breweries/grind-city/godhopper/": {
   "published": "2026-11-25T21:09:31-06:00",
@@ -293,7 +293,7 @@
  },
  "/breweries/hampline/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T00:25:49-06:00"
+  "modified": "2026-11-27T19:58:32.752Z"
  },
  "/breweries/hampline/bockseat-driver/": {
   "published": "2026-11-26T00:25:49-06:00",
@@ -337,7 +337,7 @@
  },
  "/breweries/maroon-brew/": {
   "published": "2026-11-25T22:48:17-06:00",
-  "modified": "2026-11-26T00:25:49-06:00"
+  "modified": "2026-11-27T19:58:32.752Z"
  },
  "/breweries/maroon-brew/new-copper-amber/": {
   "published": "2026-11-26T00:25:49-06:00",
@@ -353,7 +353,7 @@
  },
  "/breweries/meddlesome/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T00:25:49-06:00"
+  "modified": "2026-11-27T19:58:32.752Z"
  },
  "/breweries/meddlesome/201-hoplar/": {
   "published": "2026-11-25T23:59:21-06:00",
@@ -429,7 +429,7 @@
  },
  "/breweries/mississippi-ale-house/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T00:31:12-06:00"
+  "modified": "2026-11-27T19:58:32.752Z"
  },
  "/breweries/mississippi-ale-house/ale-house-light/": {
   "published": "2026-11-26T00:31:12-06:00",
@@ -445,7 +445,7 @@
  },
  "/breweries/rock-n-dough/": {
   "published": "2026-11-25T23:13:20-06:00",
-  "modified": "2026-11-26T00:02:55-06:00"
+  "modified": "2026-11-27T19:58:32.752Z"
  },
  "/breweries/soul-and-spirits/": {
   "published": "2026-11-25T21:09:31-06:00",
@@ -509,7 +509,7 @@
  },
  "/breweries/wiseacre/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T00:25:49-06:00"
+  "modified": "2026-11-27T19:58:32.752Z"
  },
  "/breweries/wiseacre/adjective-animal/": {
   "published": "2026-11-26T00:25:49-06:00",
@@ -589,15 +589,15 @@
  },
  "/guides/breweries-near-beale-street/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T20:31:37-06:00"
+  "modified": "2026-11-27T19:58:32.752Z"
  },
  "/guides/breweries-near-fedexforum/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T20:31:37-06:00"
+  "modified": "2026-11-27T19:58:32.752Z"
  },
  "/guides/downtown-brewery-crawl/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T20:31:37-06:00"
+  "modified": "2026-11-27T19:58:32.752Z"
  },
  "/guides/where-to-buy-memphis-beer/": {
   "published": "2026-11-26T10:37:09-06:00",
@@ -609,7 +609,7 @@
  },
  "/map/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T20:31:37-06:00"
+  "modified": "2026-11-27T19:58:32.752Z"
  },
  "/merch/": {
   "published": "2026-11-25T21:09:31-06:00",
@@ -617,7 +617,7 @@
  },
  "/missions/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-27T11:31:32-06:00"
+  "modified": "2026-11-27T19:58:32.752Z"
  },
  "/neighborhoods/": {
   "published": "2026-11-25T21:09:31-06:00",
@@ -693,7 +693,7 @@
  },
  "/status/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T20:31:37-06:00"
+  "modified": "2026-11-27T19:58:32.752Z"
  },
  "/stories/": {
   "published": "2026-11-27T11:23:29-06:00",

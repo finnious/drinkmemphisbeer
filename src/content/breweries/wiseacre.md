@@ -7,12 +7,12 @@ alsoIn: [downtown]
 locations:
   - label: Broad Avenue taproom (the original)
     address: 2783 Broad Ave, Memphis, TN
-    lat: 35.14846
-    lng: -89.94959
+    lat: 35.14708
+    lng: -89.96875
   - label: Downtown taproom
     address: 398 S. B.B. King Blvd, Memphis, TN
-    lat: 35.13604
-    lng: -90.05434
+    lat: 35.13436
+    lng: -90.05464
 website: https://wiseacrebrew.com/
 founded: 2013
 summary: Brothers Kellan and Davin Bartosch opened Wiseacre in 2013 with two beers, Ananda and Tiny Bomb. It's now one of the biggest names in Tennessee beer.

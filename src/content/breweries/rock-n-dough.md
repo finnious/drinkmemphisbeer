@@ -7,12 +7,12 @@ alsoIn: [cordova, edge-district]
 locations:
   - label: Germantown
     address: 7850 Poplar Ave, Suite 6, Germantown, TN
-    lat: 35.08944
-    lng: -89.80112
+    lat: 35.08957
+    lng: -89.80109
   - label: Cordova
     address: 1769 N. Germantown Pkwy, Cordova, TN
-    lat: 35.17375
-    lng: -89.7928
+    lat: 35.17417
+    lng: -89.79441
   - label: Edge District
     address: 704 Madison Ave, Memphis, TN
     lat: 35.14144

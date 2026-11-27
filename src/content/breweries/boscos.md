@@ -8,8 +8,8 @@ alsoIn: [germantown]
 locations:
   - label: Brewpub
     address: 2120 Madison Ave, Memphis, TN 38104
-    lat: 35.1367
-    lng: -89.99083
+    lat: 35.1369
+    lng: -89.99059
 website: https://www.boscosbeer.com/
 summary: Tennessee's first brewpub, founded in Germantown in 1992 and in Overton Square since 2002. Beer brewed in-house, wood-fired pizza, a four-sided bar older than most Memphis breweries.
 founded: 1992

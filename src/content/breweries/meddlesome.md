@@ -6,8 +6,8 @@ neighborhood: cordova
 locations:
   - label: Taproom
     address: 7750 Trinity Rd, Suite 114, Cordova, TN
-    lat: 35.13952
-    lng: -89.80408
+    lat: 35.14151
+    lng: -89.80383
 website: https://meddlesomebrewing.com/
 summary: Cordova brewery just past Shelby Farms Park, with a "never settle, always meddle" approach to brewing.
 sources:
