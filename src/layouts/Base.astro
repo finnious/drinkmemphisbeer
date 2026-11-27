@@ -49,21 +49,36 @@ const graph = buildGraph({
   site: Astro.site!, path: Astro.url.pathname, title, description, pageType, image: ogImageUrl,
   published, modified, crumbs, extra: jsonLd, authorId,
 });
-const nav = [
-  ['Breweries', '/breweries/'],
-  ['Status Board', '/status/'],
-  ['Map', '/map/'],
-  ['Guides', '/guides/'],
-  ['Neighborhoods', '/neighborhoods/'],
-  ['Festivals', '/festivals/'],
-  ['News', '/news/'],
-  ['Beyond Beer', '/beyond-beer/'],
-  ['The Water', '/water/'],
-  ['History', '/history/'],
-  ['Merch', '/merch/'],
+// Header: the five places most visitors want, plus the Missions call to action.
+// Each item lights up for the sections that live under it.
+const nav: { label: string; href: string; also?: string[] }[] = [
+  { label: 'Breweries', href: '/breweries/', also: ['/status/', '/neighborhoods/'] },
+  { label: 'Map', href: '/map/' },
+  { label: 'Guides', href: '/guides/', also: ['/history/'] },
+  { label: 'News', href: '/news/', also: ['/stories/'] },
+  { label: 'The Water', href: '/water/' },
 ];
-// Stories joins the menu once the first one is published.
-if ((await getStories()).length > 0) nav.splice(nav.findIndex(([n]) => n === 'News') + 1, 0, ['Stories', '/stories/']);
+const hasStories = (await getStories()).length > 0;
+// Footer: everything, grouped by what people come to do.
+const footerCols: { title: string; links: [string, string][] }[] = [
+  { title: 'Find beer', links: [
+    ['All breweries', '/breweries/'], ['Status Board', '/status/'], ['Brewery map', '/map/'],
+    ['Neighborhoods', '/neighborhoods/'], ['Festivals', '/festivals/'], ['Beyond Beer', '/beyond-beer/'],
+  ] },
+  { title: 'Read', links: [
+    ['News', '/news/'], ...(hasStories ? [['Stories', '/stories/'] as [string, string]] : []), ['Guides', '/guides/'],
+    ['Downtown brewery crawl', '/guides/downtown-brewery-crawl/'], ['Beer styles', '/guides/beer-styles/'],
+    ['History of Memphis beer', '/history/'], ['The Water', '/water/'],
+  ] },
+  { title: 'Get involved', links: [
+    ['Field missions', '/missions/'], ['Write for us', '/write-for-us/'], ['Contributors', '/authors/'],
+    ['Spotted', '/spotted/'], ['Merch', '/merch/'],
+  ] },
+  { title: 'About', links: [
+    ['About Will', '/about/'], ['Contact', '/contact/'], ['Advertise', '/advertise/'],
+    ['Editorial standards', '/editorial-standards/'], ['Disclosure', '/disclosure/'],
+  ] },
+];
 const path = Astro.url.pathname;
 ---
 <!doctype html>
@@ -101,10 +116,12 @@ const path = Astro.url.pathname;
       <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
         <a href="/" class="no-underline" aria-label="Drink Memphis Beer home"><Logo /></a>
         <nav aria-label="Main">
-          <ul class="flex flex-wrap gap-x-4 gap-y-1 font-mono text-xs uppercase tracking-wider">
-            {nav.map(([label, href]) => (
-              <li><a href={href} class={`no-underline ${path.startsWith(href) ? 'text-brick' : 'text-mud'}`}>{label}</a></li>
-            ))}
+          <ul class="flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-xs uppercase tracking-wider">
+            {nav.map(({ label, href, also = [] }) => {
+              const active = [href, ...also].some((h) => path.startsWith(h));
+              return <li><a href={href} aria-current={active ? 'page' : undefined} class={`no-underline ${active ? 'text-brick' : 'text-mud'}`}>{label}</a></li>;
+            })}
+            <li><a href="/missions/" class={`no-underline rounded px-3 py-2 ${path.startsWith('/missions/') ? 'bg-brick text-foam' : 'bg-gold text-mud'}`}>Missions</a></li>
           </ul>
         </nav>
       </div>
@@ -121,26 +138,25 @@ const path = Astro.url.pathname;
     </main>
 
     <footer class="bg-mud text-foam mt-16">
-      <div class="max-w-6xl mx-auto px-4 py-10 grid gap-8 sm:grid-cols-3 text-sm">
-        <div>
-          <div class="font-display text-3xl text-gold leading-none">DRINK<br />MEMPHIS<br />BEER</div>
-          <p class="mt-3 text-foam/80">Brewed with the best water in America. Judged by Will Finney, with help from Memphis writers.</p>
+      <div class="max-w-6xl mx-auto px-4 py-10 text-sm">
+        <div class="grid gap-8 grid-cols-2 md:grid-cols-[1.3fr_1fr_1fr_1fr_1fr]">
+          <div class="col-span-2 md:col-span-1">
+            <div class="font-display text-3xl text-gold leading-none">DRINK<br />MEMPHIS<br />BEER</div>
+            <p class="mt-3 text-foam/80">Every Memphis brewery and beer, judged against the best tap water in America. Edited by Will Finney, with help from Memphis writers.</p>
+            <p class="mt-3"><a class="text-gold" href="https://x.com/drinkmemphis" rel="me">@drinkmemphis on X</a></p>
+          </div>
+          {footerCols.map((col) => (
+            <nav aria-label={col.title}>
+              <div class="font-mono text-xs uppercase tracking-wider text-gold">{col.title}</div>
+              <ul class="mt-2 space-y-1">
+                {col.links.map(([label, href]) => <li><a class="text-foam no-underline hover:underline" href={href}>{label}</a></li>)}
+              </ul>
+            </nav>
+          ))}
         </div>
-        <ul class="space-y-1">
-          <li><a class="text-foam" href="/about/">About Will</a></li>
-          <li><a class="text-foam" href="/authors/">Contributors</a></li>
-          <li><a class="text-foam font-semibold" href="/write-for-us/">Write for us</a></li>
-          <li><a class="text-foam" href="/spotted/">Spotted: Memphis beer in the wild</a></li>
-          <li><a class="text-foam" href="/advertise/">Advertise</a></li>
-          <li><a class="text-foam" href="/contact/">Contact</a></li>
-          <li><a class="text-foam" href="https://x.com/drinkmemphis" rel="me">Follow @drinkmemphis on X</a></li>
-          <li><a class="text-foam" href="/editorial-standards/">Editorial standards</a></li>
-          <li><a class="text-foam" href="/disclosure/">Disclosure</a></li>
-        </ul>
-        <div class="text-foam/80 space-y-2">
+        <div class="mt-10 pt-6 border-t border-foam/20 grid gap-2 md:flex md:justify-between text-foam/70 text-xs">
           <p>Independent. Not affiliated with any brewery. Please drink responsibly, 21+ only, and take a ride home.</p>
-          <p>Built with <a class="text-gold" href="https://astro.build/">Astro</a> · Styling with <a class="text-gold" href="https://tailwindcss.com/">Tailwind CSS</a> · Hosted on <a class="text-gold" href="https://cloudflare.com/">Cloudflare</a></p>
-          <p>© {new Date().getFullYear()} Drink Memphis Beer</p>
+          <p>Built with <a class="text-gold" href="https://astro.build/">Astro</a> · Styling with <a class="text-gold" href="https://tailwindcss.com/">Tailwind CSS</a> · Hosted on <a class="text-gold" href="https://cloudflare.com/">Cloudflare</a> · © {new Date().getFullYear()} Drink Memphis Beer</p>
         </div>
       </div>
     </footer>
