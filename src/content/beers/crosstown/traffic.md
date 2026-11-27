@@ -5,6 +5,8 @@ style: "American IPA"
 abv: 6.2
 availability: retired
 description: "Crosstown's West Coast-leaning IPA, hopped with Simcoe, Ella and Citra."
+pourScore: 5
+tapWaterTest: passes
 sources:
   - title: "Memphis Beer Blog — Memphis brewery and craft beer guide"
     url: https://memphisbeerblog.com/memphis-craft-beer-and-brewery-guide/

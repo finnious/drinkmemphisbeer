@@ -4,6 +4,8 @@ brewery: maroon-brew
 style: "Pale Ale"
 availability: unknown
 description: "Maroon's pale ale, named for Pickwick Lake."
+pourScore: 4
+tapWaterTest: passes
 sources:
   - title: "Memphis Beer Blog — Memphis brewery and craft beer guide"
     url: https://memphisbeerblog.com/memphis-craft-beer-and-brewery-guide/

@@ -5,6 +5,8 @@ style: "Rice Lager"
 abv: 4.0
 availability: year-round
 description: "Wiseacre's Japanese-style rice lager."
+pourScore: 5
+tapWaterTest: passes
 sources:
   - title: "Memphis Beer Blog — Memphis brewery and craft beer guide"
     url: https://memphisbeerblog.com/memphis-craft-beer-and-brewery-guide/

@@ -6,6 +6,8 @@ abv: 5.2
 ibu: 26
 availability: retired
 description: "Crosstown's easy blonde ale, hopped with German Hallertauer Mittelfrüh."
+pourScore: 4
+tapWaterTest: passes
 sources:
   - title: "Memphis Beer Blog — Memphis brewery and craft beer guide"
     url: https://memphisbeerblog.com/memphis-craft-beer-and-brewery-guide/

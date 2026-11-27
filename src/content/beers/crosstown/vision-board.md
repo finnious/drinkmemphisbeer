@@ -4,6 +4,8 @@ brewery: crosstown
 style: "Mixed Berry Sour"
 availability: retired
 description: "Crosstown's year-round mixed berry sour."
+pourScore: 4
+tapWaterTest: passes
 sources:
   - title: "Memphis Beer Blog — Memphis brewery and craft beer guide"
     url: https://memphisbeerblog.com/memphis-craft-beer-and-brewery-guide/

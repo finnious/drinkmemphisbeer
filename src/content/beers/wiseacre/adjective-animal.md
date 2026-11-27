@@ -5,6 +5,8 @@ style: "Double IPA"
 abv: 8.6
 availability: year-round
 description: "Wiseacre's double IPA."
+pourScore: 4
+tapWaterTest: passes
 sources:
   - title: "Memphis Beer Blog — Memphis brewery and craft beer guide"
     url: https://memphisbeerblog.com/memphis-craft-beer-and-brewery-guide/

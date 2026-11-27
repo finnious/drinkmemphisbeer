@@ -4,6 +4,8 @@ brewery: cooper-house-project
 style: "Belgian IPA"
 availability: unknown
 description: "Cooper House's Belgian-style IPA."
+pourScore: 4
+tapWaterTest: passes
 sources:
   - title: "Memphis Flyer — Memphis Is My Boyfriend: Summer Fun, Part 1 (May 2026)"
     url: https://www.memphisflyer.com/?p=25166652

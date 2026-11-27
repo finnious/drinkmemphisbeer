@@ -5,6 +5,8 @@ style: "Bourbon Barrel-Aged Barleywine"
 abv: 10.0
 availability: limited
 description: "Cooper House's bourbon barrel-aged barleywine."
+pourScore: 4
+tapWaterTest: passes
 sources:
   - title: "Memphis Flyer — Memphis Is My Boyfriend: Summer Fun, Part 1 (May 2026)"
     url: https://www.memphisflyer.com/?p=25166652

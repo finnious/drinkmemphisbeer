@@ -4,6 +4,8 @@ brewery: crosstown
 style: American Lager
 availability: retired
 description: An American lager brewed in collaboration with Huey's, the Memphis burger institution.
+pourScore: 4
+tapWaterTest: passes
 sources:
   - title: Memphis Flyer — Memphis beer guide (May 2026)
     url: https://www.memphisflyer.com/?p=25166703

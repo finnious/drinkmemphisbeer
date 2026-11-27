@@ -5,6 +5,8 @@ style: "Oatmeal Stout"
 abv: 5.0
 availability: unknown
 description: "Meddlesome's oatmeal stout."
+pourScore: 3
+tapWaterTest: passes
 sources:
   - title: "TapHunter — Meddlesome Brewing Company"
     url: https://www.taphunter.com/brewery/meddlesome-brewing-company/6704003846766592

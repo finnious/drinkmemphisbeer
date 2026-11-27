@@ -5,6 +5,8 @@ style: "American Pale Ale"
 abv: 5.5
 availability: retired
 description: "Crosstown's American pale ale."
+pourScore: 3
+tapWaterTest: passes
 sources:
   - title: "Jolly Pint — Crosstown Brewing Company"
     url: https://jollypint.pages.dev/us/tn/memphis/crosstown-brewing-company

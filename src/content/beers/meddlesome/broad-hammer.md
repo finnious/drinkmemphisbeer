@@ -6,6 +6,8 @@ abv: 5.2
 ibu: 32
 availability: year-round
 description: "Meddlesome's American brown ale, hopped with Chinook and Willamette."
+pourScore: 4
+tapWaterTest: passes
 sources:
   - title: "Memphis Beer Blog — Memphis brewery and craft beer guide"
     url: https://memphisbeerblog.com/memphis-craft-beer-and-brewery-guide/

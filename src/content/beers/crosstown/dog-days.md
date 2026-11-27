@@ -6,6 +6,8 @@ abv: 4.0
 ibu: 12
 availability: retired
 description: "Crosstown's watermelon lemonade shandy."
+pourScore: 3
+tapWaterTest: passes
 sources:
   - title: "Jolly Pint — Crosstown Brewing Company"
     url: https://jollypint.pages.dev/us/tn/memphis/crosstown-brewing-company

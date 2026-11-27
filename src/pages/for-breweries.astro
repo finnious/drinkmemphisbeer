@@ -1,0 +1,100 @@
+---
+import Base from '../layouts/Base.astro';
+import { CONTACT_EMAIL } from '../lib/data';
+
+const updateBody = `Hi Will,
+
+Brewery:
+My name and role:
+Best way to reach me:
+
+WHAT TO UPDATE (fill in what applies)
+Taproom hours:
+Address or new location:
+Current tap list (or a photo of the board):
+New beers, with style and ABV:
+Upcoming events or releases:
+Anything on our page that's wrong:
+
+Thanks!`;
+const sponsorBody = `Hi Will,
+
+Brewery:
+My name and role:
+Best way to reach me:
+
+What we're interested in (pick any):
+- Sponsoring a guide or crawl
+- Sponsoring the weekly news roundup
+- A sponsored event listing
+- Something else:
+
+Timing and rough budget:
+
+Thanks!`;
+const mail = (subject: string, body: string) =>
+  `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+const updateLink = mail('Brewery update: [brewery name]', updateBody);
+const sponsorLink = mail('Brewery sponsorship: [brewery name]', sponsorBody);
+
+const free = [
+  ['Your brewery page', 'Address, hours, status, map pin, and every beer we know about. It\'s free, it stays free, and you don\'t have to do anything to be listed.'],
+  ['Keep it accurate', 'Send new hours, a new location, or a photo of the tap board and we\'ll update your page, usually within a few days.'],
+  ['New beers', 'Tell us about a release (name, style, ABV, a line or two about it) and it gets its own page, linked from yours.'],
+  ['Events and news', 'Anniversary parties, releases, festivals, a new brewer. Send it in and it can make the weekly roundup.'],
+];
+
+const paid = [
+  ['Guide sponsorship', '"Presented by" placement on one of our guides, like the downtown brewery crawl or the guide to breweries near FedExForum.'],
+  ['Newsletter and roundup sponsorship', 'The top slot in the weekly Memphis beer news roundup, with a short message and link.'],
+  ['Featured event', 'Your release or event pinned at the top of the news page for its run, clearly labeled as sponsored.'],
+  ['Merch and collabs', 'A co-branded glass, shirt or event with Drink Memphis Beer. Let\'s talk.'],
+];
+
+const faq = [
+  ['Does sponsoring change our Pour Score?', 'No. The Pour Score and the Tap Water Test are Will\'s alone, and money never touches them. Sponsors don\'t see scores early, can\'t edit them and can\'t ask for them to be removed.'],
+  ['Do we have to pay to be listed?', 'Never. Every Memphis-area brewery gets a page whether or not it ever talks to us. Paid options sit alongside the listings and are always labeled.'],
+  ['Our page has something wrong. How fast can you fix it?', 'Usually within a few days. Use the update button and tell us what\'s off, and include a link or photo if you can.'],
+  ['Can we write a story about ourselves?', 'Not as editorial. We don\'t run press releases as stories. Send us the news and we\'ll cover it if it\'s news, or pitch a sponsored placement that\'s labeled as one.'],
+  ['What does sponsorship cost?', 'It depends on the placement and timing. Email us with what you have in mind and we\'ll send options. Early sponsors get founding rates.'],
+];
+---
+<Base title="For Breweries" description="Run a Memphis-area brewery? Update your free listing, send us your tap list and releases, or sponsor a guide or the weekly roundup. Sponsorship never affects a Pour Score." pageType="ContactPage">
+  <article class="max-w-3xl mx-auto px-4 py-10">
+    <div class="label">For brewers and taproom staff</div>
+    <h1 class="text-7xl mt-1">For Breweries</h1>
+    <p class="text-xl mt-4">Drink Memphis Beer helps people find your taproom and your beer. Every Memphis-area brewery has a free page here. Help us keep yours right, and if you want more reach, we have a few clearly labeled ways to sponsor.</p>
+    <div class="mt-6 flex flex-wrap gap-3">
+      <a href={updateLink} class="inline-block bg-gold text-mud font-mono uppercase tracking-wider text-sm px-5 py-3 rounded no-underline">Update our brewery page</a>
+      <a href={sponsorLink} class="inline-block border-2 border-mud text-mud font-mono uppercase tracking-wider text-sm px-5 py-3 rounded no-underline">Ask about sponsorship</a>
+    </div>
+    <p class="mt-2 text-sm">Both buttons open an email to {CONTACT_EMAIL} with a short template. Find your page on the <a href="/breweries/">breweries list</a>.</p>
+
+    <h2 class="text-5xl mt-12">Free, always</h2>
+    <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+      {free.map(([t, d]) => <li class="card"><div class="font-display text-2xl">{t}</div><p class="mt-1 text-sm">{d}</p></li>)}
+    </ul>
+
+    <h2 class="text-5xl mt-12">Sponsorship</h2>
+    <p class="mt-3">For breweries that want more reach with Memphis locals and visitors planning a beer trip. Every sponsored placement is labeled as sponsored.</p>
+    <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+      {paid.map(([t, d]) => <li class="card"><div class="font-display text-2xl">{t}</div><p class="mt-1 text-sm">{d}</p></li>)}
+    </ul>
+    <p class="mt-4">Not a brewery? Bars, bottle shops, hotels and ride services should see our <a href="/advertise/">advertising page</a>.</p>
+
+    <h2 class="text-5xl mt-12">The line we don't cross</h2>
+    <div class="prose-dmb mt-4">
+      <p>Sponsorship buys visibility, not opinions. The Pour Score and the Tap Water Test are Will's alone, and sponsors are treated exactly like every other brewery in our coverage. The full rules are in our <a href="/editorial-standards/">editorial standards</a> and <a href="/disclosure/">disclosure policy</a>.</p>
+    </div>
+
+    <h2 class="text-5xl mt-12">Questions</h2>
+    <dl class="mt-4 space-y-5">
+      {faq.map(([q, a]) => <div><dt class="font-semibold">{q}</dt><dd class="mt-1">{a}</dd></div>)}
+    </dl>
+
+    <div class="card mt-12">
+      <p class="font-display text-3xl">Want people in your taproom doing our homework?</p>
+      <p class="mt-2">Our <a href="/missions/">field missions</a> send readers out to confirm hours and photograph tap boards. Tell your regulars, and get your page fresh at the same time.</p>
+    </div>
+  </article>
+</Base>

@@ -6,6 +6,8 @@ abv: 5.6
 ibu: 24
 availability: unknown
 description: "Maroon Brew's amber lager."
+pourScore: 3
+tapWaterTest: passes
 sources:
   - title: "Maroon Brew Co. listing (beer list)"
     url: https://distillery-3pd.pages.dev/us/tn/collierville/maroon-brew-co-collierville-brewery-food

@@ -6,6 +6,8 @@ abv: 5.0
 ibu: 24
 availability: retired
 description: "Crosstown's Czech-style dark lager."
+pourScore: 3
+tapWaterTest: passes
 sources:
   - title: "Jolly Pint — Crosstown Brewing Company"
     url: https://jollypint.pages.dev/us/tn/memphis/crosstown-brewing-company

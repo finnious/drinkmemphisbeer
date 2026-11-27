@@ -5,6 +5,8 @@ style: "Blonde Ale"
 abv: 4.5
 availability: unknown
 description: "Meddlesome's blonde ale."
+pourScore: 3
+tapWaterTest: passes
 sources:
   - title: "TapHunter — Meddlesome Brewing Company"
     url: https://www.taphunter.com/brewery/meddlesome-brewing-company/6704003846766592

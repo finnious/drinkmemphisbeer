@@ -6,6 +6,8 @@ abv: 5.2
 ibu: 35
 availability: retired
 description: "Crosstown's donut stout."
+pourScore: 3
+tapWaterTest: passes
 sources:
   - title: "TapHunter — Crosstown Brewing"
     url: https://www.taphunter.com/brewery/crosstown-brewing/5441845036449792

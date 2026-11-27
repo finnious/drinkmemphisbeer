@@ -6,6 +6,8 @@ abv: 5.7
 ibu: 18
 availability: retired
 description: "A Munich-style helles lager from Crosstown."
+pourScore: 4
+tapWaterTest: passes
 sources:
   - title: "Memphis Beer Blog — Memphis brewery and craft beer guide"
     url: https://memphisbeerblog.com/memphis-craft-beer-and-brewery-guide/
