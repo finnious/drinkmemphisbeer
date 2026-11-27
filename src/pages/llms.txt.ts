@@ -46,6 +46,7 @@ export async function GET(context: APIContext) {
     line('Memphis beer history', u('/history/'), 'Tennessee Brewery and Goldcrest 51, Schlitz on Raines Road, Boscos, Ghost River, the 2013 boom'),
     line('Where to buy Memphis beer', u('/guides/where-to-buy-memphis-beer/'), 'beer bars and bottle shops with local beer'),
     line('Beer styles explained', u('/guides/beer-styles/'), 'every style on the site with Memphis examples'),
+    line('Field missions', u('/missions/'), 'places and facts that still need an in-person check'),
     line('Write for us', u('/write-for-us/'), 'how Memphis writers can pitch stories to Drink Memphis Beer'),
     line('Editorial standards', u('/editorial-standards/'), 'sourcing, scoring, independence, conflicts, AI use, corrections'),
     line('Contributors', u('/authors/'), 'the people who write the site'),

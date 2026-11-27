@@ -1,0 +1,119 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { getBreweries, getBeers, CONTACT_EMAIL } from '../lib/data';
+import { shortBrewery } from '../lib/styles';
+
+// Field missions: what the site still needs someone to go confirm in person.
+// Built from the data, so it updates itself as reports come in.
+const now = new Date();
+const thisMonth = now.toLocaleString('en-US', { month: 'long', year: 'numeric', timeZone: 'America/Chicago' });
+const MONTHS = ['january','february','march','april','may','june','july','august','september','october','november','december'];
+const monthsAgo = (v?: string) => {
+  const m = v?.toLowerCase().match(/([a-z]+)\s+(\d{4})/);
+  if (!m || !MONTHS.includes(m[1])) return 99; // "2026" or missing = unknown
+  return (now.getFullYear() - +m[2]) * 12 + (now.getMonth() - MONTHS.indexOf(m[1]));
+};
+const breweries = await getBreweries();
+const beers = await getBeers();
+const hoods = Object.fromEntries((await getCollection('neighborhoods')).map((n) => [n.id, n.data.name]));
+const area = (b: (typeof breweries)[number]) => b.data.town ?? (b.data.neighborhood ? hoods[b.data.neighborhood.id] : 'Memphis');
+const beersOf = (id: string) => beers.filter((x) => x.data.brewery.id === id);
+
+const open = breweries.filter((b) => b.data.status === 'open');
+const statusChecks = open
+  .filter((b) => monthsAgo(b.data.verified) >= 3)
+  .map((b) => ({ b, why: b.data.verified && /[a-z]/i.test(b.data.verified) ? `Last confirmed ${b.data.verified}.` : 'We only know it was open sometime in 2026.' }));
+const tapBoards = open
+  .map((b) => ({ b, n: beersOf(b.id).length, noAbv: beersOf(b.id).filter((x) => x.data.abv === undefined).length }))
+  .filter((x) => x.n < 3 || x.noAbv >= 2)
+  .map((x) => ({ b: x.b, why: x.n === 0 ? 'We have zero beers listed.' : x.noAbv >= 2 ? `${x.noAbv} of ${x.n} beers are missing an ABV.` : `Only ${x.n} beers listed.` }));
+// City Brewing is a contract plant with no beer of its own to spot, so it's not a hunt.
+const hunts = breweries.filter((b) => (b.data.status === 'no-taproom' || b.data.status === 'unverified') && b.id !== 'city-brewing');
+const festivals = (await getCollection('festivals')).filter((f) => !f.data.startDate);
+const beyond = (await getCollection('beyond')).filter((x) => x.data.status === 'open' && monthsAgo(x.data.verified) >= 3);
+
+const report = (subject: string) =>
+  `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Mission report: ${subject}`)}&body=${encodeURIComponent('Where I went:\nWhen (date and time):\nWhat I found:\n\nPhotos attached: yes / no\nOK to credit me by name? yes / no\nMy name and a link (site or social) for the credit:\n')}`;
+const total = statusChecks.length + tapBoards.length + hunts.length + festivals.length + beyond.length;
+---
+<Base title="Field Missions: Help Us Check Memphis Breweries" description={`${total} open field missions: Memphis taprooms to confirm, tap boards to photograph, festival dates to find. Pick one, go have a beer, report back, get credited.`}>
+  <article class="max-w-4xl mx-auto px-4 py-10">
+    <div class="label">Open missions · updated {thisMonth}</div>
+    <h1 class="text-7xl mt-1">Field missions</h1>
+    <p class="text-xl mt-4">Your next brewery visit could have a purpose. These are the places and facts we still need someone to check in person. Pick a mission, go have a beer, and send us what you found.</p>
+
+    <div class="card mt-6">
+      <p class="font-display text-3xl">How a mission works</p>
+      <ol class="mt-2 list-decimal pl-6 space-y-1">
+        <li>Pick one below. No sign-up needed.</li>
+        <li>Visit. Look around, ask the bartender, take a photo of the tap board.</li>
+        <li>Hit "Report" and send what you found. Photos help a lot.</li>
+        <li>We check it, update the page, and credit you with "With reporting by" and your own <a href="/authors/">contributor page</a>.</li>
+      </ol>
+      <p class="mt-2 text-sm">Every visit, also note: are dogs welcome, is it kid-friendly, is there food, where do you park? Those go on the page too. Want to write a full story instead? <a href="/write-for-us/">Pitch us.</a></p>
+    </div>
+
+    {[
+      { key: 'status', title: 'Status checks', blurb: 'Is it still open, and are the hours right? Confirm it with a visit (or a recent receipt).', items: statusChecks },
+      { key: 'tap', title: 'Tap-board photos', blurb: 'We can’t find a current beer list online. A clear photo of the board gets every beer on it a page.', items: tapBoards },
+    ].map((sec) => sec.items.length > 0 && (
+      <section id={sec.key} class="mt-12 scroll-mt-24">
+        <h2 class="text-5xl">{sec.title} <span class="text-2xl text-barrel">({sec.items.length})</span></h2>
+        <p class="mt-1">{sec.blurb}</p>
+        <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+          {sec.items.map(({ b, why }) => (
+            <li class="card">
+              <a href={`/breweries/${b.id}/`} class="font-display text-2xl no-underline">{b.data.name}</a>
+              <div class="text-sm">{area(b)}{b.data.locations.length > 1 && ` · ${b.data.locations.length} locations`}</div>
+              <p class="mt-1 text-sm">{why}</p>
+              <a class="label mt-2 inline-block" href={report(`${sec.title} — ${shortBrewery(b.data.name)}`)}>Report →</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+
+    {hunts.length > 0 && (
+      <section id="hunts" class="mt-12 scroll-mt-24">
+        <h2 class="text-5xl">Scavenger hunts <span class="text-2xl text-barrel">({hunts.length})</span></h2>
+        <p class="mt-1">Breweries without a taproom to visit. Spot their beer on a shelf or a tap list and tell us where.</p>
+        <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+          {hunts.map((b) => (
+            <li class="card">
+              <a href={`/breweries/${b.id}/`} class="font-display text-2xl no-underline">{b.data.name}</a>
+              <p class="mt-1 text-sm">{b.data.statusNote}</p>
+              <a class="label mt-2 inline-block" href={report(`Spotted — ${shortBrewery(b.data.name)}`)}>Report a sighting →</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {festivals.length > 0 && (
+      <section id="festivals" class="mt-12 scroll-mt-24">
+        <h2 class="text-5xl">Festival dates <span class="text-2xl text-barrel">({festivals.length})</span></h2>
+        <p class="mt-1">Know next year's date before we do? Send the link.</p>
+        <ul class="mt-4 grid gap-3 sm:grid-cols-3">
+          {festivals.map((f) => (
+            <li class="card"><a href={`/festivals/${f.id}/`} class="font-display text-2xl no-underline">{f.data.name}</a><div class="text-sm">{f.data.when}</div><a class="label mt-2 inline-block" href={report(`Festival date — ${f.data.name}`)}>Report →</a></li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {beyond.length > 0 && (
+      <section id="beyond" class="mt-12 scroll-mt-24">
+        <h2 class="text-5xl">Beyond beer <span class="text-2xl text-barrel">({beyond.length})</span></h2>
+        <p class="mt-1">Distilleries and wineries around Memphis that need a fresh check on hours and tastings.</p>
+        <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+          {beyond.map((x) => (
+            <li class="card"><a href={`/beyond-beer/${x.id}/`} class="font-display text-2xl no-underline">{x.data.name}</a><div class="text-sm">{x.data.town ?? 'Memphis'}</div><a class="label mt-2 inline-block" href={report(`Beyond beer — ${x.data.name}`)}>Report →</a></li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <p class="mt-12 text-sm text-barrel">Please drink responsibly and get a ride home. A mission never requires buying anything; a photo of the board from the doorway counts.</p>
+  </article>
+</Base>

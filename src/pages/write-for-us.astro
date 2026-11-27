@@ -60,6 +60,11 @@ const faq = [
     <a href={mailto} class="inline-block mt-6 bg-gold text-mud font-mono uppercase tracking-wider text-sm px-5 py-3 rounded no-underline">Pitch a story</a>
     <p class="mt-2 text-sm">Opens an email to {CONTACT_EMAIL} with a short pitch template. Prefer to write it your own way? Just send an email.</p>
 
+    <div class="card mt-8">
+      <p class="font-display text-3xl">Not ready for a whole story?</p>
+      <p class="mt-1">Take a <a href="/missions/">field mission</a>: visit a taproom on our list, confirm the hours, snap the tap board, and get credited on the page.</p>
+    </div>
+
     <h2 class="text-5xl mt-12">What we're looking for</h2>
     <ul class="mt-4 grid gap-3 sm:grid-cols-2">
       {wanted.map(([t, d]) => <li class="card"><div class="font-display text-2xl">{t}</div><p class="mt-1 text-sm">{d}</p></li>)}

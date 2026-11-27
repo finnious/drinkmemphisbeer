@@ -197,6 +197,7 @@ def collect():
         ("/about/", "About", "Will Finney", "Editor, Drink Memphis Beer", "crossed-smile"),
         ("/spotted/", "Spotted", "Memphis Beer in the Wild", "Send us your sightings", "pointing"),
         ("/merch/", "Merch", "I'll Have the Tap Water", "Shirts, koozies & stickers", "crossed-smile"),
+        ("/missions/", "Field missions", "Your Next Brewery Visit Has a Mission", "Visit · confirm · get credited", "pointing"),
         ("/write-for-us/", "Contributors wanted", "Write for Drink Memphis Beer", "Pitch us a Memphis beer story", "pointing"),
         ("/editorial-standards/", "How we work", "Editorial Standards", "Sources, scores and independence", "seated-steeple"),
         ("/authors/", "Contributors", "The People Behind Drink Memphis Beer", "", "standing-smile"),

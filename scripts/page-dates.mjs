@@ -91,6 +91,7 @@ for (const f of content('beyond')) add(`/beyond-beer/${stem(f)}/`, [f]);
 for (const f of content('stories')) add(`/stories/${stem(f)}/`, [f]);
 for (const f of content('authors')) if (stem(f) !== 'will-finney') add(`/authors/${stem(f)}/`, [f]);
 add('/stories/', content('stories'));
+add('/missions/', [...breweries, ...beers, ...content('festivals'), ...content('beyond')]);
 add('/authors/', content('authors'));
 
 // List pages change when their collection changes.
