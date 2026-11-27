@@ -4,6 +4,44 @@ import { z } from 'astro/zod';
 
 const source = z.object({ title: z.string(), url: z.url() });
 
+// People who write for the site. One file per person in src/content/authors/<slug>.md;
+// the file body is their long bio. Will is the founder and the only one who sets Pour Scores.
+const authors = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/authors' }),
+  schema: z.object({
+    name: z.string(),
+    role: z.string(), // "Founder & editor", "Contributor"
+    bio: z.string(), // one or two sentences, shown on bylines and author cards
+    avatar: z.string().optional(), // path under /public, square, ~400px
+    location: z.string().optional(), // "Midtown Memphis"
+    joined: z.coerce.date(),
+    editor: z.boolean().default(false),
+    links: z
+      .object({ x: z.string().optional(), instagram: z.string().optional(), linkedin: z.url().optional(), website: z.url().optional() })
+      .default({}),
+    active: z.boolean().default(true),
+  }),
+});
+
+// Bylined articles from Will and contributors: features, brewery profiles, guides, essays.
+const stories = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/stories' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    author: reference('authors'),
+    coAuthors: z.array(reference('authors')).default([]),
+    kind: z.enum(['feature', 'profile', 'guide', 'essay', 'interview']).default('feature'),
+    date: z.coerce.date(),
+    updated: z.coerce.date().optional(),
+    breweries: z.array(reference('breweries')).default([]), // breweries the story covers
+    image: z.string().optional(),
+    imageAlt: z.string().optional(),
+    sources: z.array(source).default([]),
+    draft: z.boolean().default(false),
+  }),
+});
+
 const breweries = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/breweries' }),
   schema: z.object({
@@ -22,6 +60,7 @@ const breweries = defineCollection({
     // Set for anything outside Memphis city limits, e.g. "Collierville, TN". Shown as a Metro tag.
     town: z.string().optional(),
     summary: z.string(),
+    contributors: z.array(reference('authors')).default([]), // "With reporting by" credit
     sources: z.array(source).default([]),
   }),
 });
@@ -40,6 +79,7 @@ const beyond = defineCollection({
     founded: z.number().optional(),
     visit: z.string().optional(), // tours, tastings, what to expect
     summary: z.string(),
+    contributors: z.array(reference('authors')).default([]), // "With reporting by" credit
     sources: z.array(source).default([]),
   }),
 });
@@ -58,6 +98,7 @@ const beers = defineCollection({
     pourScore: z.number().min(0).max(5).optional(),
     tapWaterTest: z.enum(['passes', 'fails']).optional(),
     willsTake: z.string().optional(),
+    contributors: z.array(reference('authors')).default([]), // "With reporting by" credit
     sources: z.array(source).default([]),
   }),
 });
@@ -92,8 +133,9 @@ const news = defineCollection({
     title: z.string(),
     date: z.coerce.date(),
     description: z.string(),
+    author: reference('authors').optional(), // defaults to Will (lib/authors FOUNDER)
     sources: z.array(source).default([]),
   }),
 });
 
-export const collections = { breweries, beers, neighborhoods, festivals, news, beyond };
+export const collections = { authors, stories, breweries, beers, neighborhoods, festivals, news, beyond };

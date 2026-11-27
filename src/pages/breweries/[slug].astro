@@ -1,4 +1,5 @@
 ---
+import ContributorCredit from '../../components/ContributorCredit.astro';
 import Base from '../../layouts/Base.astro';
 import StatusBadge from '../../components/StatusBadge.astro';
 import Sources from '../../components/Sources.astro';
@@ -131,6 +132,7 @@ const jsonLd = {
       </section>
     )}
 
+    <ContributorCredit contributors={d.contributors} />
     <Sources sources={d.sources} />
     <p class="mt-6 text-sm text-barrel">Something out of date? <a href="/contact/">Tell us</a> and we'll fix it.</p>
   </article>

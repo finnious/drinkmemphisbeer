@@ -1,4 +1,5 @@
 ---
+import ContributorCredit from '../../components/ContributorCredit.astro';
 import Base from '../../layouts/Base.astro';
 import StatusBadge from '../../components/StatusBadge.astro';
 import Sources from '../../components/Sources.astro';
@@ -57,6 +58,7 @@ const jsonLd = {
 
     <div class="prose-dmb mt-8"><Content /></div>
     <p class="mt-6 text-sm">Must be 21+ to taste. Please don't drink and drive; book a ride.</p>
+    <ContributorCredit contributors={d.contributors} />
     <Sources sources={d.sources} />
   </article>
 </Base>

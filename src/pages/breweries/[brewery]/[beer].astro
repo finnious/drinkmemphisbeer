@@ -1,4 +1,5 @@
 ---
+import ContributorCredit from '../../../components/ContributorCredit.astro';
 import Base from '../../../layouts/Base.astro';
 import PourScore from '../../../components/PourScore.astro';
 import Sources from '../../../components/Sources.astro';
@@ -165,6 +166,7 @@ const stats = [
       </section>
     )}
 
+    <ContributorCredit contributors={d.contributors} />
     <Sources sources={d.sources} />
   </article>
 </Base>

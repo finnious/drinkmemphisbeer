@@ -1,15 +1,19 @@
 {
  "/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-27T17:23:23.304Z"
  },
  "/about/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T12:53:39-06:00"
+  "modified": "2026-11-27T17:23:23.304Z"
  },
  "/advertise/": {
   "published": "2026-11-25T21:09:31-06:00",
   "modified": "2026-11-25T21:09:31-06:00"
+ },
+ "/authors/": {
+  "published": "2026-11-27T17:23:23.304Z",
+  "modified": "2026-11-27T17:23:23.304Z"
  },
  "/beyond-beer/": {
   "published": "2026-11-25T23:13:20-06:00",
@@ -49,7 +53,7 @@
  },
  "/breweries/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-26T20:31:37-06:00"
  },
  "/breweries/beale-street-brewing/": {
   "published": "2026-11-25T21:09:31-06:00",
@@ -109,51 +113,51 @@
  },
  "/breweries/crosstown/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-26T20:31:37-06:00"
  },
  "/breweries/crosstown/dog-days/": {
   "published": "2026-11-26T00:25:49-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-26T20:31:37-06:00"
  },
  "/breweries/crosstown/fools-gold/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-26T20:31:37-06:00"
  },
  "/breweries/crosstown/lucky-chompers/": {
   "published": "2026-11-25T23:59:21-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-26T20:31:37-06:00"
  },
  "/breweries/crosstown/nyx/": {
   "published": "2026-11-26T00:25:49-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-26T20:31:37-06:00"
  },
  "/breweries/crosstown/ocansey/": {
   "published": "2026-11-26T00:25:49-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-26T20:31:37-06:00"
  },
  "/breweries/crosstown/siren/": {
   "published": "2026-11-25T23:59:21-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-26T20:31:37-06:00"
  },
  "/breweries/crosstown/solstice/": {
   "published": "2026-11-26T00:31:12-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-26T20:31:37-06:00"
  },
  "/breweries/crosstown/spacebird/": {
   "published": "2026-11-26T00:31:12-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-26T20:31:37-06:00"
  },
  "/breweries/crosstown/terraplane/": {
   "published": "2026-11-26T00:31:12-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-26T20:31:37-06:00"
  },
  "/breweries/crosstown/traffic/": {
   "published": "2026-11-25T23:59:21-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-26T20:31:37-06:00"
  },
  "/breweries/crosstown/vision-board/": {
   "published": "2026-11-25T23:59:21-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-26T20:31:37-06:00"
  },
  "/breweries/flyway/": {
   "published": "2026-11-25T21:09:31-06:00",
@@ -417,11 +421,11 @@
  },
  "/breweries/memphis-made/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-26T20:31:37-06:00"
  },
  "/breweries/memphis-made/tan-lines/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-26T20:31:37-06:00"
  },
  "/breweries/mississippi-ale-house/": {
   "published": "2026-11-25T21:09:31-06:00",
@@ -445,7 +449,7 @@
  },
  "/breweries/soul-and-spirits/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-26T20:31:37-06:00"
  },
  "/breweries/soul-and-spirits/bring-it-home/": {
   "published": "2026-11-25T21:09:31-06:00",
@@ -549,11 +553,15 @@
  },
  "/contact/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-26T12:53:39-06:00"
+  "modified": "2026-11-27T17:23:23.304Z"
  },
  "/disclosure/": {
   "published": "2026-11-25T21:09:31-06:00",
   "modified": "2026-11-26T12:53:39-06:00"
+ },
+ "/editorial-standards/": {
+  "published": "2026-11-27T17:23:23.304Z",
+  "modified": "2026-11-27T17:23:23.304Z"
  },
  "/festivals/": {
   "published": "2026-11-25T21:09:31-06:00",
@@ -577,19 +585,19 @@
  },
  "/guides/beer-styles/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-26T20:31:37-06:00"
  },
  "/guides/breweries-near-beale-street/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-26T20:31:37-06:00"
  },
  "/guides/breweries-near-fedexforum/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-26T20:31:37-06:00"
  },
  "/guides/downtown-brewery-crawl/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-26T20:31:37-06:00"
  },
  "/guides/where-to-buy-memphis-beer/": {
   "published": "2026-11-26T10:37:09-06:00",
@@ -601,7 +609,7 @@
  },
  "/map/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-26T20:31:37-06:00"
  },
  "/merch/": {
   "published": "2026-11-25T21:09:31-06:00",
@@ -609,7 +617,7 @@
  },
  "/neighborhoods/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-26T20:31:37-06:00"
  },
  "/neighborhoods/broad-avenue/": {
   "published": "2026-11-25T21:09:31-06:00",
@@ -629,7 +637,7 @@
  },
  "/neighborhoods/crosstown/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-26T20:31:37-06:00"
  },
  "/neighborhoods/downtown/": {
   "published": "2026-11-25T21:09:31-06:00",
@@ -665,15 +673,15 @@
  },
  "/news/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-26T20:31:37-06:00"
  },
  "/news/2026-11-26-weekly-roundup/": {
-  "published": "2026-11-27T02:31:20.583Z",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "published": "2026-11-26T20:31:37-06:00",
+  "modified": "2026-11-26T20:31:37-06:00"
  },
  "/news/2026-memphis-beer-year-so-far/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-26T20:31:37-06:00"
  },
  "/spotted/": {
   "published": "2026-11-25T21:09:31-06:00",
@@ -681,10 +689,18 @@
  },
  "/status/": {
   "published": "2026-11-25T21:09:31-06:00",
-  "modified": "2026-11-27T02:31:20.583Z"
+  "modified": "2026-11-26T20:31:37-06:00"
+ },
+ "/stories/": {
+  "published": "2026-11-27T17:23:23.304Z",
+  "modified": "2026-11-27T17:23:23.304Z"
  },
  "/water/": {
   "published": "2026-11-25T21:09:31-06:00",
   "modified": "2026-11-26T12:53:39-06:00"
+ },
+ "/write-for-us/": {
+  "published": "2026-11-27T17:23:23.304Z",
+  "modified": "2026-11-27T17:23:23.304Z"
  }
 }

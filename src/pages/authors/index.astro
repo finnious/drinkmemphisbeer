@@ -1,0 +1,28 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getAuthors, authorUrl, personNode } from '../../lib/authors';
+const authors = (await getAuthors()).filter((a) => a.data.active);
+---
+<Base title="Contributors" description="The people who write Drink Memphis Beer: founder and editor Will Finney and the Memphis writers who contribute stories, profiles and reporting."
+  pageType="CollectionPage" jsonLd={authors.filter((a) => a.id !== 'will-finney').map(personNode)}>
+  <div class="max-w-4xl mx-auto px-4 py-10">
+    <h1 class="text-7xl">Contributors</h1>
+    <p class="text-xl mt-3">Drink Memphis Beer is edited by Will Finney and written with help from Memphians who know their way around a taproom.</p>
+    <ul class="mt-8 grid gap-4 sm:grid-cols-2">
+      {authors.map((a) => (
+        <li class="card flex gap-4 items-start">
+          {a.data.avatar && <img src={a.data.avatar} alt={a.data.name} width="72" height="72" class="rounded-full border-2 border-mud object-cover w-18 h-18 shrink-0" />}
+          <div>
+            <a href={authorUrl(a.id)} class="font-display text-3xl no-underline">{a.data.name}</a>
+            <div class="label">{a.data.role}</div>
+            <p class="mt-1 text-sm">{a.data.bio}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+    <div class="card mt-10">
+      <p class="font-display text-3xl">Want to be on this page?</p>
+      <p class="mt-2">We're looking for Memphis writers, photographers and beer people. <a href="/write-for-us/">Here's how to pitch.</a></p>
+    </div>
+  </div>
+</Base>

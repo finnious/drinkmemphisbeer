@@ -74,3 +74,9 @@ adding or editing content and commit `public/og/`. Pages without a card fall bac
 
 Unscored beers with under 30 words of write-up are `noindex` and left out of the sitemap
 (see `scripts/page-dates.mjs`). Scoring a beer or writing more about it lifts that automatically.
+
+## Contributors
+
+The site supports multiple writers. See CONTRIBUTING.md: `src/content/authors/` (one file per
+person), `src/content/stories/` (bylined articles), optional `author` on news posts, and
+`contributors` credits on brewery, beer and Beyond Beer pages.

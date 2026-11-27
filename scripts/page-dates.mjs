@@ -88,6 +88,10 @@ for (const f of content('neighborhoods')) add(`/neighborhoods/${stem(f)}/`, [f])
 for (const f of content('festivals')) add(`/festivals/${stem(f)}/`, [f]);
 for (const f of content('news')) add(`/news/${stem(f)}/`, [f]);
 for (const f of content('beyond')) add(`/beyond-beer/${stem(f)}/`, [f]);
+for (const f of content('stories')) add(`/stories/${stem(f)}/`, [f]);
+for (const f of content('authors')) if (stem(f) !== 'will-finney') add(`/authors/${stem(f)}/`, [f]);
+add('/stories/', content('stories'));
+add('/authors/', content('authors'));
 
 // List pages change when their collection changes.
 add('/breweries/', [...breweries, ...beers]);

@@ -1,0 +1,55 @@
+---
+import Base from '../../layouts/Base.astro';
+import Sources from '../../components/Sources.astro';
+import Byline from '../../components/Byline.astro';
+import AuthorCard from '../../components/AuthorCard.astro';
+import { getEntry, render } from 'astro:content';
+import { getStories, authorId, personNode, FOUNDER } from '../../lib/authors';
+import { IDS } from '../../lib/schema';
+import pageDates from '../../data/page-dates.json';
+
+export async function getStaticPaths() {
+  return (await getStories()).map((s) => ({ params: { slug: s.id }, props: { story: s } }));
+}
+const { story } = Astro.props;
+const { Content } = await render(story);
+const d = story.data;
+const author = (await getEntry('authors', d.author.id))!;
+const coAuthors = (await Promise.all(d.coAuthors.map((c) => getEntry('authors', c.id)))).filter(Boolean);
+const breweries = (await Promise.all(d.breweries.map((b) => getEntry('breweries', b.id)))).filter(Boolean);
+const url = new URL(`/stories/${story.id}/`, Astro.site).href;
+const KIND: Record<string, string> = { feature: 'Feature', profile: 'Brewery profile', guide: 'Guide', essay: 'Essay', interview: 'Interview' };
+const modified = d.updated?.toISOString() ?? (pageDates as Record<string, { modified: string }>)[`/stories/${story.id}/`]?.modified ?? d.date.toISOString();
+const article = {
+  '@type': 'Article',
+  '@id': `${url}#article`,
+  headline: d.title,
+  description: d.description,
+  articleSection: KIND[d.kind],
+  datePublished: d.date.toISOString(),
+  dateModified: modified,
+  author: [author, ...coAuthors].map((a) => ({ '@id': authorId(a!.id) })),
+  publisher: { '@id': IDS.org },
+  image: new URL(d.image ?? `/og/stories/${story.id}.jpg`, Astro.site).href,
+  mainEntityOfPage: { '@id': `${url}#webpage` },
+  ...(breweries.length ? { about: breweries.map((b) => ({ '@id': new URL(`/breweries/${b!.id}/#brewery`, Astro.site).href })) } : {}),
+};
+const people = [author, ...coAuthors].filter((a) => a!.id !== FOUNDER).map((a) => personNode(a!));
+---
+<Base title={d.title} description={d.description} jsonLd={[article, ...people]} authorId={authorId(author.id)} published={d.date} modified={modified}
+  crumbs={[{ name: 'Stories', url: '/stories/' }, { name: d.title, url: `/stories/${story.id}/` }]}>
+  <article class="max-w-3xl mx-auto px-4 py-10">
+    <nav class="label"><a href="/stories/">Stories</a> · {KIND[d.kind]}</nav>
+    <h1 class="text-6xl mt-2">{d.title}</h1>
+    <p class="text-xl mt-3">{d.description}</p>
+    <Byline author={d.author} coAuthors={d.coAuthors} date={d.date} updated={d.updated} />
+    {d.image && <img src={d.image} alt={d.imageAlt ?? ''} class="mt-6 w-full rounded-xl border-4 border-mud" />}
+    <div class="prose-dmb mt-6"><Content /></div>
+    {breweries.length > 0 && (
+      <p class="mt-8 text-sm">Breweries in this story: {breweries.map((b, i) => <>{i > 0 && ', '}<a href={`/breweries/${b!.id}/`}>{b!.data.name}</a></>)}.</p>
+    )}
+    <Sources sources={d.sources} />
+    <AuthorCard author={author} />
+    {coAuthors.map((a) => <AuthorCard author={a!} heading="Also by" />)}
+  </article>
+</Base>

@@ -165,6 +165,15 @@ def collect():
     for f in os.listdir(os.path.join(C, "beyond")):
         be = front(os.path.join(C, "beyond", f))
         jobs.append((f"/beyond-beer/{f[:-3]}/", dict(kicker=f"Beyond beer · {be.get('kind','')}", title=be["name"], sub=be.get("town") or "Memphis", pose="seated-steeple")))
+    for f in [x for x in os.listdir(os.path.join(C, "stories")) if x.endswith(".md")]:
+        st = front(os.path.join(C, "stories", f))
+        if st.get("draft"):
+            continue
+        au = front(os.path.join(C, "authors", f"{st['author']}.md"))
+        jobs.append((f"/stories/{f[:-3]}/", dict(kicker=f"{st.get('kind', 'feature')} · by {au['name']}", title=st["title"], sub=str(st.get("date", ""))[:10], pose="seated-steeple")))
+    for f in [x for x in os.listdir(os.path.join(C, "authors")) if x.endswith(".md") and x != "will-finney.md"]:
+        au = front(os.path.join(C, "authors", f))
+        jobs.append((f"/authors/{f[:-3]}/", dict(kicker="Contributor", title=au["name"], sub=au.get("role", ""), pose="standing-smile")))
     for f in os.listdir(os.path.join(C, "news")):
         ne = front(os.path.join(C, "news", f))
         jobs.append((f"/news/{f[:-3]}/", dict(kicker="Memphis beer news", title=ne["title"], sub=str(ne.get("date", ""))[:10], pose="pointing")))
@@ -188,6 +197,10 @@ def collect():
         ("/about/", "About", "Will Finney", "Editor, Drink Memphis Beer", "crossed-smile"),
         ("/spotted/", "Spotted", "Memphis Beer in the Wild", "Send us your sightings", "pointing"),
         ("/merch/", "Merch", "I'll Have the Tap Water", "Shirts, koozies & stickers", "crossed-smile"),
+        ("/write-for-us/", "Contributors wanted", "Write for Drink Memphis Beer", "Pitch us a Memphis beer story", "pointing"),
+        ("/editorial-standards/", "How we work", "Editorial Standards", "Sources, scores and independence", "seated-steeple"),
+        ("/authors/", "Contributors", "The People Behind Drink Memphis Beer", "", "standing-smile"),
+        ("/stories/", "Stories", "Memphis Beer Stories", "Features, profiles & interviews", "seated-steeple"),
     ]
     for url, k, t, s, pose in pages:
         jobs.append((url, dict(kicker=k, title=t, sub=s, pose=pose)))

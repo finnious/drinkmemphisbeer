@@ -40,6 +40,7 @@ export const organization = {
   url: `${SITE}/`,
   logo: { '@type': 'ImageObject', url: `${SITE}/images/logo-512.png`, width: 512, height: 512 },
   email: 'will@drinkmemphisbeer.com',
+  publishingPrinciples: `${SITE}/editorial-standards/`,
   sameAs: ['https://x.com/drinkmemphis'],
   founder: { '@id': IDS.will },
 };
@@ -84,6 +85,8 @@ const strip = (o: any) => {
 export function buildGraph(opts: {
   site: URL; path: string; title: string; description: string; pageType: string; image: string;
   published: string; modified: string; crumbs?: Crumb[]; extra?: object | object[];
+  /** @id of the page's author Person; defaults to Will. */
+  authorId?: string;
 }) {
   const url = new URL(opts.path, opts.site).href;
   const page: Record<string, unknown> = {
@@ -95,7 +98,7 @@ export function buildGraph(opts: {
     inLanguage: 'en-US',
     isPartOf: { '@id': IDS.website },
     publisher: { '@id': IDS.org },
-    author: { '@id': IDS.will },
+    author: { '@id': opts.authorId ?? IDS.will },
     datePublished: opts.published,
     dateModified: opts.modified,
     primaryImageOfPage: { '@type': 'ImageObject', url: opts.image },

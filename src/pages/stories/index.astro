@@ -1,0 +1,33 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getEntry } from 'astro:content';
+import { getStories, authorUrl } from '../../lib/authors';
+import { formatDate } from '../../lib/data';
+const stories = await getStories();
+const names = Object.fromEntries(
+  await Promise.all([...new Set(stories.map((s) => s.data.author.id))].map(async (id) => [id, (await getEntry('authors', id))!.data.name])),
+);
+---
+<Base title="Memphis Beer Stories" description="Features, brewery profiles, interviews and essays about Memphis beer, from Will Finney and Drink Memphis Beer's contributors." pageType="CollectionPage" noindex={stories.length === 0}>
+  <div class="max-w-4xl mx-auto px-4 py-10">
+    <h1 class="text-7xl">Stories</h1>
+    <p class="text-xl mt-3">Longer reads about Memphis beer: the people who make it, the places that pour it, and the history behind it. Written by Will and a growing group of contributors.</p>
+    {stories.length === 0 ? (
+      <div class="card mt-8">
+        <p class="font-display text-3xl">The first stories are on the way.</p>
+        <p class="mt-2">Got one to tell? We're looking for Memphis writers. <a href="/write-for-us/">Pitch us a story.</a></p>
+      </div>
+    ) : (
+      <ul class="mt-8 space-y-6">
+        {stories.map((s) => (
+          <li class="card">
+            <div class="label">{formatDate(s.data.date)} · <a href={authorUrl(s.data.author.id)}>{names[s.data.author.id]}</a></div>
+            <a href={`/stories/${s.id}/`} class="font-display text-4xl no-underline block mt-1">{s.data.title}</a>
+            <p class="mt-1">{s.data.description}</p>
+          </li>
+        ))}
+      </ul>
+    )}
+    <p class="mt-10">Want your byline here? <a href="/write-for-us/">Write for Drink Memphis Beer.</a></p>
+  </div>
+</Base>

@@ -1,0 +1,11 @@
+---
+import { getEntry } from 'astro:content';
+import { authorUrl } from '../lib/authors';
+interface Props { contributors: { id: string }[] }
+const people = (await Promise.all(Astro.props.contributors.map((c) => getEntry('authors', c.id)))).filter(Boolean);
+---
+{people.length > 0 && (
+  <p class="mt-6 text-sm">With reporting by {people.map((p, i) => (
+    <>{i > 0 && (i === people.length - 1 ? ' and ' : ', ')}<a href={authorUrl(p!.id)}>{p!.data.name}</a></>
+  ))}.</p>
+)}

@@ -9,6 +9,7 @@ import pageDates from '../data/page-dates.json';
 import fs from 'node:fs';
 import nodePath from 'node:path';
 import { buildGraph, type Crumb } from '../lib/schema';
+import { getStories } from '../lib/authors';
 
 interface Props {
   title: string;
@@ -22,12 +23,14 @@ interface Props {
   /** Override the git-derived dates (e.g. a news post's own date). ISO strings or Dates. */
   published?: string | Date;
   modified?: string | Date;
+  /** schema.org @id of the page's author (see lib/authors.ts authorId). Defaults to Will. */
+  authorId?: string;
   /** Keep this page out of search results (thin pages). */
   noindex?: boolean;
   /** Hide the visible "Published / Updated" line (the dates stay in the schema). */
   hideDates?: boolean;
 }
-const { title, description, jsonLd, ogImage: ogImageProp, pageType = 'WebPage', crumbs, hideDates = false, noindex = false } = Astro.props;
+const { title, description, jsonLd, ogImage: ogImageProp, pageType = 'WebPage', crumbs, hideDates = false, noindex = false, authorId } = Astro.props;
 // Per-page share card from scripts/og-cards.py when it exists; otherwise the page's own or the default image.
 const cardPath = `/og${Astro.url.pathname === '/' ? '/home' : Astro.url.pathname.replace(/\/$/, '')}.jpg`;
 const hasCard = fs.existsSync(nodePath.join(process.cwd(), 'public', cardPath));
@@ -44,7 +47,7 @@ if (modified < published) modified = published;
 const fmt = (d: string) => new Date(d).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'America/Chicago' });
 const graph = buildGraph({
   site: Astro.site!, path: Astro.url.pathname, title, description, pageType, image: ogImageUrl,
-  published, modified, crumbs, extra: jsonLd,
+  published, modified, crumbs, extra: jsonLd, authorId,
 });
 const nav = [
   ['Breweries', '/breweries/'],
@@ -59,6 +62,8 @@ const nav = [
   ['History', '/history/'],
   ['Merch', '/merch/'],
 ];
+// Stories joins the menu once the first one is published.
+if ((await getStories()).length > 0) nav.splice(nav.findIndex(([n]) => n === 'News') + 1, 0, ['Stories', '/stories/']);
 const path = Astro.url.pathname;
 ---
 <!doctype html>
@@ -119,14 +124,17 @@ const path = Astro.url.pathname;
       <div class="max-w-6xl mx-auto px-4 py-10 grid gap-8 sm:grid-cols-3 text-sm">
         <div>
           <div class="font-display text-3xl text-gold leading-none">DRINK<br />MEMPHIS<br />BEER</div>
-          <p class="mt-3 text-foam/80">Brewed with the best water in America. Judged by one guy from Memphis.</p>
+          <p class="mt-3 text-foam/80">Brewed with the best water in America. Judged by Will Finney, with help from Memphis writers.</p>
         </div>
         <ul class="space-y-1">
           <li><a class="text-foam" href="/about/">About Will</a></li>
+          <li><a class="text-foam" href="/authors/">Contributors</a></li>
+          <li><a class="text-foam font-semibold" href="/write-for-us/">Write for us</a></li>
           <li><a class="text-foam" href="/spotted/">Spotted: Memphis beer in the wild</a></li>
           <li><a class="text-foam" href="/advertise/">Advertise</a></li>
           <li><a class="text-foam" href="/contact/">Contact</a></li>
           <li><a class="text-foam" href="https://x.com/drinkmemphis" rel="me">Follow @drinkmemphis on X</a></li>
+          <li><a class="text-foam" href="/editorial-standards/">Editorial standards</a></li>
           <li><a class="text-foam" href="/disclosure/">Disclosure</a></li>
         </ul>
         <div class="text-foam/80 space-y-2">

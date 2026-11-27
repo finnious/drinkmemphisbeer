@@ -1,0 +1,17 @@
+---
+import type { Author } from '../lib/authors';
+import { authorUrl } from '../lib/authors';
+interface Props { author: Author; heading?: string }
+const { author, heading = 'About the author' } = Astro.props;
+const d = author.data;
+---
+<aside class="card mt-10 flex gap-4 items-start">
+  {d.avatar && <img src={d.avatar} alt={d.name} width="80" height="80" class="rounded-full border-2 border-mud object-cover w-20 h-20 shrink-0" />}
+  <div>
+    <div class="label">{heading}</div>
+    <a href={authorUrl(author.id)} class="font-display text-3xl no-underline">{d.name}</a>
+    <div class="text-sm">{d.role}{d.location && <> · {d.location}</>}</div>
+    <p class="mt-2">{d.bio}</p>
+    {author.id === 'will-finney' ? null : <p class="mt-2 text-sm">Want to write for Drink Memphis Beer too? <a href="/write-for-us/">Here's how.</a></p>}
+  </div>
+</aside>

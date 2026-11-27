@@ -1,0 +1,104 @@
+---
+import Base from '../layouts/Base.astro';
+import { CONTACT_EMAIL } from '../lib/data';
+
+const pitchSubject = 'Pitch: [your story in a few words]';
+const pitchBody = `Hi Will,
+
+My name:
+Where I live (neighborhood or town):
+Links to my writing, photos or socials:
+
+THE STORY
+Working headline:
+What it is (feature, brewery profile, interview, guide, essay, photo story):
+Two or three sentences on what readers will learn:
+Who I'd talk to or where I'd go:
+Why now:
+
+ABOUT ME
+How I know Memphis beer:
+Any ties to a brewery, bar or distributor (work, ownership, family, sponsorship):
+
+Thanks!`;
+const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(pitchSubject)}&body=${encodeURIComponent(pitchBody)}`;
+
+const wanted = [
+  ['Brewery profiles', 'The people behind a Memphis brewery: how it started, what they brew, what to order. Go visit, talk to the brewer, take notes.'],
+  ['Neighborhood guides', 'Your part of town, through its taprooms, bars and bottle shops. Germantown, Cordova, Southaven, Frayser: we want them all.'],
+  ['Interviews', 'Brewers, bartenders, homebrewers, festival organizers, the person who has been to every Memphis taproom twice.'],
+  ['History', 'Memphis brewing before 2013. Old breweries, old labels, Prohibition, the bars that kept local beer alive.'],
+  ['Events and festivals', 'Recaps and previews of Memphis beer festivals, tap takeovers and releases, with photos.'],
+  ['Spotted', 'Memphis-brewed beer turning up in other cities and states. Short, fun, photo first.'],
+  ['Photo stories', 'Good photographers welcome. A brewery at work, a release day line, a crowd at Beerfest.'],
+  ['Essays', 'A strong opinion about Memphis beer, backed up. Yes, you can argue with the Tap Water Test.'],
+];
+
+const steps = [
+  ['Pitch', 'Send a short pitch with the Pitch a story button, or a plain email. One story per email. No need to write the whole thing first.'],
+  ['Hear back', 'Will reads every pitch and replies within about a week, yes or no. If it\'s a yes, we agree on length, angle and a target date.'],
+  ['Write', 'Draft in a Google Doc or plain email, whatever is easiest. Include your sources (links, who you talked to) and any photos you took.'],
+  ['Edit', 'We edit for clarity, accuracy and length, and check every fact. You see the edited version before anything goes live.'],
+  ['Publish', 'Your story runs with your byline and your own author page, linked to your site and socials. We share it on @drinkmemphis.'],
+];
+
+const faq = [
+  ['Do you pay?', 'Not right now. Drink Memphis Beer is an independent hobby site with no outside funding. Contributors get a byline, an author page that links to their own work, and promotion on our channels. If that changes, contributors hear first.'],
+  ['Do I need to be a professional writer?', 'No. You need to know Memphis beer, be curious, and be willing to check your facts. We\'ll help with the rest.'],
+  ['Can I write about a brewery I work for?', 'Not as a reviewer. You can still pitch, and we\'ll find an angle that works, but any tie to a brewery, bar, distributor or sponsor has to be disclosed up front and on the page.'],
+  ['Can I give beers a Pour Score?', 'No. The Pour Score and the Tap Water Test are Will\'s, so every score on the site means the same thing. Contributors can share their own opinions in their stories, clearly as theirs.'],
+  ['Can I use AI to write?', 'Use it to fix a typo, not to write your story. We publish your reporting and your voice. Tell us if you used AI tools for anything beyond spelling and grammar.'],
+  ['Who owns what I write?', 'You do. You give Drink Memphis Beer permission to publish it and keep it online. You can republish it on your own site after it runs here, with a link back.'],
+  ['Can I republish something I already wrote?', 'Usually not. We want original pieces. If you have an old piece that never ran anywhere, pitch it.'],
+];
+---
+<Base title="Write for Drink Memphis Beer" description="Write about Memphis beer with us. We're looking for brewery profiles, neighborhood guides, interviews, history and photo stories from Memphis writers. Here's how to pitch." pageType="ContactPage">
+  <article class="max-w-3xl mx-auto px-4 py-10">
+    <div class="label">Contributors wanted</div>
+    <h1 class="text-7xl mt-1">Write for Drink Memphis Beer</h1>
+    <p class="text-xl mt-4">This site started with one person trying every beer in Memphis. There are too many good stories for one person. If you know this city's beer, we want to hear from you.</p>
+    <a href={mailto} class="inline-block mt-6 bg-gold text-mud font-mono uppercase tracking-wider text-sm px-5 py-3 rounded no-underline">Pitch a story</a>
+    <p class="mt-2 text-sm">Opens an email to {CONTACT_EMAIL} with a short pitch template. Prefer to write it your own way? Just send an email.</p>
+
+    <h2 class="text-5xl mt-12">What we're looking for</h2>
+    <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+      {wanted.map(([t, d]) => <li class="card"><div class="font-display text-2xl">{t}</div><p class="mt-1 text-sm">{d}</p></li>)}
+    </ul>
+    <p class="mt-4">Every piece should be about the Memphis area: Shelby County, North Mississippi and the towns around them. We don't run product reviews for national brands, press releases, or sponsored posts dressed up as stories.</p>
+
+    <h2 class="text-5xl mt-12">How it works</h2>
+    <ol class="mt-4 space-y-3">
+      {steps.map(([t, d], i) => (
+        <li class="flex gap-4"><span class="font-display text-4xl text-gold leading-none w-8 shrink-0">{i + 1}</span><div><strong>{t}.</strong> {d}</div></li>
+      ))}
+    </ol>
+
+    <h2 class="text-5xl mt-12">What makes a good pitch</h2>
+    <div class="prose-dmb mt-4">
+      <ul>
+        <li><strong>A specific story, not a topic.</strong> "Hampline's brewer on why Memphis needs more lagers" beats "an article about Hampline."</li>
+        <li><strong>Why you.</strong> You live near it, you were there, you know the brewer, you've been to every release.</li>
+        <li><strong>Who you'll talk to or where you'll go.</strong> The best stories here come from showing up.</li>
+        <li><strong>Links to anything you've written or shot</strong>, even a blog, Instagram or Untappd profile.</li>
+        <li><strong>Any ties to the beer business</strong>, said up front. It doesn't rule you out.</li>
+      </ul>
+      <p>Not sure if it's a fit? Pitch it anyway. The worst answer is a friendly no.</p>
+    </div>
+
+    <h2 class="text-5xl mt-12">The house rules</h2>
+    <div class="prose-dmb mt-4">
+      <p>Everything on the site follows our <a href="/editorial-standards/">editorial standards</a>. The short version: get your facts right and cite them, disclose any conflict of interest, never take payment from someone you're writing about, and be fair to every brewery, including the ones you don't love.</p>
+      <p>And yes, you're allowed to mention that Memphis tap water is excellent. Encouraged, even.</p>
+    </div>
+
+    <h2 class="text-5xl mt-12">Questions</h2>
+    <dl class="mt-4 space-y-5">
+      {faq.map(([q, a]) => <div><dt class="font-semibold">{q}</dt><dd class="mt-1">{a}</dd></div>)}
+    </dl>
+
+    <div class="card mt-12">
+      <p class="font-display text-3xl">Ready?</p>
+      <p class="mt-2">Send your pitch to <a href={mailto}>{CONTACT_EMAIL}</a>. Meet the people already writing here on the <a href="/authors/">contributors page</a>.</p>
+    </div>
+  </article>
+</Base>
